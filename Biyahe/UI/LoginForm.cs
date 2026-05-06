@@ -31,7 +31,6 @@ namespace Biyahe.UI
                 MainForm.MainPanel.Controls.Clear();
                 MainForm.MainPanel.Controls.Add(uForm);
                 uForm.Show();
-                return;
             }
             else if (driver != null)
             {
@@ -41,7 +40,6 @@ namespace Biyahe.UI
                 MainForm.MainPanel.Controls.Clear();
                 MainForm.MainPanel.Controls.Add(dForm);
                 dForm.Show();
-                return;
             }
             else
             {
