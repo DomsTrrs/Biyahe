@@ -1,11 +1,12 @@
-﻿using System;
+﻿namespace Biyahe.UI
+{
+
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace Finals
-{
     public class RoundedPanel : Panel
     {
         private int cornerRadius = 20;

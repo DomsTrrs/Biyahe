@@ -1,63 +1,62 @@
-﻿using Biyahe.Models;
-using Biyahe.Services;
+﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-
 
 namespace Biyahe.UI
 {
     public partial class LoginForm : Form
     {
+        private bool isPasswordVisible = false;
+
         public LoginForm()
         {
             InitializeComponent();
-            txtPassword.UseSystemPasswordChar = true;
+           
         }
 
-        //login button function
-        private void btnLogin_Click(object sender, EventArgs e)
+        private void eyePictureBox_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text.Trim();
-            string password = txtPassword.Text.Trim();
+            isPasswordVisible = !isPasswordVisible;
 
-            AuthService service = new AuthService();
-            User user = service.userLogin(username, password);
-            Driver driver = service.driverLogin(username, password);
-
-            if (user != null)
+            if (isPasswordVisible)
             {
-                UserForm uForm = new UserForm(user);
-                uForm.Dock = DockStyle.Fill;
-                uForm.TopLevel = false;
-                MainForm.MainPanel.Controls.Clear();
-                MainForm.MainPanel.Controls.Add(uForm);
-                uForm.Show();
-            }
-            else if (driver != null)
-            {
-                DriverForm dForm = new DriverForm(driver);
-                dForm.Dock = DockStyle.Fill;
-                dForm.TopLevel = false;
-                MainForm.MainPanel.Controls.Clear();
-                MainForm.MainPanel.Controls.Add(dForm);
-                dForm.Show();
+                txtPassword.PasswordChar = '\0';
+                eyePictureBox.Image = Properties.Resources.eye_open; // Replace with your open eye resource name
             }
             else
             {
-                lblLogin.Text = "Invalid Username or Password";
+                txtPassword.PasswordChar = '•';
+                eyePictureBox.Image = Properties.Resources.eye_closed; // Replace with your closed eye resource name
             }
 
+
+            txtPassword.Focus();
         }
 
-        //go to register
-        private void linkSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LoginForm_Paint(object sender, PaintEventArgs e)
         {
-            this.Hide();
-            RegisterForm rForm = new RegisterForm();
-            rForm.Dock = DockStyle.Fill;
-            rForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(rForm);
-            rForm.Show();
+            Rectangle rect = this.ClientRectangle;
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                rect,
+                Color.FromArgb(255, 89, 120, 255),
+                Color.FromArgb(255, 21, 46, 171),
+                LinearGradientMode.Vertical))
+            {
+                e.Graphics.FillRectangle(brush, rect);
+            }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) { }
+        private void roundedButton1_Click(object sender, EventArgs e) { }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            txtPassword.PasswordChar = '•';
+
+            eyePictureBox.Image = Properties.Resources.eye_closed;
+            eyePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            eyePictureBox.Cursor = Cursors.Hand;
         }
     }
 }

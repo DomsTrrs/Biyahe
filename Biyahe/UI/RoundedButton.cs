@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing.Drawing2D;
-using System.Text;
-
-namespace Finals
+﻿namespace Biyahe.UI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing.Drawing2D;
+    using System.Text;
+
     public class RoundedButton : Button
     {
         private int borderRadius = 20;
