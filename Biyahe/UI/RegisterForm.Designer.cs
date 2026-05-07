@@ -68,7 +68,7 @@
             // 
             // btnSignUp
             // 
-            btnSignUp.Location = new Point(565, 255);
+            btnSignUp.Location = new Point(573, 188);
             btnSignUp.Name = "btnSignUp";
             btnSignUp.Size = new Size(112, 34);
             btnSignUp.TabIndex = 2;
@@ -176,7 +176,7 @@
             // cBoxSeniorOrPwd
             // 
             cBoxSeniorOrPwd.AutoSize = true;
-            cBoxSeniorOrPwd.Location = new Point(565, 188);
+            cBoxSeniorOrPwd.Location = new Point(565, 116);
             cBoxSeniorOrPwd.Name = "cBoxSeniorOrPwd";
             cBoxSeniorOrPwd.Size = new Size(163, 29);
             cBoxSeniorOrPwd.TabIndex = 15;

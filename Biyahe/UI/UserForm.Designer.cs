@@ -31,12 +31,14 @@
             lblWelcome = new Label();
             btnLogout = new Button();
             UserDashboard = new Label();
+            webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
+            ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             SuspendLayout();
             // 
             // lblWelcome
             // 
             lblWelcome.AutoSize = true;
-            lblWelcome.Location = new Point(360, 225);
+            lblWelcome.Location = new Point(358, 356);
             lblWelcome.Name = "lblWelcome";
             lblWelcome.Size = new Size(24, 25);
             lblWelcome.TabIndex = 0;
@@ -44,7 +46,7 @@
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(319, 262);
+            btnLogout.Location = new Point(319, 384);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(112, 34);
             btnLogout.TabIndex = 1;
@@ -61,12 +63,24 @@
             UserDashboard.TabIndex = 2;
             UserDashboard.Text = "User Dashboard";
             // 
+            // webView21
+            // 
+            webView21.AllowExternalDrop = true;
+            webView21.CreationProperties = null;
+            webView21.DefaultBackgroundColor = Color.White;
+            webView21.Location = new Point(319, 188);
+            webView21.Name = "webView21";
+            webView21.Size = new Size(112, 34);
+            webView21.TabIndex = 3;
+            webView21.ZoomFactor = 1D;
+            // 
             // UserForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             ControlBox = false;
+            Controls.Add(webView21);
             Controls.Add(UserDashboard);
             Controls.Add(btnLogout);
             Controls.Add(lblWelcome);
@@ -74,6 +88,7 @@
             Name = "UserForm";
             Text = "UserForm";
             Load += UserForm_Load;
+            ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -83,5 +98,6 @@
         private Label lblWelcome;
         private Button btnLogout;
         private Label UserDashboard;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
     }
 }

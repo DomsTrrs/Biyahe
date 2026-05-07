@@ -13,7 +13,7 @@ namespace Biyahe.UI
             _currUser = user;
         }
 
-        private void UserForm_Load(object sender, EventArgs e)
+        private async void UserForm_Load(object sender, EventArgs e)
         {
             if (_currUser != null)
             {
@@ -23,6 +23,14 @@ namespace Biyahe.UI
             {
                 lblWelcome.Text = "No user...";
             }
+
+            await webView21.EnsureCoreWebView2Async(null);
+
+            string mapPath = Path.Combine(Application.StartupPath, "Map", "map.html");
+
+            webView21.Source = new Uri(mapPath);
+            webView21.Dock = DockStyle.Fill;
+
         }
         private void btnLogout_Click(object sender, EventArgs e)
         {

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Biyahe Map</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+
+        // =========================
+        // Initialize Map
+        // =========================
+        const map = L.map('map').setView([10.3157, 123.8854], 14);
+
+        // OpenStreetMap Tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // =========================
+        // Global Variables
+        // =========================
+        let jeepMarker = null;
+        let routeLine = null;
+        let stopMarkers = [];
+
+        // ==================================================
+        // Draw Route
+        // Called from C#
+        // Example:
+        // drawRoute([[10.31,123.88],[10.32,123.89]], "Route 01");
+        // ==================================================
+        function drawRoute(coords, routeName) {
+
+        // Remove old route
+        if (routeLine) {
+        map.removeLayer(routeLine);
+        }
+
+        // Remove old stop markers
+        stopMarkers.forEach(marker => {
+        map.removeLayer(marker);
+        });
+
+        stopMarkers = [];
+
+        // Draw route line
+        routeLine = L.polyline(coords, {
+        color: '#2563EB',
+        weight: 5,
+        opacity: 0.8
+        }).addTo(map);
+
+        // Fit map to route
+        map.fitBounds(routeLine.getBounds(), {
+        padding: [40, 40]
+        });
+
+        // Draw stop circles
+        coords.forEach(coord => {
+
+        const dot = L.circleMarker(coord, {
+        radius: 7,
+        fillColor: '#FFFFFF',
+        color: '#2563EB',
+        weight: 2,
+        fillOpacity: 1
+        }).addTo(map);
+
+        stopMarkers.push(dot);
+        });
+
+        // Optional popup
+        if (routeName) {
+        routeLine.bindPopup(routeName);
+        }
+        }
+
+        // ==================================================
+        // Update Jeep Position
+        // Called from C#
+        // Example:
+        // updateJeepPosition(10.3157, 123.8854, "Jeepney 01");
+        // ==================================================
+        function updateJeepPosition(lat, lng, label) {
+
+        const pos = [lat, lng];
+
+        // Move existing marker
+        if (jeepMarker) {
+
+        jeepMarker.setLatLng(pos);
+
+        } else {
+
+        // Create marker first time
+        jeepMarker = L.marker(pos, {
+        title: label || 'Jeepney'
+        }).addTo(map);
+        }
+
+        // Update popup
+        jeepMarker.bindPopup(label || 'Jeepney in Transit');
+        }
+
+    </script>
+
+</body>
+</html>
