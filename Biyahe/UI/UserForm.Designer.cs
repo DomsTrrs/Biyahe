@@ -80,10 +80,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             ControlBox = false;
-            Controls.Add(webView21);
             Controls.Add(UserDashboard);
-            Controls.Add(btnLogout);
             Controls.Add(lblWelcome);
+            Controls.Add(btnLogout);
+            Controls.Add(webView21);
             FormBorderStyle = FormBorderStyle.None;
             Name = "UserForm";
             Text = "UserForm";
