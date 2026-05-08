@@ -47,6 +47,7 @@ namespace Biyahe.DataAccess
             using (var sqlConnect = new SqlConnection(DatabaseConfig.Connection))
             using (var sCmd = new SqlCommand(selectSql, sqlConnect))
             {
+                sCmd.Parameters.AddWithValue("@RouteID", RouteID);
                 sqlConnect.Open();
                 
                 using (var reader = sCmd.ExecuteReader())

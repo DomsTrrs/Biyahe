@@ -32,6 +32,8 @@
             btnLogout = new Button();
             UserDashboard = new Label();
             webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
+            cBoxRoutes = new ComboBox();
+            cBoxLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             SuspendLayout();
             // 
@@ -74,12 +76,33 @@
             webView21.TabIndex = 3;
             webView21.ZoomFactor = 1D;
             // 
+            // cBoxRoutes
+            // 
+            cBoxRoutes.FormattingEnabled = true;
+            cBoxRoutes.Location = new Point(38, 384);
+            cBoxRoutes.Name = "cBoxRoutes";
+            cBoxRoutes.Size = new Size(257, 33);
+            cBoxRoutes.TabIndex = 4;
+            cBoxRoutes.SelectedIndexChanged += cBoxRoutes_SelectedIndexChanged;
+            // 
+            // cBoxLabel
+            // 
+            cBoxLabel.AutoSize = true;
+            cBoxLabel.BackColor = Color.Transparent;
+            cBoxLabel.Location = new Point(44, 348);
+            cBoxLabel.Name = "cBoxLabel";
+            cBoxLabel.Size = new Size(138, 25);
+            cBoxLabel.TabIndex = 5;
+            cBoxLabel.Text = "Route Selected: ";
+            // 
             // UserForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             ControlBox = false;
+            Controls.Add(cBoxLabel);
+            Controls.Add(cBoxRoutes);
             Controls.Add(UserDashboard);
             Controls.Add(lblWelcome);
             Controls.Add(btnLogout);
@@ -99,5 +122,7 @@
         private Button btnLogout;
         private Label UserDashboard;
         private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
+        private ComboBox cBoxRoutes;
+        private Label cBoxLabel;
     }
 }

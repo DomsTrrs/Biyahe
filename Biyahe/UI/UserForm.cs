@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Drawing.Text;
 using System.Windows.Forms;
 using Biyahe.Models;
+using Biyahe.Services;
 
 namespace Biyahe.UI
 {
     public partial class UserForm : Form
     {
         private User _currUser;
+        private RouteService rService = new RouteService();
         public UserForm(User user)
         {
             InitializeComponent();
@@ -31,7 +34,12 @@ namespace Biyahe.UI
             webView21.Source = new Uri(mapPath);
             webView21.Dock = DockStyle.Fill;
 
+            cBoxRoutes.DataSource = rService.GetActiveRoutes();
+            cBoxRoutes.DisplayMember = "RouteName";
+            cBoxRoutes.ValueMember = "RouteID";
+
         }
+
         private void btnLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -43,6 +51,20 @@ namespace Biyahe.UI
             lForm.Show();
         }
 
-       
+        private async void cBoxRoutes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cBoxRoutes.SelectedItem == null)
+            {
+                cBoxRoutes.Text = "Selected Route: None";
+                return; 
+            }
+
+            Routes selectedRoute = (Routes)cBoxRoutes.SelectedItem;
+            string StartPoint = selectedRoute.StartPoint;
+            string EndPoint = selectedRoute.EndPoint;
+            cBoxLabel.Text = $"Selected Route: {selectedRoute.RouteName}";
+
+            
+        }
     }
 }
