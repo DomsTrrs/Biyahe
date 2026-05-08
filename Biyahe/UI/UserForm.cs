@@ -9,7 +9,7 @@ namespace Biyahe.UI
     public partial class UserForm : Form
     {
         private User _currUser;
-        private RouteService rService = new RouteService();
+        private RouteService _routeService = new RouteService();
         public UserForm(User user)
         {
             InitializeComponent();
@@ -34,12 +34,17 @@ namespace Biyahe.UI
             webView21.Source = new Uri(mapPath);
             webView21.Dock = DockStyle.Fill;
 
-            cBoxRoutes.DataSource = rService.GetActiveRoutes();
+            cBoxRoutes.DataSource = _routeService.GetActiveRoutes();
             cBoxRoutes.DisplayMember = "RouteName";
             cBoxRoutes.ValueMember = "RouteID";
+            cBoxRoutes.SelectedIndex = -1; 
 
         }
 
+        private void CoreWebView2_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+        {
+            // Map is fully loaded — ExecuteScriptAsync is now safe to use
+        }
         private void btnLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -56,15 +61,21 @@ namespace Biyahe.UI
             if (cBoxRoutes.SelectedItem == null)
             {
                 cBoxRoutes.Text = "Selected Route: None";
-                return; 
+                return;
             }
 
             Routes selectedRoute = (Routes)cBoxRoutes.SelectedItem;
-            string StartPoint = selectedRoute.StartPoint;
-            string EndPoint = selectedRoute.EndPoint;
             cBoxLabel.Text = $"Selected Route: {selectedRoute.RouteName}";
 
-            
+            string coords = _routeService.GetRouteStops(selectedRoute.RouteID);
+
+            MessageBox.Show(coords);
+
+            await webView21.CoreWebView2.ExecuteScriptAsync(
+            $"drawRoute([{coords}], '{selectedRoute.RouteName}')"
+            );
+
+
         }
     }
 }
