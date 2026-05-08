@@ -9,10 +9,9 @@ namespace Biyahe.Services
         private readonly RouteRepository _routeRepository = new RouteRepository();
         private readonly RouteStopsRepository _routeStopsRepository = new RouteStopsRepository();
 
-        // For populating ComboBox in passenger and driver forms
         public List<Routes> GetActiveRoutes()
         {
-            return _routeRepository.GetAllActiveRoutes();
+            return _routeRepository.GetActiveRoutes();
         }
 
         // For displaying stop list or reference

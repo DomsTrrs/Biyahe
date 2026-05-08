@@ -6,7 +6,7 @@ namespace Biyahe.DataAccess
 {
     public class RouteRepository
     {
-        public List<Routes> GetAllActiveRoutes()
+        public List<Routes> GetActiveRoutes()
         {
             List<Routes> list = new List<Routes>();
 

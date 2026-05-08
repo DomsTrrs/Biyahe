@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing.Text;
-using System.Windows.Forms;
-using Biyahe.Models;
+﻿using Biyahe.Models;
 using Biyahe.Services;
 
 namespace Biyahe.UI
@@ -29,16 +26,19 @@ namespace Biyahe.UI
 
             await webView21.EnsureCoreWebView2Async(null);
 
-            string mapPath = Path.Combine(Application.StartupPath, "Map", "map.html");
+            if (webView21.IsDisposed || webView21.CoreWebView2 == null)
+            {
+                return;
+            }
 
-            webView21.Source = new Uri(mapPath);
             webView21.Dock = DockStyle.Fill;
+            string mapPath = Path.Combine(Application.StartupPath, "Map", "map.html");
+            webView21.Source = new Uri(mapPath);
 
             cBoxRoutes.DataSource = _routeService.GetActiveRoutes();
             cBoxRoutes.DisplayMember = "RouteName";
             cBoxRoutes.ValueMember = "RouteID";
-            cBoxRoutes.SelectedIndex = -1; 
-
+            cBoxRoutes.SelectedIndex = -1;
         }
 
         private void CoreWebView2_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
@@ -69,7 +69,7 @@ namespace Biyahe.UI
 
             string coords = _routeService.GetRouteStops(selectedRoute.RouteID);
 
-            MessageBox.Show(coords);
+            //MessageBox.Show(coords);
 
             await webView21.CoreWebView2.ExecuteScriptAsync(
             $"drawRoute([{coords}], '{selectedRoute.RouteName}')"

@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Biyahe Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+
     <style>
         html, body {
             margin: 0;
@@ -18,148 +20,149 @@
         }
     </style>
 </head>
+
 <body>
+
     <div id="map"></div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
     <script>
 
-        // =========================
-        // Initialize Map
-        // =========================
-        const map = L.map('map').setView([10.3157, 123.8854], 14);
+        const map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+        center: [123.8854, 10.3157],
+        zoom: 14,
+        pitch: 45,
+        bearing: -10,
+        antialias: true
+        });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+        map.addControl(new maplibregl.NavigationControl(), 'top-left');
 
-        // =========================
-        // Global Variables
-        // =========================
-        let jeepMarker = null;
-        let routeLine  = null;
+        map.on('load', () => {
+        map.addSource('openmaptiles', {
+        type: 'vector',
+        url: 'https://tiles.openfreemap.org/planet'
+        });
+
+        map.addLayer({
+        id: '3d-buildings',
+        source: 'openmaptiles',
+        'source-layer': 'building',
+        type: 'fill-extrusion',
+        minzoom: 14,
+        paint: {
+        'fill-extrusion-color': '#a1a1aa',
+        'fill-extrusion-height': ['coalesce', ['get', 'render_height'], ['get', 'height'], 4],
+        'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], ['get', 'min_height'], 0],
+        'fill-extrusion-opacity': 0.75
+        }
+        });
+        });
+
+        let jeepMarker  = null;
+        let routeLine   = null;
         let stopMarkers = [];
 
-        // =========================
-        // Custom Icons
-        // =========================
-        const startIcon = L.divIcon({
-        className: '',
-        html: `<div style="
-        background:#22C55E;
-        width:16px; height:16px;
-        border-radius:50%;
-        border:3px solid white;
-        box-shadow:0 0 4px rgba(0,0,0,0.4)">
-        </div>`,
-        iconSize: [16, 16],
-        iconAnchor: [8, 8]
-        });
-
-        const endIcon = L.divIcon({
-        className: '',
-        html: `<div style="
-        background:#EF4444;
-        width:16px; height:16px;
-        border-radius:50%;
-        border:3px solid white;
-        box-shadow:0 0 4px rgba(0,0,0,0.4)">
-        </div>`,
-        iconSize: [16, 16],
-        iconAnchor: [8, 8]
-        });
-
-        const jeepIcon = L.divIcon({
-        className: '',
-        html: `<div style="
-        background:#F59E0B;
-        width:18px; height:18px;
-        border-radius:50%;
-        border:3px solid white;
-        box-shadow:0 0 6px rgba(0,0,0,0.5)">
-        </div>`,
-        iconSize: [18, 18],
-        iconAnchor: [9, 9]
-        });
-
-        // =========================
-        // Draw Route
-        // Called from C#:
-        // drawRoute([[10.31,123.88],[10.32,123.89]], "Route 01");
-        // =========================
         function drawRoute(coords, routeName) {
 
-        // Remove old route line
         if (routeLine) {
-        map.removeLayer(routeLine);
+        if (map.getLayer('route-line'))    map.removeLayer('route-line');
+        if (map.getSource('route-source')) map.removeSource('route-source');
+        routeLine = null;
         }
 
-        // Remove old stop markers
-        stopMarkers.forEach(m => map.removeLayer(m));
+        stopMarkers.forEach(m => m.remove());
         stopMarkers = [];
 
-        // Draw polyline
-        routeLine = L.polyline(coords, {
-        color: '#2563EB',
-        weight: 5,
-        opacity: 0.8
-        }).addTo(map);
+        const lngLatCoords = coords.map(([lat, lng]) => [lng, lat]);
 
-        // Fit map to route
-        map.fitBounds(routeLine.getBounds(), { padding: [40, 40] });
-
-        // Draw markers per stop
-        coords.forEach((coord, index) => {
-        let marker;
-
-        if (index === 0) {
-        // Start pin (green)
-        marker = L.marker(coord, { icon: startIcon })
-        .addTo(map)
-        .bindPopup("Start: " + (routeName || ""));
-
-        } else if (index === coords.length - 1) {
-        // End pin (red)
-        marker = L.marker(coord, { icon: endIcon })
-        .addTo(map)
-        .bindPopup("End: " + (routeName || ""));
-
-        } else {
-        // Middle stops (blue dots)
-        marker = L.circleMarker(coord, {
-        radius: 7,
-        fillColor: '#FFFFFF',
-        color: '#2563EB',
-        weight: 2,
-        fillOpacity: 1
-        }).addTo(map);
+        map.addSource('route-source', {
+        type: 'geojson',
+        data: {
+        type: 'Feature',
+        geometry: { type: 'LineString', coordinates: lngLatCoords }
         }
-
-        stopMarkers.push(marker);
         });
 
-        // Route name popup on polyline
-        if (routeName) {
-        routeLine.bindPopup(routeName);
+        map.addLayer({
+        id: 'route-line',
+        type: 'line',
+        source: 'route-source',
+        layout: { 'line-join': 'round', 'line-cap': 'round' },
+        paint: {
+        'line-color': '#2563EB',
+        'line-width': 5,
+        'line-opacity': 0.85
         }
-        }
+        });
 
-        // =========================
-        // Update Jeep Position
-        // Called from C#:
-        // updateJeepPosition(10.3157, 123.8854, "Jeepney 01");
-        // =========================
-        function updateJeepPosition(lat, lng, label) {
-        const pos = [lat, lng];
+        routeLine = true;
 
-        if (jeepMarker) {
-        jeepMarker.setLatLng(pos);
+        const bounds = lngLatCoords.reduce(
+        (b, c) => b.extend(c),
+        new maplibregl.LngLatBounds(lngLatCoords[0], lngLatCoords[0])
+        );
+        map.fitBounds(bounds, { padding: 60 });
+
+        coords.forEach(([lat, lng], index) => {
+        const el = document.createElement('div');
+
+        if (index === 0) {
+        el.innerHTML = makeDot('#22C55E');
+        const m = new maplibregl.Marker({ element: el })
+        .setLngLat([lng, lat])
+        .setPopup(new maplibregl.Popup().setText('Start: ' + (routeName || '')))
+        .addTo(map);
+        stopMarkers.push(m);
+
+        } else if (index === coords.length - 1) {
+        el.innerHTML = makeDot('#EF4444');
+        const m = new maplibregl.Marker({ element: el })
+        .setLngLat([lng, lat])
+        .setPopup(new maplibregl.Popup().setText('End: ' + (routeName || '')))
+        .addTo(map);
+        stopMarkers.push(m);
+
         } else {
-        jeepMarker = L.marker(pos, { icon: jeepIcon }).addTo(map);
+        el.innerHTML = makeDot('#FFFFFF', '#2563EB', '14px');
+        const m = new maplibregl.Marker({ element: el })
+        .setLngLat([lng, lat])
+        .addTo(map);
+        stopMarkers.push(m);
+        }
+        });
         }
 
-        jeepMarker.bindPopup(label || 'Jeepney in Transit');
+        function updateJeepPosition(lat, lng, label) {
+        if (jeepMarker) {
+        jeepMarker.setLngLat([lng, lat]);
+        jeepMarker.getPopup().setText(label || 'Jeepney in Transit');
+        } else {
+        const el = document.createElement('div');
+        el.innerHTML = makeDot('#F59E0B', 'white', '18px');
+        jeepMarker = new maplibregl.Marker({ element: el })
+        .setLngLat([lng, lat])
+        .setPopup(new maplibregl.Popup().setText(label || 'Jeepney in Transit'))
+        .addTo(map);
+        }
+        }
+
+        function makeDot(fill, stroke, size = '16px') {
+        return `<div style="
+        background: ${fill};
+        width: ${size};
+        height: ${size};
+        border-radius: 50%;
+        border: 3px solid ${stroke || 'white'};
+        box-shadow: 0 0 6px rgba(0,0,0,0.4);
+        cursor: pointer;
+        "></div>`;
         }
 
     </script>
+
 </body>
 </html>
