@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Biyahe.Models;
+using Biyahe.Services;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -12,7 +14,7 @@ namespace Biyahe.UI
         public LoginForm()
         {
             InitializeComponent();
-           
+
         }
 
         private void eyePictureBox_Click(object sender, EventArgs e)
@@ -47,9 +49,6 @@ namespace Biyahe.UI
             }
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) { }
-        private void roundedButton1_Click(object sender, EventArgs e) { }
-
         private void LoginForm_Load(object sender, EventArgs e)
         {
             txtPassword.PasswordChar = '•';
@@ -57,6 +56,50 @@ namespace Biyahe.UI
             eyePictureBox.Image = Properties.Resources.eye_closed;
             eyePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             eyePictureBox.Cursor = Cursors.Hand;
+        }
+
+        private void signUpLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            RegisterForm rForm = new RegisterForm();
+            rForm.Dock = DockStyle.Fill;
+            rForm.TopLevel = false;
+            MainForm.MainPanel.Controls.Clear();
+            MainForm.MainPanel.Controls.Add(rForm);
+            rForm.Show();
+        }
+
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
+
+            AuthService service = new AuthService();
+            User user = service.userLogin(username, password);
+            Driver driver = service.driverLogin(username, password);
+
+            if (user != null)
+            {
+                UserForm uForm = new UserForm(user);
+                uForm.Dock = DockStyle.Fill;
+                uForm.TopLevel = false;
+                MainForm.MainPanel.Controls.Clear();
+                MainForm.MainPanel.Controls.Add(uForm);
+                uForm.Show();
+            }
+            else if (driver != null)
+            {
+                DriverForm dForm = new DriverForm(driver);
+                dForm.Dock = DockStyle.Fill;
+                dForm.TopLevel = false;
+                MainForm.MainPanel.Controls.Clear();
+                MainForm.MainPanel.Controls.Add(dForm);
+                dForm.Show();
+            }
+            else
+            {
+                //lblLogin.Text = "Invalid Username or Password";
+            }
         }
     }
 }

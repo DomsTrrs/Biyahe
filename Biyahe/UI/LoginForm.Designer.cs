@@ -100,6 +100,7 @@
             btnLogin.TabIndex = 8;
             btnLogin.Text = "LOGIN";
             btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.Click += btnLogin_Click;
             // 
             // signUpLink
             // 
@@ -111,7 +112,7 @@
             signUpLink.TabIndex = 6;
             signUpLink.TabStop = true;
             signUpLink.Text = "Sign Up";
-            signUpLink.LinkClicked += linkLabel1_LinkClicked;
+            signUpLink.LinkClicked += signUpLink_LinkClicked;
             // 
             // noAccLbl
             // 

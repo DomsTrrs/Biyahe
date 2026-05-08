@@ -28,298 +28,397 @@
         /// </summary>
         private void InitializeComponent()
         {
-            txtLastName = new TextBox();
-            txtPassword = new TextBox();
-            btnSignUp = new Button();
-            lblSignUp = new Label();
-            txtMiddleName = new TextBox();
-            txtFirstName = new TextBox();
-            txtUsername = new TextBox();
-            txtEmailAdd = new TextBox();
-            firstName = new Label();
-            MiddleName = new Label();
-            LastName = new Label();
-            Username = new Label();
-            Password = new Label();
-            email = new Label();
+            roundedPanel1 = new RoundedPanel();
+            panel2 = new Panel();
+            roundedPanel2 = new RoundedPanel();
+            driverRadioBtn = new RadioButton();
+            userRadioBtn = new RadioButton();
+            label12 = new Label();
+            label11 = new Label();
+            label10 = new Label();
+            label14 = new Label();
+            label13 = new Label();
+            btnSIgnUp = new RoundedButton();
             cBoxSeniorOrPwd = new CheckBox();
-            userRadioButton = new RadioButton();
-            driverRadioButton = new RadioButton();
-            txtStuff = new Label();
             txtPlateNumber = new TextBox();
-            PlateNumber = new Label();
-            AlreadyHaveAnAccount = new Label();
+            plateNumberLbl = new Label();
+            txtPassword = new TextBox();
+            label8 = new Label();
+            txtEmailAdd = new TextBox();
+            label7 = new Label();
+            txtUsername = new TextBox();
+            label6 = new Label();
+            txtLastName = new TextBox();
+            label5 = new Label();
+            txtMiddleName = new TextBox();
+            label3 = new Label();
             linkLogin = new LinkLabel();
+            label4 = new Label();
+            txtFirstName = new TextBox();
+            label2 = new Label();
+            label1 = new Label();
+            roundedPanel1.SuspendLayout();
+            panel2.SuspendLayout();
+            roundedPanel2.SuspendLayout();
             SuspendLayout();
             // 
-            // txtLastName
+            // roundedPanel1
             // 
-            txtLastName.Location = new Point(59, 258);
-            txtLastName.Name = "txtLastName";
-            txtLastName.Size = new Size(223, 31);
-            txtLastName.TabIndex = 0;
+            roundedPanel1.BackColor = Color.Transparent;
+            roundedPanel1.Controls.Add(panel2);
+            roundedPanel1.Location = new Point(102, 63);
+            roundedPanel1.Name = "roundedPanel1";
+            roundedPanel1.PanelColor = Color.White;
+            roundedPanel1.Size = new Size(596, 325);
+            roundedPanel1.TabIndex = 1;
             // 
-            // txtPassword
+            // panel2
             // 
-            txtPassword.Location = new Point(312, 188);
-            txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(223, 31);
-            txtPassword.TabIndex = 1;
+            panel2.Controls.Add(roundedPanel2);
+            panel2.Controls.Add(label12);
+            panel2.Controls.Add(label11);
+            panel2.Controls.Add(label10);
+            panel2.Controls.Add(label14);
+            panel2.Controls.Add(label13);
+            panel2.Controls.Add(btnSIgnUp);
+            panel2.Controls.Add(cBoxSeniorOrPwd);
+            panel2.Controls.Add(txtPlateNumber);
+            panel2.Controls.Add(plateNumberLbl);
+            panel2.Controls.Add(txtPassword);
+            panel2.Controls.Add(label8);
+            panel2.Controls.Add(txtEmailAdd);
+            panel2.Controls.Add(label7);
+            panel2.Controls.Add(txtUsername);
+            panel2.Controls.Add(label6);
+            panel2.Controls.Add(txtLastName);
+            panel2.Controls.Add(label5);
+            panel2.Controls.Add(txtMiddleName);
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(linkLogin);
+            panel2.Controls.Add(label4);
+            panel2.Controls.Add(txtFirstName);
+            panel2.Controls.Add(label2);
+            panel2.Controls.Add(label1);
+            panel2.Dock = DockStyle.Right;
+            panel2.Location = new Point(0, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(596, 325);
+            panel2.TabIndex = 1;
             // 
-            // btnSignUp
+            // roundedPanel2
             // 
-            btnSignUp.Location = new Point(573, 188);
-            btnSignUp.Name = "btnSignUp";
-            btnSignUp.Size = new Size(112, 34);
-            btnSignUp.TabIndex = 2;
-            btnSignUp.Text = "Sign Up";
-            btnSignUp.UseVisualStyleBackColor = true;
-            btnSignUp.Click += btnSignUp_Click;
+            roundedPanel2.Controls.Add(driverRadioBtn);
+            roundedPanel2.Controls.Add(userRadioBtn);
+            roundedPanel2.CornerRadius = 10;
+            roundedPanel2.Location = new Point(65, 263);
+            roundedPanel2.Name = "roundedPanel2";
+            roundedPanel2.PanelColor = SystemColors.ButtonFace;
+            roundedPanel2.Size = new Size(250, 46);
+            roundedPanel2.TabIndex = 2;
             // 
-            // lblSignUp
+            // driverRadioBtn
             // 
-            lblSignUp.AutoSize = true;
-            lblSignUp.Location = new Point(12, 9);
-            lblSignUp.Name = "lblSignUp";
-            lblSignUp.Size = new Size(75, 25);
-            lblSignUp.TabIndex = 3;
-            lblSignUp.Text = "Sign Up";
+            driverRadioBtn.BackColor = Color.FromArgb(230, 230, 230);
+            driverRadioBtn.FlatAppearance.BorderSize = 0;
+            driverRadioBtn.FlatStyle = FlatStyle.Flat;
+            driverRadioBtn.Font = new Font("Segoe UI", 10F);
+            driverRadioBtn.ForeColor = Color.FromArgb(100, 100, 100);
+            driverRadioBtn.IsSelected = false;
+            driverRadioBtn.Location = new Point(130, 3);
+            driverRadioBtn.Name = "driverRadioBtn";
+            driverRadioBtn.SelectedColor = Color.DimGray;
+            driverRadioBtn.Size = new Size(117, 40);
+            driverRadioBtn.TabIndex = 1;
+            driverRadioBtn.Text = "Driver";
+            driverRadioBtn.UnselectedColor = Color.FromArgb(230, 230, 230);
+            driverRadioBtn.UseVisualStyleBackColor = false;
             // 
-            // txtMiddleName
+            // userRadioBtn
             // 
-            txtMiddleName.Location = new Point(59, 188);
-            txtMiddleName.Name = "txtMiddleName";
-            txtMiddleName.Size = new Size(223, 31);
-            txtMiddleName.TabIndex = 4;
+            userRadioBtn.BackColor = Color.FromArgb(230, 230, 230);
+            userRadioBtn.FlatAppearance.BorderSize = 0;
+            userRadioBtn.FlatStyle = FlatStyle.Flat;
+            userRadioBtn.Font = new Font("Segoe UI", 10F);
+            userRadioBtn.ForeColor = Color.FromArgb(100, 100, 100);
+            userRadioBtn.IsSelected = false;
+            userRadioBtn.Location = new Point(3, 3);
+            userRadioBtn.Name = "userRadioBtn";
+            userRadioBtn.SelectedColor = Color.FromArgb(52, 152, 219);
+            userRadioBtn.Size = new Size(130, 40);
+            userRadioBtn.TabIndex = 0;
+            userRadioBtn.Text = "User";
+            userRadioBtn.UnselectedColor = Color.FromArgb(230, 230, 230);
+            userRadioBtn.UseVisualStyleBackColor = false;
             // 
-            // txtFirstName
+            // label12
             // 
-            txtFirstName.Location = new Point(59, 116);
-            txtFirstName.Name = "txtFirstName";
-            txtFirstName.Size = new Size(223, 31);
-            txtFirstName.TabIndex = 5;
+            label12.AutoSize = true;
+            label12.Font = new Font("Arial Black", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label12.ForeColor = Color.Red;
+            label12.Location = new Point(285, 198);
+            label12.Name = "label12";
+            label12.Size = new Size(19, 24);
+            label12.TabIndex = 26;
+            label12.Text = "*";
             // 
-            // txtUsername
+            // label11
             // 
-            txtUsername.Location = new Point(312, 116);
-            txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(223, 31);
-            txtUsername.TabIndex = 6;
+            label11.AutoSize = true;
+            label11.Font = new Font("Arial Black", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.ForeColor = Color.Red;
+            label11.Location = new Point(285, 67);
+            label11.Name = "label11";
+            label11.Size = new Size(19, 24);
+            label11.TabIndex = 25;
+            label11.Text = "*";
             // 
-            // txtEmailAdd
+            // label10
             // 
-            txtEmailAdd.Location = new Point(312, 258);
-            txtEmailAdd.Name = "txtEmailAdd";
-            txtEmailAdd.Size = new Size(223, 31);
-            txtEmailAdd.TabIndex = 7;
+            label10.AutoSize = true;
+            label10.Font = new Font("Arial Black", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.ForeColor = Color.Red;
+            label10.Location = new Point(120, 195);
+            label10.Name = "label10";
+            label10.Size = new Size(19, 24);
+            label10.TabIndex = 24;
+            label10.Text = "*";
             // 
-            // firstName
+            // label14
             // 
-            firstName.AutoSize = true;
-            firstName.BackColor = Color.Transparent;
-            firstName.Location = new Point(59, 88);
-            firstName.Name = "firstName";
-            firstName.Size = new Size(102, 25);
-            firstName.TabIndex = 9;
-            firstName.Text = "First Name ";
+            label14.AutoSize = true;
+            label14.Font = new Font("Arial Black", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label14.ForeColor = Color.Red;
+            label14.Location = new Point(121, 66);
+            label14.Name = "label14";
+            label14.Size = new Size(19, 24);
+            label14.TabIndex = 23;
+            label14.Text = "*";
             // 
-            // MiddleName
+            // label13
             // 
-            MiddleName.AutoSize = true;
-            MiddleName.BackColor = Color.Transparent;
-            MiddleName.Location = new Point(59, 160);
-            MiddleName.Name = "MiddleName";
-            MiddleName.Size = new Size(119, 25);
-            MiddleName.TabIndex = 10;
-            MiddleName.Text = "Middle Name";
+            label13.AutoSize = true;
+            label13.Font = new Font("Arial Black", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label13.ForeColor = Color.Red;
+            label13.Location = new Point(255, 130);
+            label13.Name = "label13";
+            label13.Size = new Size(19, 24);
+            label13.TabIndex = 22;
+            label13.Text = "*";
             // 
-            // LastName
+            // btnSIgnUp
             // 
-            LastName.AutoSize = true;
-            LastName.BackColor = Color.Transparent;
-            LastName.Location = new Point(59, 230);
-            LastName.Name = "LastName";
-            LastName.Size = new Size(100, 25);
-            LastName.TabIndex = 11;
-            LastName.Text = "Last Name ";
-            // 
-            // Username
-            // 
-            Username.AutoSize = true;
-            Username.BackColor = Color.Transparent;
-            Username.Location = new Point(312, 88);
-            Username.Name = "Username";
-            Username.Size = new Size(91, 25);
-            Username.TabIndex = 12;
-            Username.Text = "Username";
-            // 
-            // Password
-            // 
-            Password.AutoSize = true;
-            Password.BackColor = Color.Transparent;
-            Password.Location = new Point(312, 160);
-            Password.Name = "Password";
-            Password.Size = new Size(87, 25);
-            Password.TabIndex = 13;
-            Password.Text = "Password";
-            // 
-            // email
-            // 
-            email.AutoSize = true;
-            email.BackColor = Color.Transparent;
-            email.Location = new Point(312, 230);
-            email.Name = "email";
-            email.Size = new Size(124, 25);
-            email.TabIndex = 14;
-            email.Text = "Email Address";
+            btnSIgnUp.BackColor = Color.FromArgb(52, 152, 219);
+            btnSIgnUp.FlatAppearance.BorderSize = 0;
+            btnSIgnUp.FlatStyle = FlatStyle.Flat;
+            btnSIgnUp.ForeColor = Color.White;
+            btnSIgnUp.Location = new Point(392, 220);
+            btnSIgnUp.Name = "btnSIgnUp";
+            btnSIgnUp.Size = new Size(101, 48);
+            btnSIgnUp.TabIndex = 18;
+            btnSIgnUp.Text = "Sign Up";
+            btnSIgnUp.UseVisualStyleBackColor = false;
+            btnSIgnUp.Click += btnSIgnUp_Click;
             // 
             // cBoxSeniorOrPwd
             // 
             cBoxSeniorOrPwd.AutoSize = true;
-            cBoxSeniorOrPwd.Location = new Point(565, 116);
+            cBoxSeniorOrPwd.Location = new Point(392, 93);
             cBoxSeniorOrPwd.Name = "cBoxSeniorOrPwd";
-            cBoxSeniorOrPwd.Size = new Size(163, 29);
-            cBoxSeniorOrPwd.TabIndex = 15;
-            cBoxSeniorOrPwd.Text = "Senior or PWD?";
+            cBoxSeniorOrPwd.Size = new Size(120, 24);
+            cBoxSeniorOrPwd.TabIndex = 17;
+            cBoxSeniorOrPwd.Text = "Senior / PWD";
             cBoxSeniorOrPwd.UseVisualStyleBackColor = true;
-            // 
-            // userRadioButton
-            // 
-            userRadioButton.BackColor = Color.FromArgb(230, 230, 230);
-            userRadioButton.FlatAppearance.BorderSize = 0;
-            userRadioButton.FlatStyle = FlatStyle.Flat;
-            userRadioButton.Font = new Font("Segoe UI", 10F);
-            userRadioButton.ForeColor = Color.FromArgb(100, 100, 100);
-            userRadioButton.IsSelected = false;
-            userRadioButton.Location = new Point(59, 315);
-            userRadioButton.Name = "userRadioButton";
-            userRadioButton.SelectedColor = Color.FromArgb(52, 152, 219);
-            userRadioButton.Size = new Size(137, 38);
-            userRadioButton.TabIndex = 16;
-            userRadioButton.Text = "User";
-            userRadioButton.UnselectedColor = Color.FromArgb(230, 230, 230);
-            userRadioButton.UseVisualStyleBackColor = false;
-            // 
-            // driverRadioButton
-            // 
-            driverRadioButton.BackColor = Color.FromArgb(230, 230, 230);
-            driverRadioButton.FlatAppearance.BorderSize = 0;
-            driverRadioButton.FlatStyle = FlatStyle.Flat;
-            driverRadioButton.Font = new Font("Segoe UI", 10F);
-            driverRadioButton.ForeColor = Color.FromArgb(100, 100, 100);
-            driverRadioButton.IsSelected = false;
-            driverRadioButton.Location = new Point(202, 315);
-            driverRadioButton.Name = "driverRadioButton";
-            driverRadioButton.SelectedColor = Color.FromArgb(52, 152, 219);
-            driverRadioButton.Size = new Size(137, 38);
-            driverRadioButton.TabIndex = 17;
-            driverRadioButton.Text = "Driver";
-            driverRadioButton.UnselectedColor = Color.FromArgb(230, 230, 230);
-            driverRadioButton.UseVisualStyleBackColor = false;
-            // 
-            // txtStuff
-            // 
-            txtStuff.AutoSize = true;
-            txtStuff.Location = new Point(587, 245);
-            txtStuff.Name = "txtStuff";
-            txtStuff.Size = new Size(0, 25);
-            txtStuff.TabIndex = 18;
             // 
             // txtPlateNumber
             // 
-            txtPlateNumber.Location = new Point(565, 116);
+            txtPlateNumber.Location = new Point(392, 94);
             txtPlateNumber.Name = "txtPlateNumber";
-            txtPlateNumber.Size = new Size(223, 31);
-            txtPlateNumber.TabIndex = 19;
+            txtPlateNumber.Size = new Size(128, 27);
+            txtPlateNumber.TabIndex = 16;
             // 
-            // PlateNumber
+            // plateNumberLbl
             // 
-            PlateNumber.AutoSize = true;
-            PlateNumber.BackColor = Color.Transparent;
-            PlateNumber.Location = new Point(565, 88);
-            PlateNumber.Name = "PlateNumber";
-            PlateNumber.Size = new Size(120, 25);
-            PlateNumber.TabIndex = 20;
-            PlateNumber.Text = "Plate Number";
+            plateNumberLbl.AutoSize = true;
+            plateNumberLbl.Location = new Point(392, 71);
+            plateNumberLbl.Name = "plateNumberLbl";
+            plateNumberLbl.Size = new Size(100, 20);
+            plateNumberLbl.TabIndex = 15;
+            plateNumberLbl.Text = "Plate Number";
             // 
-            // AlreadyHaveAnAccount
+            // txtPassword
             // 
-            AlreadyHaveAnAccount.AutoSize = true;
-            AlreadyHaveAnAccount.Location = new Point(59, 369);
-            AlreadyHaveAnAccount.Name = "AlreadyHaveAnAccount";
-            AlreadyHaveAnAccount.Size = new Size(213, 25);
-            AlreadyHaveAnAccount.TabIndex = 21;
-            AlreadyHaveAnAccount.Text = "Already have an account?";
+            txtPassword.Location = new Point(215, 221);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(128, 27);
+            txtPassword.TabIndex = 14;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(215, 198);
+            label8.Name = "label8";
+            label8.Size = new Size(70, 20);
+            label8.TabIndex = 13;
+            label8.Text = "Password";
+            // 
+            // txtEmailAdd
+            // 
+            txtEmailAdd.Location = new Point(215, 158);
+            txtEmailAdd.Name = "txtEmailAdd";
+            txtEmailAdd.Size = new Size(128, 27);
+            txtEmailAdd.TabIndex = 12;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(215, 135);
+            label7.Name = "label7";
+            label7.Size = new Size(46, 20);
+            label7.TabIndex = 11;
+            label7.Text = "Email";
+            // 
+            // txtUsername
+            // 
+            txtUsername.Location = new Point(215, 93);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(128, 27);
+            txtUsername.TabIndex = 4;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(214, 69);
+            label6.Name = "label6";
+            label6.Size = new Size(75, 20);
+            label6.TabIndex = 3;
+            label6.Text = "Username";
+            // 
+            // txtLastName
+            // 
+            txtLastName.Location = new Point(46, 221);
+            txtLastName.Name = "txtLastName";
+            txtLastName.Size = new Size(128, 27);
+            txtLastName.TabIndex = 10;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(46, 198);
+            label5.Name = "label5";
+            label5.Size = new Size(79, 20);
+            label5.TabIndex = 9;
+            label5.Text = "Last Name";
+            // 
+            // txtMiddleName
+            // 
+            txtMiddleName.Location = new Point(46, 158);
+            txtMiddleName.Name = "txtMiddleName";
+            txtMiddleName.Size = new Size(128, 27);
+            txtMiddleName.TabIndex = 8;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(46, 135);
+            label3.Name = "label3";
+            label3.Size = new Size(100, 20);
+            label3.TabIndex = 7;
+            label3.Text = "Middle Name";
             // 
             // linkLogin
             // 
             linkLogin.AutoSize = true;
-            linkLogin.Location = new Point(266, 369);
+            linkLogin.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLogin.Location = new Point(507, 279);
             linkLogin.Name = "linkLogin";
-            linkLogin.Size = new Size(61, 25);
-            linkLogin.TabIndex = 22;
+            linkLogin.Size = new Size(46, 20);
+            linkLogin.TabIndex = 6;
             linkLogin.TabStop = true;
-            linkLogin.Text = "Log in";
+            linkLogin.Text = "Login";
             linkLogin.LinkClicked += linkLogin_LinkClicked;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(334, 279);
+            label4.Name = "label4";
+            label4.Size = new Size(178, 20);
+            label4.TabIndex = 5;
+            label4.Text = "Already have an account?";
+            // 
+            // txtFirstName
+            // 
+            txtFirstName.Location = new Point(46, 93);
+            txtFirstName.Name = "txtFirstName";
+            txtFirstName.Size = new Size(128, 27);
+            txtFirstName.TabIndex = 2;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(46, 70);
+            label2.Name = "label2";
+            label2.Size = new Size(80, 20);
+            label2.TabIndex = 1;
+            label2.Text = "First Name";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(232, 24);
+            label1.Name = "label1";
+            label1.Size = new Size(111, 37);
+            label1.TabIndex = 0;
+            label1.Text = "SIGN UP";
             // 
             // RegisterForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(800, 450);
-            Controls.Add(linkLogin);
-            Controls.Add(AlreadyHaveAnAccount);
-            Controls.Add(PlateNumber);
-            Controls.Add(txtPlateNumber);
-            Controls.Add(txtStuff);
-            Controls.Add(driverRadioButton);
-            Controls.Add(userRadioButton);
-            Controls.Add(cBoxSeniorOrPwd);
-            Controls.Add(email);
-            Controls.Add(Password);
-            Controls.Add(Username);
-            Controls.Add(LastName);
-            Controls.Add(MiddleName);
-            Controls.Add(firstName);
-            Controls.Add(txtEmailAdd);
-            Controls.Add(txtUsername);
-            Controls.Add(txtFirstName);
-            Controls.Add(txtMiddleName);
-            Controls.Add(lblSignUp);
-            Controls.Add(btnSignUp);
-            Controls.Add(txtPassword);
-            Controls.Add(txtLastName);
+            Controls.Add(roundedPanel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "RegisterForm";
             Text = "Register";
+            Load += RegisterForm_Load_1;
+            roundedPanel1.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            roundedPanel2.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private TextBox txtLastName;
-        private TextBox txtPassword;
-        private Button btnSignUp;
-        private Label lblSignUp;
-        private TextBox txtMiddleName;
+        private RoundedPanel roundedPanel1;
+        private Panel panel2;
+        private Label label4;
         private TextBox txtFirstName;
-        private TextBox txtUsername;
-        private TextBox txtEmailAdd;
-        private Label firstName;
-        private Label MiddleName;
-        private Label LastName;
-        private Label Username;
-        private Label Password;
-        private Label email;
-        private CheckBox cBoxSeniorOrPwd;
-        private RadioButton userRadioButton;
-        private RadioButton driverRadioButton;
-        private Label txtStuff;
+        private Label label2;
+        private Label label1;
         private TextBox txtPlateNumber;
-        private Label PlateNumber;
-        private Label AlreadyHaveAnAccount;
+        private Label plateNumberLbl;
+        private TextBox txtPassword;
+        private Label label8;
+        private TextBox txtEmailAdd;
+        private Label label7;
+        private TextBox txtUsername;
+        private Label label6;
+        private TextBox txtLastName;
+        private Label label5;
+        private TextBox txtMiddleName;
+        private Label label3;
         private LinkLabel linkLogin;
+        private RoundedButton btnSIgnUp;
+        private CheckBox cBoxSeniorOrPwd;
+        private Label label13;
+        private Label label10;
+        private Label label14;
+        private Label label12;
+        private Label label11;
+        private RoundedPanel roundedPanel2;
+        private RadioButton driverRadioBtn;
+        private RadioButton userRadioBtn;
     }
 }
