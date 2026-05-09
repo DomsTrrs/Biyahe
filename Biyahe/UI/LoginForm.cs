@@ -17,25 +17,6 @@ namespace Biyahe.UI
 
         }
 
-        private void eyePictureBox_Click(object sender, EventArgs e)
-        {
-            isPasswordVisible = !isPasswordVisible;
-
-            if (isPasswordVisible)
-            {
-                txtPassword.PasswordChar = '\0';
-                eyePictureBox.Image = Properties.Resources.eye_open; // Replace with your open eye resource name
-            }
-            else
-            {
-                txtPassword.PasswordChar = '•';
-                eyePictureBox.Image = Properties.Resources.eye_closed; // Replace with your closed eye resource name
-            }
-
-
-            txtPassword.Focus();
-        }
-
         private void LoginForm_Paint(object sender, PaintEventArgs e)
         {
             Rectangle rect = this.ClientRectangle;
@@ -53,20 +34,9 @@ namespace Biyahe.UI
         {
             txtPassword.PasswordChar = '•';
 
-            eyePictureBox.Image = Properties.Resources.eye_closed;
-            eyePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            eyePictureBox.Cursor = Cursors.Hand;
-        }
-
-        private void signUpLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.Hide();
-            RegisterForm rForm = new RegisterForm();
-            rForm.Dock = DockStyle.Fill;
-            rForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(rForm);
-            rForm.Show();
+            eyePicBox.Image = Properties.Resources.eye_closed;
+            eyePicBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            eyePicBox.Cursor = Cursors.Hand;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -100,6 +70,36 @@ namespace Biyahe.UI
             {
                 //lblLogin.Text = "Invalid Username or Password";
             }
+        }
+
+        private void eyePicBox_Click(object sender, EventArgs e)
+        {
+            isPasswordVisible = !isPasswordVisible;
+
+            if (isPasswordVisible)
+            {
+                txtPassword.PasswordChar = '\0';
+                eyePicBox.Image = Properties.Resources.eye_open; // Replace with your open eye resource name
+            }
+            else
+            {
+                txtPassword.PasswordChar = '•';
+                eyePicBox.Image = Properties.Resources.eye_closed; // Replace with your closed eye resource name
+            }
+
+
+            txtPassword.Focus();
+        }
+
+        private void signUpLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            RegisterForm rForm = new RegisterForm();
+            rForm.Dock = DockStyle.Fill;
+            rForm.TopLevel = false;
+            MainForm.MainPanel.Controls.Clear();
+            MainForm.MainPanel.Controls.Add(rForm);
+            rForm.Show();
         }
     }
 }

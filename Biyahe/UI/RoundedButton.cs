@@ -1,80 +1,187 @@
-﻿namespace Biyahe.UI
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Drawing.Drawing2D;
-    using System.Text;
+﻿using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
+namespace Biyahe.UI
+{
+    [ToolboxItem(true)]
     public class RoundedButton : Button
     {
-        private int borderRadius = 20;
+        private int cornerRadiusTopLeft = 20;
+        private int cornerRadiusTopRight = 20;
+        private int cornerRadiusBottomLeft = 20;
+        private int cornerRadiusBottomRight = 20;
+
+        private Color normalColor = Color.FromArgb(52, 152, 219);
+        private Color hoverColor = Color.FromArgb(41, 128, 185);
 
         public RoundedButton()
         {
             this.FlatStyle = FlatStyle.Flat;
             this.FlatAppearance.BorderSize = 0;
-            this.BackColor = Color.FromArgb(52, 152, 219); // Default blue
+            this.BackColor = normalColor;
             this.ForeColor = Color.White;
             this.Size = new Size(120, 40);
+            this.Cursor = Cursors.Hand;
+            this.DoubleBuffered = true;
+            this.ResizeRedraw = true;
         }
 
-
-        [Category("Appearance")]
-        [Description("Radius of rounded corners (0-50)")]
+        [Category("Rounded Corners")]
+        [Description("Radius of top-left corner (0-50)")]
         [DefaultValue(20)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public int BorderRadius
+        public int CornerRadiusTopLeft
         {
-            get { return borderRadius; }
-            set { borderRadius = value; this.Invalidate(); }
+            get { return cornerRadiusTopLeft; }
+            set { cornerRadiusTopLeft = Clamp(value); Invalidate(); UpdateRegion(); }
         }
 
-        protected override void OnPaint(PaintEventArgs pevent)
+        [Category("Rounded Corners")]
+        [Description("Radius of top-right corner (0-50)")]
+        [DefaultValue(20)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public int CornerRadiusTopRight
         {
-            GraphicsPath path = new GraphicsPath();
-            Rectangle rect = new Rectangle(0, 0, this.Width, this.Height);
+            get { return cornerRadiusTopRight; }
+            set { cornerRadiusTopRight = Clamp(value); Invalidate(); UpdateRegion(); }
+        }
 
-            // Create rounded rectangle path
-            path.AddArc(rect.X, rect.Y, borderRadius * 2, borderRadius * 2, 180, 90);
-            path.AddArc(rect.Width - borderRadius * 2, rect.Y, borderRadius * 2, borderRadius * 2, 270, 90);
-            path.AddArc(rect.Width - borderRadius * 2, rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 0, 90);
-            path.AddArc(rect.X, rect.Height - borderRadius * 2, borderRadius * 2, borderRadius * 2, 90, 90);
-            path.CloseFigure();
+        [Category("Rounded Corners")]
+        [Description("Radius of bottom-left corner (0-50)")]
+        [DefaultValue(20)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public int CornerRadiusBottomLeft
+        {
+            get { return cornerRadiusBottomLeft; }
+            set { cornerRadiusBottomLeft = Clamp(value); Invalidate(); UpdateRegion(); }
+        }
+
+        [Category("Rounded Corners")]
+        [Description("Radius of bottom-right corner (0-50)")]
+        [DefaultValue(20)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public int CornerRadiusBottomRight
+        {
+            get { return cornerRadiusBottomRight; }
+            set { cornerRadiusBottomRight = Clamp(value); Invalidate(); UpdateRegion(); }
+        }
+
+        [Category("Appearance")]
+        [Description("Normal background color")]
+        public Color NormalColor
+        {
+            get { return normalColor; }
+            set { normalColor = value; if (!IsHovered) BackColor = value; Invalidate(); }
+        }
+
+        [Category("Appearance")]
+        [Description("Hover background color")]
+        public Color HoverColor
+        {
+            get { return hoverColor; }
+            set { hoverColor = value; Invalidate(); }
+        }
+
+        private bool isHovered = false;
+        private bool IsHovered
+        {
+            get { return isHovered; }
+            set { isHovered = value; BackColor = value ? hoverColor : normalColor; }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
+            Rectangle rect = ClientRectangle;
+            GraphicsPath path = GetRoundPath(rect);
 
             this.Region = new Region(path);
 
-            // Fill background
-            using (SolidBrush brush = new SolidBrush(this.BackColor))
+            using (SolidBrush brush = new SolidBrush(BackColor))
+                g.FillPath(brush, path);
+
+            // Use rect (Rectangle) not Point — centering flags only work with a Rectangle
+            Rectangle shadowRect = rect;
+            shadowRect.Offset(1, 1);
+            TextRenderer.DrawText(g, Text, Font, shadowRect,
+                Color.FromArgb(80, Color.Black),
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
+
+            TextRenderer.DrawText(g, Text, Font, rect,
+                ForeColor,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
+        }
+
+        private GraphicsPath GetRoundPath(Rectangle rect)
+        {
+            GraphicsPath path = new GraphicsPath();
+
+            int tl = SafeRadius(cornerRadiusTopLeft, rect);
+            if (tl > 0) path.AddArc(rect.X, rect.Y, tl * 2, tl * 2, 180, 90);
+            else path.AddLine(rect.X, rect.Y, rect.X, rect.Y);
+
+            int tr = SafeRadius(cornerRadiusTopRight, rect);
+            if (tr > 0) path.AddArc(rect.Right - tr * 2, rect.Y, tr * 2, tr * 2, 270, 90);
+            else path.AddLine(rect.Right, rect.Y, rect.Right, rect.Y);
+
+            int br = SafeRadius(cornerRadiusBottomRight, rect);
+            if (br > 0) path.AddArc(rect.Right - br * 2, rect.Bottom - br * 2, br * 2, br * 2, 0, 90);
+            else path.AddLine(rect.Right, rect.Bottom, rect.Right, rect.Bottom);
+
+            int bl = SafeRadius(cornerRadiusBottomLeft, rect);
+            if (bl > 0) path.AddArc(rect.X, rect.Bottom - bl * 2, bl * 2, bl * 2, 90, 90);
+            else path.AddLine(rect.X, rect.Bottom, rect.X, rect.Bottom);
+
+            path.CloseFigure();
+            return path;
+        }
+
+        private int SafeRadius(int radius, Rectangle rect)
+        {
+            int max = Math.Min(rect.Width, rect.Height) / 2;
+            return Math.Min(radius, max);
+        }
+
+        private int Clamp(int value) => Math.Max(0, Math.Min(50, value));
+
+        private void UpdateRegion()
+        {
+            try
             {
-                pevent.Graphics.FillPath(brush, path);
+                using (GraphicsPath path = GetRoundPath(ClientRectangle))
+                    this.Region = new Region(path);
             }
+            catch { }
+        }
 
-            // Draw border
-            using (Pen borderPen = new Pen(Color.FromArgb(40, Color.Black), 1))
-            {
-                pevent.Graphics.DrawPath(borderPen, path);
-            }
-
-            // Draw text
-            TextRenderer.DrawText(pevent.Graphics, this.Text, this.Font,
-                new Point((this.Width - TextRenderer.MeasureText(this.Text, this.Font).Width) / 2,
-                         (this.Height - TextRenderer.MeasureText(this.Text, this.Font).Height) / 2),
-                this.ForeColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-
-            base.OnPaint(pevent);
+        protected override void OnResize(EventArgs e)
+        {
+            UpdateRegion();
+            base.OnResize(e);
         }
 
         protected override void OnMouseEnter(EventArgs e)
         {
-            this.BackColor = Color.FromArgb(41, 128, 185); // Darker on hover
+            IsHovered = true;
             base.OnMouseEnter(e);
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
-            this.BackColor = Color.FromArgb(52, 152, 219); // Original color
+            IsHovered = false;
             base.OnMouseLeave(e);
+        }
+
+        protected override void OnEnabledChanged(EventArgs e)
+        {
+            this.ForeColor = Enabled ? Color.White : Color.Gray;
+            base.OnEnabledChanged(e);
         }
     }
 }

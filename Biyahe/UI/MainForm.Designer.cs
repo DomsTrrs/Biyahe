@@ -35,16 +35,18 @@
             // 
             pnlMain.Dock = DockStyle.Fill;
             pnlMain.Location = new Point(0, 0);
+            pnlMain.Margin = new Padding(2, 2, 2, 2);
             pnlMain.Name = "pnlMain";
-            pnlMain.Size = new Size(800, 450);
+            pnlMain.Size = new Size(1262, 673);
             pnlMain.TabIndex = 0;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1262, 673);
             Controls.Add(pnlMain);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "MainForm";
             Text = "MainForm";
             Load += MainForm_Load;

@@ -110,5 +110,10 @@ namespace Biyahe.UI
             MainForm.MainPanel.Controls.Add(lForm);
             lForm.Show();
         }
+
+        private void roundedPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
