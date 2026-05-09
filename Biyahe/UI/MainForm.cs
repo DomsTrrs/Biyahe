@@ -17,16 +17,39 @@ namespace Biyahe.UI
         {
             InitializeComponent();
             MainPanel = pnlMain;
+
+            typeof(Panel).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty |
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic,
+                null, pnlMain, new object[] { true });
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            LoginForm login = new LoginForm();
-            login.Dock = DockStyle.Fill;
-            login.TopLevel = false;
-            pnlMain.Controls.Clear(); 
-            pnlMain.Controls.Add(login);
-            login.Show();
+            MainForm.LoadForm(new LoginForm());
+        }
+
+        public static void LoadForm(Form form)
+        {
+            MainPanel.Controls.Clear();
+
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+
+            MainPanel.Controls.Add(form);
+            form.Show();
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+            }
         }
     }                                  
 }

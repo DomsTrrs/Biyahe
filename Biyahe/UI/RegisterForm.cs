@@ -90,29 +90,13 @@ namespace Biyahe.UI
             }
 
             //after sign up back to log in 
-            MainForm.MainPanel.SuspendLayout();
-            this.Hide();
-            LoginForm lForm = new LoginForm();
-            lForm.Dock = DockStyle.Fill;
-            lForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(lForm);
-            lForm.Show();
-            MainForm.MainPanel.ResumeLayout(true);
+            MainForm.LoadForm(new LoginForm());
 
         }
 
         private void linkLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MainForm.MainPanel.SuspendLayout();
-            this.Hide();
-            LoginForm lForm = new LoginForm();
-            lForm.Dock = DockStyle.Fill;
-            lForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(lForm);
-            lForm.Show();
-            MainForm.MainPanel.ResumeLayout(true);
+            MainForm.LoadForm(new LoginForm());
         }
     }
 }

@@ -208,15 +208,6 @@ namespace Biyahe.UI
             using (SolidBrush brush = new SolidBrush(BackColor))
                 g.FillPath(brush, path);
 
-            if (isSelected)
-            {
-                using (SolidBrush glowBrush = new SolidBrush(glowColor))
-                using (GraphicsPath glowPath = GetRoundPath(new Rectangle(3, 3, Width - 6, 6)))
-                    g.FillPath(glowBrush, glowPath);
-
-                DrawCheckmark(g, rect);
-            }
-
             if (buttonImage != null)
                 DrawImage(g, rect, buttonImage, buttonImageLayout);
 
