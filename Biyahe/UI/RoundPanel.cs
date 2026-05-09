@@ -67,6 +67,16 @@
         public RoundedPanel()
         {
             DoubleBuffered = true;
+
+            SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.UserPaint |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.OptimizedDoubleBuffer,
+            true);
+
+            UpdateStyles();
+
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -74,9 +84,6 @@
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
             GraphicsPath path = GetRoundPath(ClientRectangle);
-
-            // Clip region so child controls don't bleed outside rounded corners
-            this.Region = new Region(path);
 
             // Solid color fill
             using (SolidBrush brush = new SolidBrush(panelColor))
@@ -131,5 +138,27 @@
         }
 
         private int Clamp(int value) => Math.Max(0, Math.Min(50, value));
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            // Prevent background flicker
+        }
+
+        protected override void OnResize(EventArgs eventargs)
+        {
+            base.OnResize(eventargs);
+
+            try
+            {
+                using (GraphicsPath path = GetRoundPath(ClientRectangle))
+                {
+                    if (this.Region != null)
+                        this.Region.Dispose();
+
+                    this.Region = new Region(path);
+                }
+            }
+            catch { }
+        }
     }
 }

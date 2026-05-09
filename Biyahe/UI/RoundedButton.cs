@@ -27,6 +27,16 @@ namespace Biyahe.UI
             this.Cursor = Cursors.Hand;
             this.DoubleBuffered = true;
             this.ResizeRedraw = true;
+
+            SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.UserPaint |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.OptimizedDoubleBuffer,
+            true);
+
+            UpdateStyles();
+
         }
 
         [Category("Rounded Corners")]
@@ -101,8 +111,6 @@ namespace Biyahe.UI
             Rectangle rect = ClientRectangle;
             GraphicsPath path = GetRoundPath(rect);
 
-            this.Region = new Region(path);
-
             using (SolidBrush brush = new SolidBrush(BackColor))
                 g.FillPath(brush, path);
 
@@ -155,9 +163,19 @@ namespace Biyahe.UI
             try
             {
                 using (GraphicsPath path = GetRoundPath(ClientRectangle))
+                {
+                    if (this.Region != null)
+                        this.Region.Dispose();
+
                     this.Region = new Region(path);
+                }
             }
             catch { }
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            // Prevent background flicker
         }
 
         protected override void OnResize(EventArgs e)

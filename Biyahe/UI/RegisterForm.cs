@@ -57,7 +57,7 @@ namespace Biyahe.UI
             userRadioBtn.IsSelected = true;
         }
 
-        private void btnSIgnUp_Click(object sender, EventArgs e)
+        private void btnSignUp_Click(object sender, EventArgs e)
         {
             UserRepository userR = new UserRepository();
             DriverRepository driverR = new DriverRepository();
@@ -109,11 +109,6 @@ namespace Biyahe.UI
             MainForm.MainPanel.Controls.Clear();
             MainForm.MainPanel.Controls.Add(lForm);
             lForm.Show();
-        }
-
-        private void roundedPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

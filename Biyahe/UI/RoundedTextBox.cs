@@ -28,6 +28,13 @@
 
         public RoundedTextBox()
         {
+            SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.UserPaint |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.OptimizedDoubleBuffer,
+                true);
+
             innerTextBox = new TextBox
             {
                 BorderStyle = BorderStyle.None,
@@ -208,7 +215,17 @@
         private void UpdateRegion()
         {
             GraphicsPath path = GetRoundPath(new Rectangle(0, 0, this.Width - 1, this.Height - 1));
-            this.Region = new Region(path);
+            try
+            {
+                using (path = GetRoundPath(ClientRectangle))
+                {
+                    if (this.Region != null)
+                        this.Region.Dispose();
+
+                    this.Region = new Region(path);
+                }
+            }
+            catch { }
         }
 
         // ── Paint ───────────────────────────────────────────────────────
