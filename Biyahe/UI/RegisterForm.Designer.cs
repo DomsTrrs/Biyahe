@@ -516,6 +516,7 @@
             // 
             // RegisterForm
             // 
+            DoubleBuffered = true;
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.bgImg;
             BackgroundImageLayout = ImageLayout.Stretch;

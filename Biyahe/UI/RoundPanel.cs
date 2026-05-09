@@ -72,7 +72,7 @@
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.UserPaint |
                 ControlStyles.ResizeRedraw |
-                ControlStyles.OptimizedDoubleBuffer,
+                ControlStyles.OptimizedDoubleBuffer, 
             true);
 
             UpdateStyles();
@@ -83,15 +83,18 @@
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            GraphicsPath path = GetRoundPath(ClientRectangle);
-
-            // Solid color fill
-            using (SolidBrush brush = new SolidBrush(panelColor))
-                e.Graphics.FillPath(brush, path);
-
-            // Border
+            using (GraphicsPath path = GetRoundPath(ClientRectangle))
             using (Pen pen = new Pen(Color.FromArgb(120, Color.Black), 2))
+            {
+                // Only fill if not transparent
+                if (panelColor.A > 0)
+                {
+                    using (SolidBrush brush = new SolidBrush(panelColor))
+                        e.Graphics.FillPath(brush, path);
+                }
+
                 e.Graphics.DrawPath(pen, path);
+            }
         }
 
         private GraphicsPath GetRoundPath(Rectangle rect)
@@ -141,24 +144,90 @@
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
-            // Prevent background flicker
+            if (panelColor.A == 0 && Parent != null)
+            {
+                var g = e.Graphics;
+                g.TranslateTransform(-Left, -Top);
+                try
+                {
+                    using (var args = new PaintEventArgs(g, new Rectangle(Left, Top, Width, Height)))
+                    {
+                        InvokePaintBackground(Parent, args);
+                        InvokePaint(Parent, args);
+                    }
+                }
+                finally { g.ResetTransform(); }
+            }
+            else
+            {
+                using (var brush = new SolidBrush(panelColor))
+                    e.Graphics.FillRectangle(brush, ClientRectangle);
+            }
+
+            if (BackgroundImage != null)
+                DrawBackgroundImageManual(e.Graphics);
         }
 
-        protected override void OnResize(EventArgs eventargs)
+        private void DrawBackgroundImageManual(Graphics g)
         {
-            base.OnResize(eventargs);
+            Image img = BackgroundImage;
+            Rectangle rect = ClientRectangle;
 
-            try
+            switch (BackgroundImageLayout)
             {
-                using (GraphicsPath path = GetRoundPath(ClientRectangle))
-                {
-                    if (this.Region != null)
-                        this.Region.Dispose();
+                case ImageLayout.None:
+                    g.DrawImage(img, 0, 0, img.Width, img.Height);
+                    break;
 
-                    this.Region = new Region(path);
-                }
+                case ImageLayout.Tile:
+                    using (var tb = new TextureBrush(img, WrapMode.Tile))
+                        g.FillRectangle(tb, rect);
+                    break;
+
+                case ImageLayout.Center:
+                    int cx = (rect.Width - img.Width) / 2;
+                    int cy = (rect.Height - img.Height) / 2;
+                    g.DrawImage(img, cx, cy, img.Width, img.Height);
+                    break;
+
+                case ImageLayout.Stretch:
+                    g.DrawImage(img, rect);
+                    break;
+
+                case ImageLayout.Zoom:
+                    float scale = Math.Min((float)rect.Width / img.Width, (float)rect.Height / img.Height);
+                    int zw = (int)(img.Width * scale);
+                    int zh = (int)(img.Height * scale);
+                    int zx = (rect.Width - zw) / 2;
+                    int zy = (rect.Height - zh) / 2;
+                    g.DrawImage(img, zx, zy, zw, zh);
+                    break;
             }
-            catch { }
+        }
+
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            UpdateRegion();
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            UpdateRegion();
+            Invalidate();
+        }
+
+        private void UpdateRegion()
+        {
+            if (ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0) return;
+
+            using (GraphicsPath path = GetRoundPath(ClientRectangle))
+            {
+                this.Region?.Dispose();
+                this.Region = new Region(path);
+            }
         }
     }
 }

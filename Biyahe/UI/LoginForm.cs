@@ -50,21 +50,26 @@ namespace Biyahe.UI
 
             if (user != null)
             {
+                MainForm.MainPanel.SuspendLayout();
                 UserForm uForm = new UserForm(user);
                 uForm.Dock = DockStyle.Fill;
                 uForm.TopLevel = false;
                 MainForm.MainPanel.Controls.Clear();
                 MainForm.MainPanel.Controls.Add(uForm);
                 uForm.Show();
+                MainForm.MainPanel.ResumeLayout(true);
             }
             else if (driver != null)
             {
+                MainForm.MainPanel.SuspendLayout();
                 DriverForm dForm = new DriverForm(driver);
                 dForm.Dock = DockStyle.Fill;
                 dForm.TopLevel = false;
                 MainForm.MainPanel.Controls.Clear();
                 MainForm.MainPanel.Controls.Add(dForm);
                 dForm.Show();
+                MainForm.MainPanel.ResumeLayout(true);
+               
             }
             else
             {
@@ -93,6 +98,7 @@ namespace Biyahe.UI
 
         private void signUpLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            MainForm.MainPanel.SuspendLayout();
             this.Hide();
             RegisterForm rForm = new RegisterForm();
             rForm.Dock = DockStyle.Fill;
@@ -100,6 +106,8 @@ namespace Biyahe.UI
             MainForm.MainPanel.Controls.Clear();
             MainForm.MainPanel.Controls.Add(rForm);
             rForm.Show();
+            MainForm.MainPanel.ResumeLayout(true);
         }
+
     }
 }

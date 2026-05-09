@@ -116,7 +116,7 @@ namespace Biyahe.UI
 
             // Use rect (Rectangle) not Point — centering flags only work with a Rectangle
             Rectangle shadowRect = rect;
-            shadowRect.Offset(1, 1);
+            shadowRect.Offset(0, 0);
             TextRenderer.DrawText(g, Text, Font, shadowRect,
                 Color.FromArgb(80, Color.Black),
                 TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);

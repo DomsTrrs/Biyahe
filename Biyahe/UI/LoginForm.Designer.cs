@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            mainPnl = new RoundedPanel();
             loginPnl = new Panel();
             signUpLink = new LinkLabel();
             eyePicBox = new PictureBox();
@@ -39,30 +38,15 @@
             usernameLbl = new Label();
             txtPassword = new RoundedTextBox();
             passwordLbl = new Label();
-            logoPnl = new Panel();
+            mainPnl = new RoundedPanel();
+            logoPnl = new RoundedPanel();
             logoPicBox = new PictureBox();
-            mainPnl.SuspendLayout();
             loginPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)eyePicBox).BeginInit();
+            mainPnl.SuspendLayout();
             logoPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logoPicBox).BeginInit();
             SuspendLayout();
-            // 
-            // mainPnl
-            // 
-            mainPnl.Anchor = AnchorStyles.None;
-            mainPnl.BackColor = Color.Transparent;
-            mainPnl.Controls.Add(loginPnl);
-            mainPnl.Controls.Add(logoPnl);
-            mainPnl.CornerRadiusBottomLeft = 30;
-            mainPnl.CornerRadiusBottomRight = 30;
-            mainPnl.CornerRadiusTopLeft = 30;
-            mainPnl.CornerRadiusTopRight = 30;
-            mainPnl.Location = new Point(107, 85);
-            mainPnl.Name = "mainPnl";
-            mainPnl.PanelColor = Color.White;
-            mainPnl.Size = new Size(1037, 503);
-            mainPnl.TabIndex = 0;
             // 
             // loginPnl
             // 
@@ -214,21 +198,40 @@
             passwordLbl.TabIndex = 4;
             passwordLbl.Text = "Password";
             // 
+            // mainPnl
+            // 
+            mainPnl.Anchor = AnchorStyles.None;
+            mainPnl.BackColor = Color.Transparent;
+            mainPnl.Controls.Add(logoPnl);
+            mainPnl.Controls.Add(loginPnl);
+            mainPnl.CornerRadiusBottomLeft = 30;
+            mainPnl.CornerRadiusBottomRight = 30;
+            mainPnl.CornerRadiusTopLeft = 30;
+            mainPnl.CornerRadiusTopRight = 30;
+            mainPnl.Location = new Point(107, 85);
+            mainPnl.Name = "mainPnl";
+            mainPnl.PanelColor = Color.White;
+            mainPnl.Size = new Size(1037, 503);
+            mainPnl.TabIndex = 0;
+            // 
             // logoPnl
             // 
             logoPnl.BackgroundImage = Properties.Resources.logoPnlImg;
             logoPnl.BackgroundImageLayout = ImageLayout.Stretch;
             logoPnl.Controls.Add(logoPicBox);
+            logoPnl.CornerRadiusBottomRight = 0;
+            logoPnl.CornerRadiusTopRight = 0;
             logoPnl.Dock = DockStyle.Left;
             logoPnl.Location = new Point(0, 0);
             logoPnl.Name = "logoPnl";
-            logoPnl.Size = new Size(603, 503);
-            logoPnl.TabIndex = 1;
+            logoPnl.PanelColor = Color.Transparent;
+            logoPnl.Size = new Size(601, 503);
+            logoPnl.TabIndex = 3;
             // 
             // logoPicBox
             // 
             logoPicBox.Image = Properties.Resources.BiyaheLogo;
-            logoPicBox.Location = new Point(16, 83);
+            logoPicBox.Location = new Point(18, 76);
             logoPicBox.Name = "logoPicBox";
             logoPicBox.Size = new Size(566, 443);
             logoPicBox.SizeMode = PictureBoxSizeMode.Zoom;
@@ -249,10 +252,10 @@
             Name = "LoginForm";
             Text = "Login";
             Load += LoginForm_Load;
-            mainPnl.ResumeLayout(false);
             loginPnl.ResumeLayout(false);
             loginPnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)eyePicBox).EndInit();
+            mainPnl.ResumeLayout(false);
             logoPnl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)logoPicBox).EndInit();
             ResumeLayout(false);
@@ -261,18 +264,18 @@
         #endregion
 
         private PictureBox eyePictureBox;
+        private Panel loginPnl;
+        private LinkLabel signUpLink;
+        private PictureBox eyePicBox;
+        private Label lblLogin;
+        private Label noAccLbl;
+        private RoundedTextBox txtUsername;
+        private RoundedButton btnLogin;
+        private Label usernameLbl;
+        private RoundedTextBox txtPassword;
+        private Label passwordLbl;
         private RoundedPanel mainPnl;
         private PictureBox logoPicBox;
-        private LinkLabel signUpLink;
-        private Label noAccLbl;
-        private RoundedButton btnLogin;
-        private PictureBox eyePicBox;
-        private Label passwordLbl;
-        private RoundedTextBox txtPassword;
-        private RoundedTextBox txtUsername;
-        private Label usernameLbl;
-        private Label lblLogin;
-        private Panel logoPnl;
-        private Panel loginPnl;
+        private RoundedPanel logoPnl;
     }
 }
