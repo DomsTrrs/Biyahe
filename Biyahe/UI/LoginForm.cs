@@ -23,29 +23,36 @@ namespace Biyahe.UI
             User user = service.userLogin(username, password);
             Driver driver = service.driverLogin(username, password);
 
-            if (user != null)
-            {
-                UserForm uForm = new UserForm(user);
-                uForm.Dock = DockStyle.Fill;
-                uForm.TopLevel = false;
-                MainForm.MainPanel.Controls.Clear();
-                MainForm.MainPanel.Controls.Add(uForm);
-                uForm.Show();
-            }
-            else if (driver != null)
-            {
-                DriverForm dForm = new DriverForm(driver);
-                dForm.Dock = DockStyle.Fill;
-                dForm.TopLevel = false;
-                MainForm.MainPanel.Controls.Clear();
-                MainForm.MainPanel.Controls.Add(dForm);
-                dForm.Show();
-            }
-            else
-            {
-                lblLogin.Text = "Invalid Username or Password";
-            }
 
+            if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrEmpty(password))
+            {
+                //for checking db
+                if (user != null)
+                {
+                    UserForm uForm = new UserForm(user);
+                    uForm.Dock = DockStyle.Fill;
+                    uForm.TopLevel = false;
+                    MainForm.MainPanel.Controls.Clear();
+                    MainForm.MainPanel.Controls.Add(uForm);
+                    uForm.Show();
+                }
+                else if (driver != null)
+                {
+                    DriverForm dForm = new DriverForm(driver);
+                    dForm.Dock = DockStyle.Fill;
+                    dForm.TopLevel = false;
+                    MainForm.MainPanel.Controls.Clear();
+                    MainForm.MainPanel.Controls.Add(dForm);
+                    dForm.Show();
+                }
+                else
+                {
+                    lblLogin.Text = "Invalid Username or Password";
+                }
+            } else
+            {
+                lblLogin.Text = "No input detected.";
+            }
         }
 
         //go to register

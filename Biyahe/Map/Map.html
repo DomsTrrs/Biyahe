@@ -27,56 +27,10 @@
 </head>
 
 <body>
+
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
-
-    <script>
-
-        var map = new L.Map('map', {
-        center: [10.3157, 123.8854],
-        zoom: 14,
-        zoomControl: false
-        });
-
-        var dMap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
-        maxZoom: 19
-        });
-        dMap.addTo(map);
-
-        let routingControl = null;
-        let stopMarkers = [];
-
-        function convertToLatLng(coord) {
-        return L.latLng(coord[0], coord[1]);
-        }
-
-        function removeMarker(marker) {
-        map.removeLayer(marker);
-        }
-
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Biyahe Map</title>
-
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
-
-        <style>
-        html, body { margin: 0; padding: 0; height: 100%; }
-        #map { width: 100%; height: 100vh; }
-        .leaflet-routing-container { display: none !important; }
-        </style>
-        </head>
-        <body>
-        <div id="map"></div>
-
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
 
     <script>
@@ -88,13 +42,15 @@
         });
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+        attribution: '© OpenStreetMap contributors',
         maxZoom: 19
         }).addTo(map);
 
-        let routingControl  = null;
-        let stopMarkers     = [];
+        let routingControl = null;
+        let stopMarkers = [];
         let placeholderLine = null;
+        let jeepMarker = null;
+        let userLatLng = null;
 
         function convertToLatLng(coord) {
         return L.latLng(coord[0], coord[1]);
@@ -104,65 +60,93 @@
         map.removeLayer(marker);
         }
 
+        function makeDot(fill, stroke, size) {
+
+        if (!size) {
+        size = '16px';
+        }
+
+        return `
+        <div style="
+        background:${fill};
+        width:${size};
+        height:${size};
+        border-radius:50%;
+        border:3px solid ${stroke || 'white'};
+        box-shadow:0 0 6px rgba(0,0,0,0.4);
+        cursor:pointer;
+        "></div>
+        `;
+        }
+
         function drawRoute(coords, routeName) {
 
-        // ── Clean up previous route ──────────────────────────────────
         if (routingControl) {
         map.removeControl(routingControl);
         routingControl = null;
         }
+
         if (placeholderLine) {
         map.removeLayer(placeholderLine);
         placeholderLine = null;
         }
+
         stopMarkers.forEach(removeMarker);
         stopMarkers = [];
 
         const latLngs = coords.map(convertToLatLng);
 
-        // ── 1. Draw straight dashed line INSTANTLY ───────────────────
-        // No network needed — uses coordinates you already have
         placeholderLine = L.polyline(latLngs, {
-        color:     '#2563EB',
-        weight:    5,
-        opacity:   0.35,
+        color: '#2563EB',
+        weight: 5,
+        opacity: 0.35,
         dashArray: '8, 6'
         }).addTo(map);
 
-        // ── 2. Zoom to route INSTANTLY ───────────────────────────────
         map.fitBounds(L.latLngBounds(latLngs), {
-        paddingTopLeft:     [60, 60],
+        paddingTopLeft: [60, 60],
         paddingBottomRight: [60, 60],
-        animate:            true,
-        duration:           0.5
+        animate: true,
+        duration: 0.5
         });
 
-        // ── 3. Draw stop markers INSTANTLY ───────────────────────────
         coords.forEach(function (coord, index) {
+
         const isStart = index === 0;
-        const isEnd   = index === coords.length - 1;
+        const isEnd = index === coords.length - 1;
         const stopNum = index + 1;
 
-        const fill = isStart ? '#22C55E'
-        : isEnd   ? '#EF4444'
-        :           '#2563EB';
+        const fill =
+        isStart ? '#22C55E'
+        : isEnd ? '#EF4444'
+        : '#2563EB';
 
         const size = (isStart || isEnd) ? 16 : 13;
 
         const icon = L.divIcon({
-        html:       makeDot(fill, 'white', size + 'px'),
-        className:  '',
-        iconSize:   [size, size],
+        html: makeDot(fill, 'white', size + 'px'),
+        className: '',
+        iconSize: [size, size],
         iconAnchor: [size / 2, size / 2]
         });
 
-        const marker = L.marker([coord[0], coord[1]], { icon: icon });
+        const marker = L.marker([coord[0], coord[1]], {
+        icon: icon
+        });
 
         if (isStart) {
-        marker.bindPopup('<b>Stop 1 — Start</b>' + (routeName ? '<br>' + routeName : ''));
-        } else if (isEnd) {
-        marker.bindPopup('<b>Stop ' + stopNum + ' — End</b>' + (routeName ? '<br>' + routeName : ''));
-        } else {
+        marker.bindPopup(
+        '<b>Stop 1 — Start</b>' +
+        (routeName ? '<br>' + routeName : '')
+        );
+        }
+        else if (isEnd) {
+        marker.bindPopup(
+        '<b>Stop ' + stopNum + ' — End</b>' +
+        (routeName ? '<br>' + routeName : '')
+        );
+        }
+        else {
         marker.bindPopup('<b>Stop ' + stopNum + '</b>');
         }
 
@@ -174,107 +158,105 @@
         stopMarkers[0].openPopup();
         }
 
-        // ── 4. OSRM loads silently in background ─────────────────────
-        // When it responds, it replaces the dashed line with road route
         routingControl = L.Routing.control({
         waypoints: latLngs,
+
         router: L.Routing.osrmv1({
         serviceUrl: 'https://router.project-osrm.org/route/v1'
         }),
+
         lineOptions: {
-        styles: [{ color: '#2563EB', weight: 5, opacity: 0.85 }],
+        styles: [{
+        color: '#2563EB',
+        weight: 5,
+        opacity: 0.85
+        }],
         extendToWaypoints: true,
         missingRouteTolerance: 0
         },
-        show:               false,
-        addWaypoints:       false,
+
+        show: false,
+        addWaypoints: false,
         routeWhileDragging: false,
-        fitSelectedRoutes:  false,
-        createMarker:       function () { return null; }
+        fitSelectedRoutes: false,
+
+        createMarker: function () {
+        return null;
+        }
+
         }).addTo(map);
 
-        // When OSRM responds — remove dashed line, real road line is now showing
         routingControl.on('routesfound', function () {
+
         if (placeholderLine) {
         map.removeLayer(placeholderLine);
         placeholderLine = null;
         }
+
         });
 
         routingControl.on('routingerror', function (e) {
         console.warn('Routing error:', e.error);
-        // Dashed line stays as fallback if OSRM fails
         });
         }
 
-        function makeDot(fill, stroke, size) {
-        if (!size) size = '16px';
-        return '<div style="' +
-        'background:' + fill + ';' +
-        'width:' + size + ';' +
-        'height:' + size + ';' +
-        'border-radius:50%;' +
-        'border:3px solid ' + (stroke || 'white') + ';' +
-        'box-shadow:0 0 6px rgba(0,0,0,0.4);' +
-        'cursor:pointer;' +
-        '"></div>';
-        }
-
-        // ── Jeepney marker — called from C# ─────────────────────────────
-        let jeepMarker = null;
-
         function updateJeepPosition(lat, lng, label) {
+
         const pos = [lat, lng];
+
         if (jeepMarker) {
         jeepMarker.setLatLng(pos);
-        } else {
+        }
+        else {
         jeepMarker = L.marker(pos, {
         title: label || 'Jeepney'
         }).addTo(map);
         }
+
         jeepMarker.bindPopup(label || 'Jeepney in Transit');
         }
 
-    </script>
-</body>
-</html>
+        function getGeolocation() {
 
-        function makeDot(fill, stroke, size) {
-
-            if (!size) {
-                size = '16px';
-            }
-
-            return `<div style="
-                background: ${fill};
-                width: ${size};
-                height: ${size};
-                border-radius: 50%;
-                border: 3px solid ${stroke || 'white'};
-                box-shadow: 0 0 6px rgba(0,0,0,0.4);
-                cursor: pointer;
-            "></div>`;
+        if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        return;
         }
 
-        // jeepney marker
-        let jeepMarker = null;
+        navigator.geolocation.getCurrentPosition(
 
-        function updateJeepPosition(lat, lng, label) {
+        (pos) => {
 
-            const pos = [lat, lng];
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
 
-            if (jeepMarker) {
-                jeepMarker.setLatLng(pos);
-            }
-            else {
-                jeepMarker = L.marker(pos, {
-                    title: label || 'Jeepney'
-                }).addTo(map);
-            }
+        userLatLng = L.latLng(lat, lng);
 
-            jeepMarker.bindPopup(label || 'Jeepney in Transit');
+        L.marker(userLatLng)
+        .addTo(map)
+        .bindPopup("You are here!")
+        .openPopup();
+
+        L.circle(userLatLng, {
+        radius: 50
+        }).addTo(map);
+
+        map.setView(userLatLng, 13);
+        },
+
+        (err) => {
+        console.error("Geolocation error:", err.message);
+
+        alert(
+        "Unable to fetch your location. Please enable location access and try again."
+        );
+        }
+        );
         }
 
+        getGeolocation();
+
     </script>
+
 </body>
 </html>
