@@ -1,19 +1,44 @@
 ﻿using Biyahe.Models;
 using Biyahe.Services;
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-
 
 namespace Biyahe.UI
 {
     public partial class LoginForm : Form
     {
+        private bool isPasswordVisible = false;
+
         public LoginForm()
         {
             InitializeComponent();
-            txtPassword.UseSystemPasswordChar = true;
+
         }
 
-        //login button function
+        private void LoginForm_Paint(object sender, PaintEventArgs e)
+        {
+            Rectangle rect = this.ClientRectangle;
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                rect,
+                Color.FromArgb(255, 89, 120, 255),
+                Color.FromArgb(255, 21, 46, 171),
+                LinearGradientMode.Vertical))
+            {
+                e.Graphics.FillRectangle(brush, rect);
+            }
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            txtPassword.PasswordChar = '•';
+
+            eyePicBox.Image = Properties.Resources.eye_closed;
+            eyePicBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            eyePicBox.Cursor = Cursors.Hand;
+        }
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
@@ -55,16 +80,10 @@ namespace Biyahe.UI
             }
         }
 
-        //go to register
-        private void linkSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void signUpLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Hide();
-            RegisterForm rForm = new RegisterForm();
-            rForm.Dock = DockStyle.Fill;
-            rForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(rForm);
-            rForm.Show();
+            MainForm.LoadForm(new RegisterForm());
         }
+
     }
 }

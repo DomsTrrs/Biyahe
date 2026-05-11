@@ -40,17 +40,19 @@
             // lblWelcome
             // 
             lblWelcome.AutoSize = true;
-            lblWelcome.Location = new Point(358, 356);
+            lblWelcome.Location = new Point(286, 285);
+            lblWelcome.Margin = new Padding(2, 0, 2, 0);
             lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(24, 25);
+            lblWelcome.Size = new Size(18, 20);
             lblWelcome.TabIndex = 0;
             lblWelcome.Text = "...";
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(319, 384);
+            btnLogout.Location = new Point(255, 307);
+            btnLogout.Margin = new Padding(2);
             btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(112, 34);
+            btnLogout.Size = new Size(90, 27);
             btnLogout.TabIndex = 1;
             btnLogout.Text = "Logout ";
             btnLogout.UseVisualStyleBackColor = true;
@@ -59,9 +61,10 @@
             // UserDashboard
             // 
             UserDashboard.AutoSize = true;
-            UserDashboard.Location = new Point(38, 23);
+            UserDashboard.Location = new Point(30, 18);
+            UserDashboard.Margin = new Padding(2, 0, 2, 0);
             UserDashboard.Name = "UserDashboard";
-            UserDashboard.Size = new Size(140, 25);
+            UserDashboard.Size = new Size(115, 20);
             UserDashboard.TabIndex = 2;
             UserDashboard.Text = "User Dashboard";
             // 
@@ -70,9 +73,10 @@
             webView21.AllowExternalDrop = true;
             webView21.CreationProperties = null;
             webView21.DefaultBackgroundColor = Color.White;
-            webView21.Location = new Point(319, 188);
+            webView21.Location = new Point(255, 150);
+            webView21.Margin = new Padding(2);
             webView21.Name = "webView21";
-            webView21.Size = new Size(112, 34);
+            webView21.Size = new Size(90, 27);
             webView21.TabIndex = 3;
             webView21.ZoomFactor = 1D;
             // 
@@ -97,9 +101,9 @@
             // 
             // UserForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1262, 673);
             ControlBox = false;
             Controls.Add(cBoxLabel);
             Controls.Add(cBoxRoutes);
@@ -108,6 +112,7 @@
             Controls.Add(btnLogout);
             Controls.Add(webView21);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(2);
             Name = "UserForm";
             Text = "UserForm";
             Load += UserForm_Load;

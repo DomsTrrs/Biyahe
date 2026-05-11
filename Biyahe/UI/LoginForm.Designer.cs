@@ -28,106 +28,254 @@
         /// </summary>
         private void InitializeComponent()
         {
-            txtUsername = new TextBox();
-            txtPassword = new TextBox();
-            btnLogin = new Button();
+            loginPnl = new Panel();
+            signUpLink = new LinkLabel();
+            eyePicBox = new PictureBox();
             lblLogin = new Label();
-            lblLog = new Label();
-            label1 = new Label();
-            linkSignUp = new LinkLabel();
+            noAccLbl = new Label();
+            txtUsername = new RoundedTextBox();
+            btnLogin = new RoundedButton();
+            usernameLbl = new Label();
+            txtPassword = new RoundedTextBox();
+            passwordLbl = new Label();
+            mainPnl = new RoundedPanel();
+            logoPnl = new RoundedPanel();
+            logoPicBox = new PictureBox();
+            loginPnl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)eyePicBox).BeginInit();
+            mainPnl.SuspendLayout();
+            logoPnl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)logoPicBox).BeginInit();
             SuspendLayout();
             // 
-            // txtUsername
+            // loginPnl
             // 
-            txtUsername.Location = new Point(186, 174);
-            txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(429, 31);
-            txtUsername.TabIndex = 0;
+            loginPnl.Controls.Add(signUpLink);
+            loginPnl.Controls.Add(eyePicBox);
+            loginPnl.Controls.Add(lblLogin);
+            loginPnl.Controls.Add(noAccLbl);
+            loginPnl.Controls.Add(txtUsername);
+            loginPnl.Controls.Add(btnLogin);
+            loginPnl.Controls.Add(usernameLbl);
+            loginPnl.Controls.Add(txtPassword);
+            loginPnl.Controls.Add(passwordLbl);
+            loginPnl.Dock = DockStyle.Right;
+            loginPnl.Location = new Point(601, 0);
+            loginPnl.Name = "loginPnl";
+            loginPnl.Size = new Size(436, 503);
+            loginPnl.TabIndex = 2;
             // 
-            // txtPassword
+            // signUpLink
             // 
-            txtPassword.Location = new Point(186, 229);
-            txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(429, 31);
-            txtPassword.TabIndex = 1;
+            signUpLink.ActiveLinkColor = Color.FromArgb(51, 64, 129);
+            signUpLink.AutoSize = true;
+            signUpLink.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            signUpLink.LinkBehavior = LinkBehavior.NeverUnderline;
+            signUpLink.LinkColor = Color.FromArgb(81, 112, 255);
+            signUpLink.Location = new Point(266, 447);
+            signUpLink.Name = "signUpLink";
+            signUpLink.Size = new Size(70, 23);
+            signUpLink.TabIndex = 8;
+            signUpLink.TabStop = true;
+            signUpLink.Text = "Sign Up";
+            signUpLink.VisitedLinkColor = Color.FromArgb(81, 112, 255);
+            signUpLink.LinkClicked += signUpLink_LinkClicked;
             // 
-            // btnLogin
+            // eyePicBox
             // 
-            btnLogin.BackColor = SystemColors.Control;
-            btnLogin.Location = new Point(349, 279);
-            btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(112, 34);
-            btnLogin.TabIndex = 2;
-            btnLogin.Text = "Login";
-            btnLogin.UseVisualStyleBackColor = false;
-            btnLogin.Click += btnLogin_Click;
+            eyePicBox.Image = Properties.Resources.eye_closed;
+            eyePicBox.ImageLocation = "";
+            eyePicBox.InitialImage = Properties.Resources.eye_closed;
+            eyePicBox.Location = new Point(349, 279);
+            eyePicBox.Name = "eyePicBox";
+            eyePicBox.Size = new Size(55, 51);
+            eyePicBox.SizeMode = PictureBoxSizeMode.Zoom;
+            eyePicBox.TabIndex = 5;
+            eyePicBox.TabStop = false;
+            eyePicBox.Click += eyePicBox_Click;
             // 
             // lblLogin
             // 
             lblLogin.AutoSize = true;
-            lblLogin.Location = new Point(186, 137);
+            lblLogin.Font = new Font("Impact", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblLogin.ForeColor = Color.FromArgb(81, 112, 255);
+            lblLogin.Location = new Point(142, 22);
             lblLogin.Name = "lblLogin";
-            lblLogin.Size = new Size(0, 25);
-            lblLogin.TabIndex = 3;
+            lblLogin.Size = new Size(169, 75);
+            lblLogin.TabIndex = 0;
+            lblLogin.Text = "LOGIN";
             // 
-            // lblLog
+            // noAccLbl
             // 
-            lblLog.AutoSize = true;
-            lblLog.Location = new Point(16, 13);
-            lblLog.Name = "lblLog";
-            lblLog.Size = new Size(56, 25);
-            lblLog.TabIndex = 4;
-            lblLog.Text = "Login";
+            noAccLbl.AutoSize = true;
+            noAccLbl.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            noAccLbl.ForeColor = Color.FromArgb(81, 112, 255);
+            noAccLbl.Location = new Point(85, 447);
+            noAccLbl.Name = "noAccLbl";
+            noAccLbl.Size = new Size(187, 23);
+            noAccLbl.TabIndex = 7;
+            noAccLbl.Text = "Dont have an account?";
             // 
-            // label1
+            // txtUsername
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(186, 339);
-            label1.Name = "label1";
-            label1.Size = new Size(193, 25);
-            label1.TabIndex = 5;
-            label1.Text = "Dont have an account?";
+            txtUsername.Anchor = AnchorStyles.None;
+            txtUsername.BackgroundColor = Color.White;
+            txtUsername.BackgroundImageLayout = ImageLayout.Center;
+            txtUsername.BorderColor = Color.FromArgb(91, 121, 255);
+            txtUsername.BorderThickness = 3;
+            txtUsername.CornerRadiusBottomLeft = 30;
+            txtUsername.CornerRadiusBottomRight = 30;
+            txtUsername.CornerRadiusTopLeft = 30;
+            txtUsername.CornerRadiusTopRight = 30;
+            txtUsername.FocusBorderColor = Color.FromArgb(91, 121, 255);
+            txtUsername.Location = new Point(33, 180);
+            txtUsername.MaxLength = 32767;
+            txtUsername.Name = "txtUsername";
+            txtUsername.Padding = new Padding(8, 0, 8, 0);
+            txtUsername.PasswordChar = '\0';
+            txtUsername.PlaceholderText = "";
+            txtUsername.Size = new Size(310, 51);
+            txtUsername.TabIndex = 2;
             // 
-            // linkSignUp
+            // btnLogin
             // 
-            linkSignUp.AutoSize = true;
-            linkSignUp.Location = new Point(374, 339);
-            linkSignUp.Name = "linkSignUp";
-            linkSignUp.Size = new Size(73, 25);
-            linkSignUp.TabIndex = 6;
-            linkSignUp.TabStop = true;
-            linkSignUp.Text = "Sign up";
-            linkSignUp.LinkClicked += linkSignUp_LinkClicked;
+            btnLogin.Anchor = AnchorStyles.None;
+            btnLogin.BackColor = Color.FromArgb(81, 112, 255);
+            btnLogin.FlatAppearance.BorderSize = 0;
+            btnLogin.FlatStyle = FlatStyle.Flat;
+            btnLogin.Font = new Font("Impact", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnLogin.ForeColor = Color.White;
+            btnLogin.HoverColor = Color.FromArgb(73, 96, 206);
+            btnLogin.Location = new Point(125, 368);
+            btnLogin.Name = "btnLogin";
+            btnLogin.NormalColor = Color.FromArgb(81, 112, 255);
+            btnLogin.Size = new Size(169, 67);
+            btnLogin.TabIndex = 6;
+            btnLogin.Text = "LOGIN";
+            btnLogin.TextImageRelation = TextImageRelation.TextAboveImage;
+            btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.Click += btnLogin_Click;
+            // 
+            // usernameLbl
+            // 
+            usernameLbl.AutoSize = true;
+            usernameLbl.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            usernameLbl.ForeColor = Color.FromArgb(81, 112, 255);
+            usernameLbl.Location = new Point(45, 152);
+            usernameLbl.Name = "usernameLbl";
+            usernameLbl.Size = new Size(168, 25);
+            usernameLbl.TabIndex = 1;
+            usernameLbl.Text = "Username or Email";
+            // 
+            // txtPassword
+            // 
+            txtPassword.Anchor = AnchorStyles.None;
+            txtPassword.BackgroundColor = Color.White;
+            txtPassword.BorderColor = Color.FromArgb(91, 121, 255);
+            txtPassword.BorderThickness = 3;
+            txtPassword.CornerRadiusBottomLeft = 30;
+            txtPassword.CornerRadiusBottomRight = 30;
+            txtPassword.CornerRadiusTopLeft = 30;
+            txtPassword.CornerRadiusTopRight = 30;
+            txtPassword.FocusBorderColor = Color.FromArgb(91, 121, 255);
+            txtPassword.Location = new Point(33, 279);
+            txtPassword.MaxLength = 32767;
+            txtPassword.Name = "txtPassword";
+            txtPassword.Padding = new Padding(8, 0, 8, 0);
+            txtPassword.PasswordChar = '\0';
+            txtPassword.PlaceholderText = "";
+            txtPassword.Size = new Size(310, 51);
+            txtPassword.TabIndex = 3;
+            // 
+            // passwordLbl
+            // 
+            passwordLbl.AutoSize = true;
+            passwordLbl.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            passwordLbl.ForeColor = Color.FromArgb(81, 112, 255);
+            passwordLbl.Location = new Point(45, 251);
+            passwordLbl.Name = "passwordLbl";
+            passwordLbl.Size = new Size(90, 25);
+            passwordLbl.TabIndex = 4;
+            passwordLbl.Text = "Password";
+            // 
+            // mainPnl
+            // 
+            mainPnl.Anchor = AnchorStyles.None;
+            mainPnl.BackColor = Color.Transparent;
+            mainPnl.Controls.Add(logoPnl);
+            mainPnl.Controls.Add(loginPnl);
+            mainPnl.CornerRadiusBottomLeft = 30;
+            mainPnl.CornerRadiusBottomRight = 30;
+            mainPnl.CornerRadiusTopLeft = 30;
+            mainPnl.CornerRadiusTopRight = 30;
+            mainPnl.Location = new Point(107, 85);
+            mainPnl.Name = "mainPnl";
+            mainPnl.PanelColor = Color.White;
+            mainPnl.Size = new Size(1037, 503);
+            mainPnl.TabIndex = 0;
+            // 
+            // logoPnl
+            // 
+            logoPnl.BackgroundImage = Properties.Resources.logoPnlImg;
+            logoPnl.BackgroundImageLayout = ImageLayout.Stretch;
+            logoPnl.Controls.Add(logoPicBox);
+            logoPnl.CornerRadiusBottomRight = 0;
+            logoPnl.CornerRadiusTopRight = 0;
+            logoPnl.Dock = DockStyle.Left;
+            logoPnl.Location = new Point(0, 0);
+            logoPnl.Name = "logoPnl";
+            logoPnl.PanelColor = Color.Transparent;
+            logoPnl.Size = new Size(601, 503);
+            logoPnl.TabIndex = 3;
+            // 
+            // logoPicBox
+            // 
+            logoPicBox.Image = Properties.Resources.BiyaheLogo;
+            logoPicBox.Location = new Point(18, 76);
+            logoPicBox.Name = "logoPicBox";
+            logoPicBox.Size = new Size(566, 443);
+            logoPicBox.SizeMode = PictureBoxSizeMode.Zoom;
+            logoPicBox.TabIndex = 0;
+            logoPicBox.TabStop = false;
             // 
             // LoginForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(800, 450);
-            ControlBox = false;
-            Controls.Add(linkSignUp);
-            Controls.Add(label1);
-            Controls.Add(lblLog);
-            Controls.Add(lblLogin);
-            Controls.Add(btnLogin);
-            Controls.Add(txtPassword);
-            Controls.Add(txtUsername);
+            BackColor = Color.Gray;
+            BackgroundImage = Properties.Resources.bgImg;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1262, 673);
+            Controls.Add(mainPnl);
+            DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             Name = "LoginForm";
-            Text = "LoginForm";
+            Text = "Login";
+            Load += LoginForm_Load;
+            loginPnl.ResumeLayout(false);
+            loginPnl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)eyePicBox).EndInit();
+            mainPnl.ResumeLayout(false);
+            logoPnl.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)logoPicBox).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private TextBox txtUsername;
-        private TextBox txtPassword;
-        private Button btnLogin;
+        private PictureBox eyePictureBox;
+        private Panel loginPnl;
+        private LinkLabel signUpLink;
+        private PictureBox eyePicBox;
         private Label lblLogin;
-        private Label lblLog;
-        private Label label1;
-        private LinkLabel linkSignUp;
+        private Label noAccLbl;
+        private RoundedTextBox txtUsername;
+        private RoundedButton btnLogin;
+        private Label usernameLbl;
+        private RoundedTextBox txtPassword;
+        private Label passwordLbl;
+        private RoundedPanel mainPnl;
+        private PictureBox logoPicBox;
+        private RoundedPanel logoPnl;
     }
 }

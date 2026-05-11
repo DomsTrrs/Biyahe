@@ -36,26 +36,29 @@
             // DriverDashboard
             // 
             DriverDashboard.AutoSize = true;
-            DriverDashboard.Location = new Point(30, 28);
+            DriverDashboard.Location = new Point(24, 22);
+            DriverDashboard.Margin = new Padding(2, 0, 2, 0);
             DriverDashboard.Name = "DriverDashboard";
-            DriverDashboard.Size = new Size(152, 25);
+            DriverDashboard.Size = new Size(126, 20);
             DriverDashboard.TabIndex = 0;
             DriverDashboard.Text = "Driver Dashboard";
             // 
             // lblWelcome
             // 
             lblWelcome.AutoSize = true;
-            lblWelcome.Location = new Point(370, 256);
+            lblWelcome.Location = new Point(296, 205);
+            lblWelcome.Margin = new Padding(2, 0, 2, 0);
             lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(24, 25);
+            lblWelcome.Size = new Size(18, 20);
             lblWelcome.TabIndex = 1;
             lblWelcome.Text = "...";
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(330, 296);
+            btnLogout.Location = new Point(264, 237);
+            btnLogout.Margin = new Padding(2);
             btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(112, 34);
+            btnLogout.Size = new Size(90, 27);
             btnLogout.TabIndex = 2;
             btnLogout.Text = "Logout";
             btnLogout.UseVisualStyleBackColor = true;
@@ -63,15 +66,16 @@
             // 
             // DriverForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1262, 673);
             ControlBox = false;
             Controls.Add(btnLogout);
             Controls.Add(lblWelcome);
             Controls.Add(DriverDashboard);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(2);
             Name = "DriverForm";
             Text = "DriverForm";
             Load += DriverForm_Load;
