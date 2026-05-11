@@ -1,14 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Biyahe Map</title>
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
 
     <style>
         html, body {
@@ -21,6 +19,10 @@
             width: 100%;
             height: 100vh;
         }
+
+        .leaflet-routing-container {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -28,106 +30,231 @@
 
     <div id="map"></div>
 
-    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
 
     <script>
 
-        // =========================
-        // Initialize Map
-        // =========================
-        const map = L.map('map').setView([10.3157, 123.8854], 14);
+        const map = new L.Map('map', {
+        center: [10.3157, 123.8854],
+        zoom: 14,
+        zoomControl: false
+        });
 
-        // OpenStreetMap Tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19
         }).addTo(map);
 
-        // =========================
-        // Global Variables
-        // =========================
-        let jeepMarker = null;
-        let routeLine = null;
+        let routingControl = null;
         let stopMarkers = [];
+        let placeholderLine = null;
+        let jeepMarker = null;
+        let userLatLng = null;
 
-        // ==================================================
-        // Draw Route
-        // Called from C#
-        // Example:
-        // drawRoute([[10.31,123.88],[10.32,123.89]], "Route 01");
-        // ==================================================
+        function convertToLatLng(coord) {
+        return L.latLng(coord[0], coord[1]);
+        }
+
+        function removeMarker(marker) {
+        map.removeLayer(marker);
+        }
+
+        function makeDot(fill, stroke, size) {
+
+        if (!size) {
+        size = '16px';
+        }
+
+        return `
+        <div style="
+        background:${fill};
+        width:${size};
+        height:${size};
+        border-radius:50%;
+        border:3px solid ${stroke || 'white'};
+        box-shadow:0 0 6px rgba(0,0,0,0.4);
+        cursor:pointer;
+        "></div>
+        `;
+        }
+
         function drawRoute(coords, routeName) {
 
-        // Remove old route
-        if (routeLine) {
-        map.removeLayer(routeLine);
+        if (routingControl) {
+        map.removeControl(routingControl);
+        routingControl = null;
         }
 
-        // Remove old stop markers
-        stopMarkers.forEach(marker => {
-        map.removeLayer(marker);
-        });
+        if (placeholderLine) {
+        map.removeLayer(placeholderLine);
+        placeholderLine = null;
+        }
 
+        stopMarkers.forEach(removeMarker);
         stopMarkers = [];
 
-        // Draw route line
-        routeLine = L.polyline(coords, {
+        const latLngs = coords.map(convertToLatLng);
+
+        placeholderLine = L.polyline(latLngs, {
         color: '#2563EB',
         weight: 5,
-        opacity: 0.8
+        opacity: 0.35,
+        dashArray: '8, 6'
         }).addTo(map);
 
-        // Fit map to route
-        map.fitBounds(routeLine.getBounds(), {
-        padding: [40, 40]
+        map.fitBounds(L.latLngBounds(latLngs), {
+        paddingTopLeft: [60, 60],
+        paddingBottomRight: [60, 60],
+        animate: true,
+        duration: 0.5
         });
 
-        // Draw stop circles
-        coords.forEach(coord => {
+        coords.forEach(function (coord, index) {
 
-        const dot = L.circleMarker(coord, {
-        radius: 7,
-        fillColor: '#FFFFFF',
+        const isStart = index === 0;
+        const isEnd = index === coords.length - 1;
+        const stopNum = index + 1;
+
+        const fill =
+        isStart ? '#22C55E'
+        : isEnd ? '#EF4444'
+        : '#2563EB';
+
+        const size = (isStart || isEnd) ? 16 : 13;
+
+        const icon = L.divIcon({
+        html: makeDot(fill, 'white', size + 'px'),
+        className: '',
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2]
+        });
+
+        const marker = L.marker([coord[0], coord[1]], {
+        icon: icon
+        });
+
+        if (isStart) {
+        marker.bindPopup(
+        '<b>Stop 1 — Start</b>' +
+        (routeName ? '<br>' + routeName : '')
+        );
+        }
+        else if (isEnd) {
+        marker.bindPopup(
+        '<b>Stop ' + stopNum + ' — End</b>' +
+        (routeName ? '<br>' + routeName : '')
+        );
+        }
+        else {
+        marker.bindPopup('<b>Stop ' + stopNum + '</b>');
+        }
+
+        marker.addTo(map);
+        stopMarkers.push(marker);
+        });
+
+        if (stopMarkers.length > 0) {
+        stopMarkers[0].openPopup();
+        }
+
+        routingControl = L.Routing.control({
+        waypoints: latLngs,
+
+        router: L.Routing.osrmv1({
+        serviceUrl: 'https://router.project-osrm.org/route/v1'
+        }),
+
+        lineOptions: {
+        styles: [{
         color: '#2563EB',
-        weight: 2,
-        fillOpacity: 1
+        weight: 5,
+        opacity: 0.85
+        }],
+        extendToWaypoints: true,
+        missingRouteTolerance: 0
+        },
+
+        show: false,
+        addWaypoints: false,
+        routeWhileDragging: false,
+        fitSelectedRoutes: false,
+
+        createMarker: function () {
+        return null;
+        }
+
         }).addTo(map);
 
-        stopMarkers.push(dot);
+        routingControl.on('routesfound', function () {
+
+        if (placeholderLine) {
+        map.removeLayer(placeholderLine);
+        placeholderLine = null;
+        }
+
         });
 
-        // Optional popup
-        if (routeName) {
-        routeLine.bindPopup(routeName);
-        }
+        routingControl.on('routingerror', function (e) {
+        console.warn('Routing error:', e.error);
+        });
         }
 
-        // ==================================================
-        // Update Jeep Position
-        // Called from C#
-        // Example:
-        // updateJeepPosition(10.3157, 123.8854, "Jeepney 01");
-        // ==================================================
         function updateJeepPosition(lat, lng, label) {
 
         const pos = [lat, lng];
 
-        // Move existing marker
         if (jeepMarker) {
-
         jeepMarker.setLatLng(pos);
-
-        } else {
-
-        // Create marker first time
+        }
+        else {
         jeepMarker = L.marker(pos, {
         title: label || 'Jeepney'
         }).addTo(map);
         }
 
-        // Update popup
         jeepMarker.bindPopup(label || 'Jeepney in Transit');
         }
+
+        function getGeolocation() {
+
+        if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+        (pos) => {
+
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        userLatLng = L.latLng(lat, lng);
+
+        L.marker(userLatLng)
+        .addTo(map)
+        .bindPopup("You are here!")
+        .openPopup();
+
+        L.circle(userLatLng, {
+        radius: 50
+        }).addTo(map);
+
+        map.setView(userLatLng, 13);
+        },
+
+        (err) => {
+        console.error("Geolocation error:", err.message);
+
+        alert(
+        "Unable to fetch your location. Please enable location access and try again."
+        );
+        }
+        );
+        }
+
+        getGeolocation();
 
     </script>
 

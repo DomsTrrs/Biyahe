@@ -1,7 +1,7 @@
 ﻿using Biyahe.Config;
 using Biyahe.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic.ApplicationServices;
+
 
 namespace Biyahe.DataAccess
 {
@@ -62,5 +62,6 @@ namespace Biyahe.DataAccess
             }
             return null;
         }//FindUserByUsername
+
     }//class
 }//namespace

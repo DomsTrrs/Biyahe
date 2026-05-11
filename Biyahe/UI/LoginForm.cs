@@ -48,38 +48,36 @@ namespace Biyahe.UI
             User user = service.userLogin(username, password);
             Driver driver = service.driverLogin(username, password);
 
-            if (user != null)
-            {
-                MainForm.LoadForm(new UserForm(user));
-            }
-            else if (driver != null)
-            {
-                MainForm.LoadForm(new DriverForm(driver));
 
-            }
-            else
+            if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrEmpty(password))
             {
-                //lblLogin.Text = "Invalid Username or Password";
-            }
-        }
-
-        private void eyePicBox_Click(object sender, EventArgs e)
-        {
-            isPasswordVisible = !isPasswordVisible;
-
-            if (isPasswordVisible)
+                //for checking db
+                if (user != null)
+                {
+                    UserForm uForm = new UserForm(user);
+                    uForm.Dock = DockStyle.Fill;
+                    uForm.TopLevel = false;
+                    MainForm.MainPanel.Controls.Clear();
+                    MainForm.MainPanel.Controls.Add(uForm);
+                    uForm.Show();
+                }
+                else if (driver != null)
+                {
+                    DriverForm dForm = new DriverForm(driver);
+                    dForm.Dock = DockStyle.Fill;
+                    dForm.TopLevel = false;
+                    MainForm.MainPanel.Controls.Clear();
+                    MainForm.MainPanel.Controls.Add(dForm);
+                    dForm.Show();
+                }
+                else
+                {
+                    lblLogin.Text = "Invalid Username or Password";
+                }
+            } else
             {
-                txtPassword.PasswordChar = '\0';
-                eyePicBox.Image = Properties.Resources.eye_open; // Replace with your open eye resource name
+                lblLogin.Text = "No input detected.";
             }
-            else
-            {
-                txtPassword.PasswordChar = '•';
-                eyePicBox.Image = Properties.Resources.eye_closed; // Replace with your closed eye resource name
-            }
-
-
-            txtPassword.Focus();
         }
 
         private void signUpLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
