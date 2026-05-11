@@ -80,6 +80,25 @@ namespace Biyahe.UI
             }
         }
 
+        private void eyePicBox_Click(object sender, EventArgs e)
+        {
+            isPasswordVisible = !isPasswordVisible;
+
+            if (isPasswordVisible)
+            {
+                txtPassword.PasswordChar = '\0';
+                eyePicBox.Image = Properties.Resources.eye_open; // Replace with your open eye resource name
+            }
+            else
+            {
+                txtPassword.PasswordChar = '•';
+                eyePicBox.Image = Properties.Resources.eye_closed; // Replace with your closed eye resource name
+            }
+
+
+            txtPassword.Focus();
+        }
+
         private void signUpLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MainForm.LoadForm(new RegisterForm());
