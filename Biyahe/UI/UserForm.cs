@@ -1,16 +1,18 @@
 ﻿using Biyahe.Models;
 using Biyahe.Services;
 
+
 namespace Biyahe.UI
 {
     public partial class UserForm : Form
     {
         private User _currUser;
-        private RouteService _routeService = new RouteService();    
+        private RouteService _routeService = new RouteService();
         public UserForm(User user)
         {
             InitializeComponent();
             _currUser = user;
+            sidePanel.Visible = false;
         }
 
         private async void UserForm_Load(object sender, EventArgs e)
@@ -75,6 +77,23 @@ namespace Biyahe.UI
             $"drawRoute([{coords}], '{selectedRoute.RouteName}')"
             );
 
+
+        }
+
+        private void btnPanel_Click(object sender, EventArgs e)
+        {
+            sidePanel.Visible = !sidePanel.Visible;
+        }
+
+        private void linkAboutUs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            AboutUsForm aForm = new AboutUsForm();
+            aForm.Dock = DockStyle.Fill;
+            aForm.TopLevel = false;
+            MainForm.MainPanel.Controls.Clear();
+            MainForm.MainPanel.Controls.Add(aForm);
+            aForm.Show();
 
         }
     }
