@@ -244,7 +244,7 @@
 
                     if (prop != null)
                     {
-                        lstItems.Items.Add(prop.GetValue(item));
+                        lstItems.Items.Add(item);
                     }
                     else
                     {
@@ -342,7 +342,15 @@
                 {
                     lstItems.SelectedIndex = dropList.SelectedIndex;
 
-                    lblText.Text = dropList.SelectedItem.ToString();
+                    if (!string.IsNullOrEmpty(displayMember))
+                    {
+                        var prop = dropList.SelectedItem.GetType().GetProperty(displayMember);
+                        lblText.Text = prop?.GetValue(dropList.SelectedItem)?.ToString();
+                    }
+                    else
+                    {
+                        lblText.Text = dropList.SelectedItem.ToString();
+                    }
 
                     SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
                 }

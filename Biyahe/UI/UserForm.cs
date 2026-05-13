@@ -92,6 +92,7 @@ namespace Biyahe.UI
         private void btnPanel_Click(object sender, EventArgs e)
         {
             sidebarTimer.Start();
+            sidePanel.Visible = true;
         }
 
         private void SidebarTimer_Tick(object sender, EventArgs e)

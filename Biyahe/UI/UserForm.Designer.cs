@@ -49,7 +49,7 @@
             btnPanel = new PictureBox();
             pBoxNavbar = new PictureBox();
             cBoxLabel = new Label();
-            roundedButton1 = new RoundedButton();
+            btnQueue = new RoundedButton();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             sidePanel.SuspendLayout();
             aboutUsPnl.SuspendLayout();
@@ -249,17 +249,17 @@
             // cBoxRoutes
             // 
             cBoxRoutes.BackColor = Color.Transparent;
-            cBoxRoutes.BorderColor = Color.FromArgb(120, 255, 255, 255);
+            cBoxRoutes.BorderColor = Color.White;
             cBoxRoutes.DataSource = null;
             cBoxRoutes.DisplayMember = null;
             cBoxRoutes.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cBoxRoutes.ForeColor = Color.FromArgb(81, 112, 255);
             cBoxRoutes.GlassShineColor = Color.FromArgb(70, 255, 255, 255);
             cBoxRoutes.GlassTintColor = Color.FromArgb(40, 255, 255, 255);
-            cBoxRoutes.Location = new Point(748, 604);
+            cBoxRoutes.Location = new Point(741, 609);
             cBoxRoutes.Name = "cBoxRoutes";
             cBoxRoutes.SelectedIndex = -1;
-            cBoxRoutes.Size = new Size(250, 50);
+            cBoxRoutes.Size = new Size(250, 42);
             cBoxRoutes.TabIndex = 8;
             cBoxRoutes.TextColor = Color.FromArgb(81, 112, 255);
             cBoxRoutes.ValueMember = null;
@@ -313,27 +313,27 @@
             cBoxLabel.TabIndex = 5;
             cBoxLabel.Text = "Route Selected: ";
             // 
-            // roundedButton1
+            // btnQueue
             // 
-            roundedButton1.Anchor = AnchorStyles.None;
-            roundedButton1.BackColor = Color.FromArgb(81, 112, 255);
-            roundedButton1.CornerRadiusBottomLeft = 10;
-            roundedButton1.CornerRadiusBottomRight = 10;
-            roundedButton1.CornerRadiusTopLeft = 10;
-            roundedButton1.CornerRadiusTopRight = 10;
-            roundedButton1.FlatAppearance.BorderSize = 0;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.Font = new Font("Impact", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton1.ForeColor = Color.White;
-            roundedButton1.HoverColor = Color.FromArgb(73, 96, 206);
-            roundedButton1.Location = new Point(1038, 581);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.NormalColor = Color.FromArgb(81, 112, 255);
-            roundedButton1.Size = new Size(188, 70);
-            roundedButton1.TabIndex = 12;
-            roundedButton1.Text = "QUEUE";
-            roundedButton1.TextImageRelation = TextImageRelation.TextAboveImage;
-            roundedButton1.UseVisualStyleBackColor = false;
+            btnQueue.Anchor = AnchorStyles.None;
+            btnQueue.BackColor = Color.FromArgb(81, 112, 255);
+            btnQueue.CornerRadiusBottomLeft = 10;
+            btnQueue.CornerRadiusBottomRight = 10;
+            btnQueue.CornerRadiusTopLeft = 10;
+            btnQueue.CornerRadiusTopRight = 10;
+            btnQueue.FlatAppearance.BorderSize = 0;
+            btnQueue.FlatStyle = FlatStyle.Flat;
+            btnQueue.Font = new Font("Impact", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnQueue.ForeColor = Color.White;
+            btnQueue.HoverColor = Color.FromArgb(73, 96, 206);
+            btnQueue.Location = new Point(1038, 581);
+            btnQueue.Name = "btnQueue";
+            btnQueue.NormalColor = Color.FromArgb(81, 112, 255);
+            btnQueue.Size = new Size(188, 70);
+            btnQueue.TabIndex = 12;
+            btnQueue.Text = "QUEUE";
+            btnQueue.TextImageRelation = TextImageRelation.TextAboveImage;
+            btnQueue.UseVisualStyleBackColor = false;
             // 
             // UserForm
             // 
@@ -341,7 +341,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1262, 673);
             ControlBox = false;
-            Controls.Add(roundedButton1);
+            Controls.Add(btnQueue);
             Controls.Add(cBoxLabel);
             Controls.Add(navbarPnl);
             Controls.Add(cBoxRoutes);
@@ -385,7 +385,7 @@
         private PictureBox pictureBox1;
         private RoundedButton btnLogout;
         private Label cBoxLabel;
-        private RoundedButton roundedButton1;
+        private RoundedButton btnQueue;
         private RoundedPanel userPnl;
         private Panel panel1;
         private PictureBox pictureBox2;
