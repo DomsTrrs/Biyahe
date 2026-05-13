@@ -318,9 +318,39 @@
                     location.X,
                     location.Y + Height + 2);
 
-            lstItems.Dock = DockStyle.Fill;
+            ListBox dropList = new ListBox();
 
-            dropDownForm.Controls.Add(lstItems);
+            dropList.BorderStyle = BorderStyle.None;
+            dropList.BackColor = Color.FromArgb(35, 35, 35);
+            dropList.ForeColor = textColor;
+            dropList.Font = Font;
+            dropList.Dock = DockStyle.Fill;
+
+            // Copy items
+            foreach (var item in lstItems.Items)
+            {
+                dropList.Items.Add(item);
+            }
+
+            // Sync selection
+            dropList.SelectedIndex = lstItems.SelectedIndex;
+
+            // Handle click
+            dropList.Click += (s, e) =>
+            {
+                if (dropList.SelectedIndex >= 0)
+                {
+                    lstItems.SelectedIndex = dropList.SelectedIndex;
+
+                    lblText.Text = dropList.SelectedItem.ToString();
+
+                    SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
+                }
+
+                CloseDropDown();
+            };
+
+            dropDownForm.Controls.Add(dropList);
 
             dropDownForm.Deactivate +=
                 (s, e) => CloseDropDown();

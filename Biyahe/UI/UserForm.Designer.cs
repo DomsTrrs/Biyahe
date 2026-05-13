@@ -32,29 +32,32 @@
             lblWelcome = new Label();
             webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             sidePanel = new Panel();
+            panel2 = new Panel();
+            aboutUsPnl = new RoundedPanel();
+            pictureBox3 = new PictureBox();
+            linkAboutUs = new LinkLabel();
+            version = new Label();
             panel1 = new Panel();
-            roundedPanel2 = new RoundedPanel();
+            userPnl = new RoundedPanel();
             pictureBox2 = new PictureBox();
             archetype = new Label();
             btnLogout = new RoundedButton();
             pictureBox1 = new PictureBox();
-            version = new Label();
-            linkAboutUs = new LinkLabel();
             sidebarTimer = new System.Windows.Forms.Timer(components);
             cBoxRoutes = new RoundComboBox();
-            roundedPanel1 = new RoundedPanel();
+            navbarPnl = new RoundedPanel();
             btnPanel = new PictureBox();
             pBoxNavbar = new PictureBox();
             cBoxLabel = new Label();
             roundedButton1 = new RoundedButton();
-            roundedPanel3 = new RoundedPanel();
-            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             sidePanel.SuspendLayout();
-            roundedPanel2.SuspendLayout();
+            aboutUsPnl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            userPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            roundedPanel1.SuspendLayout();
+            navbarPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnPanel).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBoxNavbar).BeginInit();
             SuspendLayout();
@@ -89,9 +92,11 @@
             // 
             sidePanel.BackColor = Color.White;
             sidePanel.BorderStyle = BorderStyle.FixedSingle;
-            sidePanel.Controls.Add(roundedPanel3);
+            sidePanel.Controls.Add(panel2);
+            sidePanel.Controls.Add(aboutUsPnl);
+            sidePanel.Controls.Add(version);
             sidePanel.Controls.Add(panel1);
-            sidePanel.Controls.Add(roundedPanel2);
+            sidePanel.Controls.Add(userPnl);
             sidePanel.Controls.Add(btnLogout);
             sidePanel.Controls.Add(pictureBox1);
             sidePanel.Location = new Point(1, 1);
@@ -99,6 +104,67 @@
             sidePanel.Name = "sidePanel";
             sidePanel.Size = new Size(280, 671);
             sidePanel.TabIndex = 6;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.DarkGray;
+            panel2.Location = new Point(10, 409);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(250, 2);
+            panel2.TabIndex = 14;
+            // 
+            // aboutUsPnl
+            // 
+            aboutUsPnl.Controls.Add(pictureBox3);
+            aboutUsPnl.Controls.Add(linkAboutUs);
+            aboutUsPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
+            aboutUsPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
+            aboutUsPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
+            aboutUsPnl.Location = new Point(10, 335);
+            aboutUsPnl.Name = "aboutUsPnl";
+            aboutUsPnl.PanelColor = Color.FromArgb(73, 96, 206);
+            aboutUsPnl.Size = new Size(250, 57);
+            aboutUsPnl.TabIndex = 13;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackColor = Color.Transparent;
+            pictureBox3.Image = Properties.Resources.infoIcon;
+            pictureBox3.Location = new Point(36, 12);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(31, 34);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 14;
+            pictureBox3.TabStop = false;
+            // 
+            // linkAboutUs
+            // 
+            linkAboutUs.AutoSize = true;
+            linkAboutUs.BackColor = Color.Transparent;
+            linkAboutUs.Font = new Font("Segoe UI Black", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            linkAboutUs.ForeColor = Color.FromArgb(81, 112, 255);
+            linkAboutUs.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkAboutUs.LinkColor = Color.White;
+            linkAboutUs.Location = new Point(72, 12);
+            linkAboutUs.Margin = new Padding(2, 0, 2, 0);
+            linkAboutUs.Name = "linkAboutUs";
+            linkAboutUs.Size = new Size(122, 31);
+            linkAboutUs.TabIndex = 3;
+            linkAboutUs.TabStop = true;
+            linkAboutUs.Text = "About us ";
+            linkAboutUs.LinkClicked += linkAboutUs_LinkClicked;
+            // 
+            // version
+            // 
+            version.AutoSize = true;
+            version.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            version.ForeColor = Color.FromArgb(81, 112, 255);
+            version.Location = new Point(16, 425);
+            version.Margin = new Padding(2, 0, 2, 0);
+            version.Name = "version";
+            version.Size = new Size(119, 25);
+            version.TabIndex = 4;
+            version.Text = "Version: 0.0.1";
             // 
             // panel1
             // 
@@ -108,20 +174,20 @@
             panel1.Size = new Size(250, 2);
             panel1.TabIndex = 13;
             // 
-            // roundedPanel2
+            // userPnl
             // 
-            roundedPanel2.BackColor = Color.Transparent;
-            roundedPanel2.Controls.Add(pictureBox2);
-            roundedPanel2.Controls.Add(lblWelcome);
-            roundedPanel2.Controls.Add(archetype);
-            roundedPanel2.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
-            roundedPanel2.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
-            roundedPanel2.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
-            roundedPanel2.Location = new Point(10, 190);
-            roundedPanel2.Name = "roundedPanel2";
-            roundedPanel2.PanelColor = Color.FromArgb(235, 239, 255);
-            roundedPanel2.Size = new Size(250, 113);
-            roundedPanel2.TabIndex = 13;
+            userPnl.BackColor = Color.Transparent;
+            userPnl.Controls.Add(pictureBox2);
+            userPnl.Controls.Add(lblWelcome);
+            userPnl.Controls.Add(archetype);
+            userPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
+            userPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
+            userPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
+            userPnl.Location = new Point(10, 190);
+            userPnl.Name = "userPnl";
+            userPnl.PanelColor = Color.FromArgb(235, 239, 255);
+            userPnl.Size = new Size(250, 113);
+            userPnl.TabIndex = 13;
             // 
             // pictureBox2
             // 
@@ -173,40 +239,12 @@
             // 
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = Properties.Resources.logo;
-            pictureBox1.Location = new Point(45, 10);
+            pictureBox1.Location = new Point(10, -1);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(168, 162);
+            pictureBox1.Size = new Size(241, 207);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 10;
             pictureBox1.TabStop = false;
-            // 
-            // version
-            // 
-            version.AutoSize = true;
-            version.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            version.ForeColor = Color.FromArgb(81, 112, 255);
-            version.Location = new Point(472, 527);
-            version.Margin = new Padding(2, 0, 2, 0);
-            version.Name = "version";
-            version.Size = new Size(119, 25);
-            version.TabIndex = 4;
-            version.Text = "Version: 0.0.1";
-            // 
-            // linkAboutUs
-            // 
-            linkAboutUs.AutoSize = true;
-            linkAboutUs.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            linkAboutUs.ForeColor = Color.FromArgb(81, 112, 255);
-            linkAboutUs.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkAboutUs.LinkColor = Color.FromArgb(81, 112, 255);
-            linkAboutUs.Location = new Point(448, 409);
-            linkAboutUs.Margin = new Padding(2, 0, 2, 0);
-            linkAboutUs.Name = "linkAboutUs";
-            linkAboutUs.Size = new Size(93, 25);
-            linkAboutUs.TabIndex = 3;
-            linkAboutUs.TabStop = true;
-            linkAboutUs.Text = "About us ";
-            linkAboutUs.LinkClicked += linkAboutUs_LinkClicked;
             // 
             // cBoxRoutes
             // 
@@ -214,7 +252,8 @@
             cBoxRoutes.BorderColor = Color.FromArgb(120, 255, 255, 255);
             cBoxRoutes.DataSource = null;
             cBoxRoutes.DisplayMember = null;
-            cBoxRoutes.ForeColor = SystemColors.ControlText;
+            cBoxRoutes.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cBoxRoutes.ForeColor = Color.FromArgb(81, 112, 255);
             cBoxRoutes.GlassShineColor = Color.FromArgb(70, 255, 255, 255);
             cBoxRoutes.GlassTintColor = Color.FromArgb(40, 255, 255, 255);
             cBoxRoutes.Location = new Point(748, 604);
@@ -225,19 +264,19 @@
             cBoxRoutes.TextColor = Color.FromArgb(81, 112, 255);
             cBoxRoutes.ValueMember = null;
             // 
-            // roundedPanel1
+            // navbarPnl
             // 
-            roundedPanel1.BackgroundImage = Properties.Resources.bgImg;
-            roundedPanel1.Controls.Add(btnPanel);
-            roundedPanel1.Controls.Add(pBoxNavbar);
-            roundedPanel1.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
-            roundedPanel1.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
-            roundedPanel1.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
-            roundedPanel1.Location = new Point(44, 32);
-            roundedPanel1.Name = "roundedPanel1";
-            roundedPanel1.PanelColor = Color.Transparent;
-            roundedPanel1.Size = new Size(1162, 59);
-            roundedPanel1.TabIndex = 9;
+            navbarPnl.BackgroundImage = Properties.Resources.bgImg;
+            navbarPnl.Controls.Add(btnPanel);
+            navbarPnl.Controls.Add(pBoxNavbar);
+            navbarPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
+            navbarPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
+            navbarPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
+            navbarPnl.Location = new Point(44, 32);
+            navbarPnl.Name = "navbarPnl";
+            navbarPnl.PanelColor = Color.Transparent;
+            navbarPnl.Size = new Size(1162, 59);
+            navbarPnl.TabIndex = 9;
             // 
             // btnPanel
             // 
@@ -249,6 +288,7 @@
             btnPanel.SizeMode = PictureBoxSizeMode.Zoom;
             btnPanel.TabIndex = 10;
             btnPanel.TabStop = false;
+            btnPanel.Click += btnPanel_Click;
             // 
             // pBoxNavbar
             // 
@@ -265,9 +305,11 @@
             // 
             cBoxLabel.AutoSize = true;
             cBoxLabel.BackColor = Color.Transparent;
-            cBoxLabel.Location = new Point(763, 581);
+            cBoxLabel.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cBoxLabel.ForeColor = Color.FromArgb(81, 112, 255);
+            cBoxLabel.Location = new Point(759, 581);
             cBoxLabel.Name = "cBoxLabel";
-            cBoxLabel.Size = new Size(116, 20);
+            cBoxLabel.Size = new Size(134, 23);
             cBoxLabel.TabIndex = 5;
             cBoxLabel.Text = "Route Selected: ";
             // 
@@ -293,40 +335,18 @@
             roundedButton1.TextImageRelation = TextImageRelation.TextAboveImage;
             roundedButton1.UseVisualStyleBackColor = false;
             // 
-            // roundedPanel3
-            // 
-            roundedPanel3.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
-            roundedPanel3.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
-            roundedPanel3.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
-            roundedPanel3.Location = new Point(10, 335);
-            roundedPanel3.Name = "roundedPanel3";
-            roundedPanel3.Size = new Size(250, 57);
-            roundedPanel3.TabIndex = 13;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(841, 99);
-            label1.Name = "label1";
-            label1.Size = new Size(50, 20);
-            label1.TabIndex = 13;
-            label1.Text = "label1";
-            // 
             // UserForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1262, 673);
             ControlBox = false;
-            Controls.Add(label1);
             Controls.Add(roundedButton1);
-            Controls.Add(version);
             Controls.Add(cBoxLabel);
-            Controls.Add(linkAboutUs);
-            Controls.Add(sidePanel);
-            Controls.Add(roundedPanel1);
+            Controls.Add(navbarPnl);
             Controls.Add(cBoxRoutes);
             Controls.Add(webView21);
+            Controls.Add(sidePanel);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2);
             Name = "UserForm";
@@ -334,11 +354,15 @@
             Load += UserForm_Load;
             ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
             sidePanel.ResumeLayout(false);
-            roundedPanel2.ResumeLayout(false);
-            roundedPanel2.PerformLayout();
+            sidePanel.PerformLayout();
+            aboutUsPnl.ResumeLayout(false);
+            aboutUsPnl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            userPnl.ResumeLayout(false);
+            userPnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            roundedPanel1.ResumeLayout(false);
+            navbarPnl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)btnPanel).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBoxNavbar).EndInit();
             ResumeLayout(false);
@@ -355,17 +379,18 @@
         private Label version;
         private System.Windows.Forms.Timer sidebarTimer;
         private RoundComboBox cBoxRoutes;
-        private RoundedPanel roundedPanel1;
+        private RoundedPanel navbarPnl;
         private PictureBox pBoxNavbar;
         private PictureBox btnPanel;
         private PictureBox pictureBox1;
         private RoundedButton btnLogout;
         private Label cBoxLabel;
         private RoundedButton roundedButton1;
-        private RoundedPanel roundedPanel2;
+        private RoundedPanel userPnl;
         private Panel panel1;
         private PictureBox pictureBox2;
-        private RoundedPanel roundedPanel3;
-        private Label label1;
+        private RoundedPanel aboutUsPnl;
+        private PictureBox pictureBox3;
+        private Panel panel2;
     }
 }
