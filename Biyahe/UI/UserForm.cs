@@ -8,18 +8,27 @@ namespace Biyahe.UI
     {
         private User _currUser;
         private RouteService _routeService = new RouteService();
+
+        private bool sidebarExpand = false;
+        private const int SidebarExpandedWidth = 250;
+        private const int SidebarCollapsedWidth = 0;
+        private const int SidebarSpeed = 10;
+
         public UserForm(User user)
         {
             InitializeComponent();
             _currUser = user;
             sidePanel.Visible = false;
+
+            sidebarTimer.Interval = 10;
+            sidebarTimer.Tick += SidebarTimer_Tick;
         }
 
         private async void UserForm_Load(object sender, EventArgs e)
         {
             if (_currUser != null)
             {
-                lblWelcome.Text = $"Welcome, {_currUser.FirstName}!";
+                lblWelcome.Text = $"{_currUser.FirstName} {_currUser.MiddleName} {_currUser.LastName}";
             }
             else
             {
@@ -82,7 +91,31 @@ namespace Biyahe.UI
 
         private void btnPanel_Click(object sender, EventArgs e)
         {
-            sidePanel.Visible = !sidePanel.Visible;
+            sidebarTimer.Start();
+        }
+
+        private void SidebarTimer_Tick(object sender, EventArgs e)
+        {
+            if (sidebarExpand)
+            {
+                sidePanel.Width -= SidebarSpeed;
+
+                if (sidePanel.Width <= SidebarCollapsedWidth)
+                {
+                    sidebarExpand = false;
+                    sidebarTimer.Stop();
+                }
+            }
+            else
+            {
+                sidePanel.Width += SidebarSpeed;
+
+                if (sidePanel.Width >= SidebarExpandedWidth)
+                {
+                    sidebarExpand = true;
+                    sidebarTimer.Stop();
+                }
+            }
         }
 
         private void linkAboutUs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
