@@ -32,6 +32,7 @@
             lblWelcome = new Label();
             webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             sidePanel = new Panel();
+            btnSidePnlClose = new Button();
             panel2 = new Panel();
             aboutUsPnl = new RoundedPanel();
             pictureBox3 = new PictureBox();
@@ -50,7 +51,6 @@
             pBoxNavbar = new PictureBox();
             cBoxLabel = new Label();
             btnQueue = new RoundedButton();
-            btnSidePnlClose = new Button();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             sidePanel.SuspendLayout();
             aboutUsPnl.SuspendLayout();
@@ -70,10 +70,10 @@
             lblWelcome.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblWelcome.ForeColor = Color.FromArgb(81, 112, 255);
             lblWelcome.ImageAlign = ContentAlignment.MiddleLeft;
-            lblWelcome.Location = new Point(96, 16);
+            lblWelcome.Location = new Point(120, 20);
             lblWelcome.Margin = new Padding(2, 0, 2, 0);
             lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(27, 25);
+            lblWelcome.Size = new Size(31, 30);
             lblWelcome.TabIndex = 0;
             lblWelcome.Text = "...";
             // 
@@ -82,10 +82,10 @@
             webView21.AllowExternalDrop = true;
             webView21.CreationProperties = null;
             webView21.DefaultBackgroundColor = Color.White;
-            webView21.Location = new Point(618, 297);
+            webView21.Location = new Point(772, 371);
             webView21.Margin = new Padding(2);
             webView21.Name = "webView21";
-            webView21.Size = new Size(90, 27);
+            webView21.Size = new Size(112, 34);
             webView21.TabIndex = 3;
             webView21.ZoomFactor = 1D;
             // 
@@ -104,15 +104,26 @@
             sidePanel.Location = new Point(1, 1);
             sidePanel.Margin = new Padding(2);
             sidePanel.Name = "sidePanel";
-            sidePanel.Size = new Size(280, 671);
+            sidePanel.Size = new Size(350, 838);
             sidePanel.TabIndex = 6;
+            // 
+            // btnSidePnlClose
+            // 
+            btnSidePnlClose.Location = new Point(289, 52);
+            btnSidePnlClose.Margin = new Padding(4, 4, 4, 4);
+            btnSidePnlClose.Name = "btnSidePnlClose";
+            btnSidePnlClose.Size = new Size(36, 36);
+            btnSidePnlClose.TabIndex = 13;
+            btnSidePnlClose.UseVisualStyleBackColor = true;
+            btnSidePnlClose.Click += btnSidePnlClose_Click;
             // 
             // panel2
             // 
             panel2.BackColor = Color.DarkGray;
-            panel2.Location = new Point(10, 409);
+            panel2.Location = new Point(12, 511);
+            panel2.Margin = new Padding(4, 4, 4, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(250, 2);
+            panel2.Size = new Size(312, 2);
             panel2.TabIndex = 14;
             // 
             // aboutUsPnl
@@ -122,19 +133,21 @@
             aboutUsPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
             aboutUsPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
             aboutUsPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
-            aboutUsPnl.Location = new Point(10, 335);
+            aboutUsPnl.Location = new Point(12, 419);
+            aboutUsPnl.Margin = new Padding(4, 4, 4, 4);
             aboutUsPnl.Name = "aboutUsPnl";
             aboutUsPnl.PanelColor = Color.FromArgb(73, 96, 206);
-            aboutUsPnl.Size = new Size(250, 57);
+            aboutUsPnl.Size = new Size(312, 71);
             aboutUsPnl.TabIndex = 13;
             // 
             // pictureBox3
             // 
             pictureBox3.BackColor = Color.Transparent;
             pictureBox3.Image = Properties.Resources.infoIcon;
-            pictureBox3.Location = new Point(36, 12);
+            pictureBox3.Location = new Point(45, 15);
+            pictureBox3.Margin = new Padding(4, 4, 4, 4);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(31, 34);
+            pictureBox3.Size = new Size(39, 42);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 14;
             pictureBox3.TabStop = false;
@@ -147,10 +160,10 @@
             linkAboutUs.ForeColor = Color.FromArgb(81, 112, 255);
             linkAboutUs.LinkBehavior = LinkBehavior.NeverUnderline;
             linkAboutUs.LinkColor = Color.White;
-            linkAboutUs.Location = new Point(72, 12);
+            linkAboutUs.Location = new Point(90, 15);
             linkAboutUs.Margin = new Padding(2, 0, 2, 0);
             linkAboutUs.Name = "linkAboutUs";
-            linkAboutUs.Size = new Size(122, 31);
+            linkAboutUs.Size = new Size(152, 38);
             linkAboutUs.TabIndex = 3;
             linkAboutUs.TabStop = true;
             linkAboutUs.Text = "About us ";
@@ -161,19 +174,20 @@
             version.AutoSize = true;
             version.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             version.ForeColor = Color.FromArgb(81, 112, 255);
-            version.Location = new Point(16, 425);
+            version.Location = new Point(20, 531);
             version.Margin = new Padding(2, 0, 2, 0);
             version.Name = "version";
-            version.Size = new Size(119, 25);
+            version.Size = new Size(141, 30);
             version.TabIndex = 4;
             version.Text = "Version: 0.0.1";
             // 
             // panel1
             // 
             panel1.BackColor = Color.DarkGray;
-            panel1.Location = new Point(10, 317);
+            panel1.Location = new Point(12, 396);
+            panel1.Margin = new Padding(4, 4, 4, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(250, 2);
+            panel1.Size = new Size(312, 2);
             panel1.TabIndex = 13;
             // 
             // userPnl
@@ -185,19 +199,21 @@
             userPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
             userPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
             userPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
-            userPnl.Location = new Point(10, 190);
+            userPnl.Location = new Point(12, 238);
+            userPnl.Margin = new Padding(4, 4, 4, 4);
             userPnl.Name = "userPnl";
             userPnl.PanelColor = Color.FromArgb(235, 239, 255);
-            userPnl.Size = new Size(250, 113);
+            userPnl.Size = new Size(312, 141);
             userPnl.TabIndex = 13;
             // 
             // pictureBox2
             // 
             pictureBox2.BackColor = Color.Transparent;
             pictureBox2.Image = Properties.Resources.profileIcon;
-            pictureBox2.Location = new Point(6, 16);
+            pictureBox2.Location = new Point(8, 20);
+            pictureBox2.Margin = new Padding(4, 4, 4, 4);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(88, 84);
+            pictureBox2.Size = new Size(110, 105);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
@@ -208,10 +224,10 @@
             archetype.BackColor = Color.Transparent;
             archetype.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             archetype.ForeColor = Color.FromArgb(81, 112, 255);
-            archetype.Location = new Point(96, 70);
+            archetype.Location = new Point(120, 88);
             archetype.Margin = new Padding(2, 0, 2, 0);
             archetype.Name = "archetype";
-            archetype.Size = new Size(78, 20);
+            archetype.Size = new Size(96, 25);
             archetype.TabIndex = 2;
             archetype.Text = "Passenger";
             // 
@@ -228,22 +244,25 @@
             btnLogout.Font = new Font("Impact", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnLogout.ForeColor = Color.White;
             btnLogout.HoverColor = Color.FromArgb(73, 96, 206);
-            btnLogout.Location = new Point(10, 579);
+            btnLogout.Location = new Point(12, 724);
+            btnLogout.Margin = new Padding(4, 4, 4, 4);
             btnLogout.Name = "btnLogout";
             btnLogout.NormalColor = Color.FromArgb(81, 112, 255);
-            btnLogout.Size = new Size(250, 52);
+            btnLogout.Size = new Size(312, 65);
             btnLogout.TabIndex = 11;
             btnLogout.Text = "LOGOUT";
             btnLogout.TextImageRelation = TextImageRelation.TextAboveImage;
             btnLogout.UseVisualStyleBackColor = false;
+            btnLogout.Click += btnLogout_Click;
             // 
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = Properties.Resources.logo;
-            pictureBox1.Location = new Point(10, -1);
+            pictureBox1.Location = new Point(12, -1);
+            pictureBox1.Margin = new Padding(4, 4, 4, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(241, 207);
+            pictureBox1.Size = new Size(301, 259);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 10;
             pictureBox1.TabStop = false;
@@ -255,10 +274,11 @@
             cBoxRoutes.DisplayMember = null;
             cBoxRoutes.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cBoxRoutes.ForeColor = Color.FromArgb(81, 112, 255);
-            cBoxRoutes.Location = new Point(741, 609);
+            cBoxRoutes.Location = new Point(926, 761);
+            cBoxRoutes.Margin = new Padding(4, 4, 4, 4);
             cBoxRoutes.Name = "cBoxRoutes";
             cBoxRoutes.SelectedIndex = -1;
-            cBoxRoutes.Size = new Size(250, 42);
+            cBoxRoutes.Size = new Size(312, 52);
             cBoxRoutes.TabIndex = 8;
             cBoxRoutes.ValueMember = null;
             // 
@@ -270,19 +290,21 @@
             navbarPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
             navbarPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
             navbarPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
-            navbarPnl.Location = new Point(44, 32);
+            navbarPnl.Location = new Point(55, 40);
+            navbarPnl.Margin = new Padding(4, 4, 4, 4);
             navbarPnl.Name = "navbarPnl";
             navbarPnl.PanelColor = Color.Transparent;
-            navbarPnl.Size = new Size(1162, 59);
+            navbarPnl.Size = new Size(1452, 74);
             navbarPnl.TabIndex = 9;
             // 
             // btnPanel
             // 
             btnPanel.BackColor = Color.Transparent;
             btnPanel.Image = Properties.Resources.menuIcon;
-            btnPanel.Location = new Point(21, 3);
+            btnPanel.Location = new Point(26, 4);
+            btnPanel.Margin = new Padding(4, 4, 4, 4);
             btnPanel.Name = "btnPanel";
-            btnPanel.Size = new Size(52, 54);
+            btnPanel.Size = new Size(65, 68);
             btnPanel.SizeMode = PictureBoxSizeMode.Zoom;
             btnPanel.TabIndex = 10;
             btnPanel.TabStop = false;
@@ -292,9 +314,10 @@
             // 
             pBoxNavbar.BackColor = Color.Transparent;
             pBoxNavbar.Image = Properties.Resources.navbarLogo;
-            pBoxNavbar.Location = new Point(976, -48);
+            pBoxNavbar.Location = new Point(1220, -60);
+            pBoxNavbar.Margin = new Padding(4, 4, 4, 4);
             pBoxNavbar.Name = "pBoxNavbar";
-            pBoxNavbar.Size = new Size(237, 160);
+            pBoxNavbar.Size = new Size(296, 200);
             pBoxNavbar.SizeMode = PictureBoxSizeMode.Zoom;
             pBoxNavbar.TabIndex = 10;
             pBoxNavbar.TabStop = false;
@@ -305,9 +328,10 @@
             cBoxLabel.BackColor = Color.Transparent;
             cBoxLabel.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cBoxLabel.ForeColor = Color.FromArgb(81, 112, 255);
-            cBoxLabel.Location = new Point(759, 581);
+            cBoxLabel.Location = new Point(949, 726);
+            cBoxLabel.Margin = new Padding(4, 0, 4, 0);
             cBoxLabel.Name = "cBoxLabel";
-            cBoxLabel.Size = new Size(134, 23);
+            cBoxLabel.Size = new Size(166, 30);
             cBoxLabel.TabIndex = 5;
             cBoxLabel.Text = "Route Selected: ";
             // 
@@ -324,29 +348,21 @@
             btnQueue.Font = new Font("Impact", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnQueue.ForeColor = Color.White;
             btnQueue.HoverColor = Color.FromArgb(73, 96, 206);
-            btnQueue.Location = new Point(1038, 581);
+            btnQueue.Location = new Point(1298, 726);
+            btnQueue.Margin = new Padding(4, 4, 4, 4);
             btnQueue.Name = "btnQueue";
             btnQueue.NormalColor = Color.FromArgb(81, 112, 255);
-            btnQueue.Size = new Size(188, 70);
+            btnQueue.Size = new Size(235, 88);
             btnQueue.TabIndex = 12;
             btnQueue.Text = "QUEUE";
             btnQueue.TextImageRelation = TextImageRelation.TextAboveImage;
             btnQueue.UseVisualStyleBackColor = false;
             // 
-            // btnSidePnlClose
-            // 
-            btnSidePnlClose.Location = new Point(231, 42);
-            btnSidePnlClose.Name = "btnSidePnlClose";
-            btnSidePnlClose.Size = new Size(29, 29);
-            btnSidePnlClose.TabIndex = 13;
-            btnSidePnlClose.UseVisualStyleBackColor = true;
-            btnSidePnlClose.Click += btnSidePnlClose_Click;
-            // 
             // UserForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1262, 673);
+            ClientSize = new Size(1578, 841);
             ControlBox = false;
             Controls.Add(sidePanel);
             Controls.Add(btnQueue);

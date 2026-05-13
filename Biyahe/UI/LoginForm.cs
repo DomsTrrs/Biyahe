@@ -62,11 +62,11 @@ namespace Biyahe.UI
                 }
                 else
                 {
-                    lblLogin.Text = "Invalid Username or Password";
+                    lblTag.Text = "Invalid Username or Password";
                 }
             } else
             {
-                lblLogin.Text = "No input detected.";
+                lblTag.Text = "No input detected.";
             }
         }
 
@@ -77,12 +77,12 @@ namespace Biyahe.UI
             if (isPasswordVisible)
             {
                 txtPassword.PasswordChar = '\0';
-                eyePicBox.Image = Properties.Resources.eye_open; // Replace with your open eye resource name
+                eyePicBox.Image = Properties.Resources.eye_open; 
             }
             else
             {
                 txtPassword.PasswordChar = '•';
-                eyePicBox.Image = Properties.Resources.eye_closed; // Replace with your closed eye resource name
+                eyePicBox.Image = Properties.Resources.eye_closed; 
             }
 
 

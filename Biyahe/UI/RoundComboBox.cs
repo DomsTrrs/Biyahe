@@ -70,6 +70,7 @@ namespace Biyahe.UI
             set
             {
                 displayMember = value;
+                dropList.DisplayMember = value ?? string.Empty;
                 RefreshData();
             }
         }
@@ -77,18 +78,24 @@ namespace Biyahe.UI
         public string ValueMember
         {
             get => valueMember;
-            set => valueMember = value;
+            set
+            {
+                valueMember = value;
+                dropList.ValueMember = value ?? string.Empty;
+            }
         }
 
         private void RefreshData()
         {
             dropList.Items.Clear();
+            dropList.DisplayMember = displayMember ?? string.Empty;
+            dropList.ValueMember = valueMember ?? string.Empty;
 
             if (dataSource is IEnumerable list)
             {
                 foreach (var item in list)
                 {
-                    dropList.Items.Add(item); // store FULL object
+                    dropList.Items.Add(item);
                 }
             }
         }
@@ -154,10 +161,13 @@ namespace Biyahe.UI
 
         private void OpenDropDown()
         {
-            if (droppedDown) return;
-
-            if (dropDownForm != null && !dropDownForm.IsDisposed)
-                return;
+            if (dropDownForm != null)
+            {
+                if (dropDownForm.Visible)
+                {
+                    return;
+                }
+            }
 
             droppedDown = true;
 
@@ -165,30 +175,23 @@ namespace Biyahe.UI
             dropDownForm.FormBorderStyle = FormBorderStyle.None;
             dropDownForm.StartPosition = FormStartPosition.Manual;
             dropDownForm.ShowInTaskbar = false;
-            dropDownForm.TopMost = true; // 👈 fix layering
-
             dropDownForm.Size = new Size(Width, 150);
 
             Point location = Parent.PointToScreen(Location);
             dropDownForm.Location = new Point(location.X, location.Y + Height);
 
-            dropDownForm.Controls.Clear();
             dropDownForm.Controls.Add(dropList);
 
-            dropDownForm.Deactivate += (s, e) => CloseDropDown();
-
-            dropDownForm.Show(this); // 👈 better than Show()
+            dropDownForm.Show();
         }
 
         private void CloseDropDown()
         {
-            if (!droppedDown) return;
-
             droppedDown = false;
 
             if (dropDownForm != null)
             {
-                dropDownForm.Controls.Remove(dropList); // keep ListBox alive
+                dropDownForm.Controls.Remove(dropList);
                 dropDownForm.Close();
                 dropDownForm.Dispose();
                 dropDownForm = null;
@@ -198,9 +201,12 @@ namespace Biyahe.UI
         private void DropList_Click(object sender, EventArgs e)
         {
             UpdateText();
-            SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
+
             CloseDropDown();
+
+            SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
         }
+
 
         // =========================
         // UI (ROUNDED)

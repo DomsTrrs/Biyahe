@@ -1,5 +1,7 @@
 ﻿using Biyahe.Models;
 using Biyahe.Services;
+using System.Text.Json;
+
 
 
 namespace Biyahe.UI
@@ -17,6 +19,7 @@ namespace Biyahe.UI
         public UserForm(User user)
         {
             InitializeComponent();
+            cBoxRoutes.SelectedIndexChanged += cBoxRoutes_SelectedIndexChanged;
             _currUser = user;
             sidePanel.Visible = false;
             sidePanel.Width = SidebarCollapsedWidth;
@@ -47,41 +50,46 @@ namespace Biyahe.UI
             string mapPath = Path.Combine(Application.StartupPath, "Map", "map.html");
             webView21.Source = new Uri(mapPath);
 
-            cBoxRoutes.DataSource = _routeService.GetActiveRoutes();
             cBoxRoutes.DisplayMember = "RouteName";
             cBoxRoutes.ValueMember = "RouteID";
+            cBoxRoutes.DataSource = _routeService.GetActiveRoutes();
             cBoxRoutes.SelectedIndex = -1;
         }
 
-        private void CoreWebView2_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
-        {
-            // Map is fully loaded — ExecuteScriptAsync is now safe to use
-        }
-        private void btnLogout_Click(object sender, EventArgs e)
-        {
-            MainForm.LoadForm(new LoginForm());
-        }
 
         private async void cBoxRoutes_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cBoxRoutes.SelectedItem == null)
             {
-                cBoxRoutes.Text = "Selected Route: None";
                 return;
             }
 
             Routes selectedRoute = (Routes)cBoxRoutes.SelectedItem;
-            cBoxLabel.Text = $"Selected Route: {selectedRoute.RouteName}";
+
+            cBoxLabel.Text = "Selected Route: " + selectedRoute.RouteName;
 
             string coords = _routeService.GetRouteStops(selectedRoute.RouteID);
 
-            //MessageBox.Show(coords);
+            //MessageBox.Show(coords); used for debugging to check if the coordinates are being retrieved correctly
 
-            await webView21.CoreWebView2.ExecuteScriptAsync(
-            $"drawRoute([{coords}], '{selectedRoute.RouteName}')"
-            );
+            if (string.IsNullOrWhiteSpace(coords))
+            {
+                MessageBox.Show("No coordinates found.");
+                return;
+            }
 
+            coords = coords.Trim();
 
+            if (coords.StartsWith("[[") == false)
+            {
+                coords = "[" + coords + "]";
+            }
+
+            string routeName = JsonSerializer.Serialize(selectedRoute.RouteName);
+
+            string script = "drawRoute(" + coords + ", " + routeName + ");";
+
+            await webView21.CoreWebView2.ExecuteScriptAsync(script);
         }
 
         private void btnPanel_Click(object sender, EventArgs e)
@@ -139,6 +147,22 @@ namespace Biyahe.UI
             sidebarExpand = true; // Start collapsing (true = collapsing)
             if (!sidebarTimer.Enabled)
                 sidebarTimer.Start();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+
+            DialogResult result = MessageBox.Show("Do you wish to logout?", "Logout Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                this.Hide();
+                LoginForm lForm = new LoginForm();
+                lForm.Dock = DockStyle.Fill;
+                lForm.TopLevel = false;
+                MainForm.MainPanel.Controls.Clear();
+                MainForm.MainPanel.Controls.Add(lForm);
+                lForm.Show();
+            } 
         }
     }
 }
