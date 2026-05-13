@@ -10,15 +10,16 @@ namespace Biyahe.UI
         private RouteService _routeService = new RouteService();
 
         private bool sidebarExpand = false;
-        private const int SidebarExpandedWidth = 250;
+        private const int SidebarExpandedWidth = 280;
         private const int SidebarCollapsedWidth = 0;
-        private const int SidebarSpeed = 10;
+        private const int SidebarSpeed = 20;
 
         public UserForm(User user)
         {
             InitializeComponent();
             _currUser = user;
             sidePanel.Visible = false;
+            sidePanel.Width = SidebarCollapsedWidth;
 
             sidebarTimer.Interval = 10;
             sidebarTimer.Tick += SidebarTimer_Tick;
@@ -58,13 +59,7 @@ namespace Biyahe.UI
         }
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            LoginForm lForm = new LoginForm();
-            lForm.Dock = DockStyle.Fill;
-            lForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(lForm);
-            lForm.Show();
+            MainForm.LoadForm(new LoginForm());
         }
 
         private async void cBoxRoutes_SelectedIndexChanged(object sender, EventArgs e)
@@ -93,42 +88,57 @@ namespace Biyahe.UI
         {
             sidebarTimer.Start();
             sidePanel.Visible = true;
+            sidePanel.BringToFront();
+            sidebarExpand = false;
         }
 
         private void SidebarTimer_Tick(object sender, EventArgs e)
         {
-            if (sidebarExpand)
+            if (sidebarExpand) // COLLAPSE MODE
             {
-                sidePanel.Width -= SidebarSpeed;
+                int speed = SidebarSpeed;
+                if (sidePanel.Width <= 50) speed = SidebarSpeed / 2;
+
+                sidePanel.Width -= speed;
 
                 if (sidePanel.Width <= SidebarCollapsedWidth)
                 {
-                    sidebarExpand = false;
+                    sidePanel.Width = SidebarCollapsedWidth;
                     sidebarTimer.Stop();
+                    sidePanel.Visible = false;
+                    return; // Early exit
                 }
             }
-            else
+            else // EXPAND MODE
             {
-                sidePanel.Width += SidebarSpeed;
+                int speed = SidebarSpeed;
+                if (sidePanel.Width >= SidebarExpandedWidth - 20)
+                    speed = SidebarSpeed / 2;
 
+                sidePanel.Width += speed;
+
+                // CHECK WIDTH FIRST - Higher priority clamping
                 if (sidePanel.Width >= SidebarExpandedWidth)
                 {
+                    sidePanel.Width = SidebarExpandedWidth; // FORCE exact 250px
                     sidebarExpand = true;
                     sidebarTimer.Stop();
+                    return; // Early exit
                 }
             }
         }
 
         private void linkAboutUs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Hide();
-            AboutUsForm aForm = new AboutUsForm();
-            aForm.Dock = DockStyle.Fill;
-            aForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(aForm);
-            aForm.Show();
+            MainForm.LoadForm(new AboutUsForm());
 
+        }
+
+        private void btnSidePnlClose_Click(object sender, EventArgs e)
+        {
+            sidebarExpand = true; // Start collapsing (true = collapsing)
+            if (!sidebarTimer.Enabled)
+                sidebarTimer.Start();
         }
     }
 }

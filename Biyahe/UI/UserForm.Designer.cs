@@ -50,6 +50,7 @@
             pBoxNavbar = new PictureBox();
             cBoxLabel = new Label();
             btnQueue = new RoundedButton();
+            btnSidePnlClose = new Button();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             sidePanel.SuspendLayout();
             aboutUsPnl.SuspendLayout();
@@ -92,6 +93,7 @@
             // 
             sidePanel.BackColor = Color.White;
             sidePanel.BorderStyle = BorderStyle.FixedSingle;
+            sidePanel.Controls.Add(btnSidePnlClose);
             sidePanel.Controls.Add(panel2);
             sidePanel.Controls.Add(aboutUsPnl);
             sidePanel.Controls.Add(version);
@@ -249,19 +251,15 @@
             // cBoxRoutes
             // 
             cBoxRoutes.BackColor = Color.Transparent;
-            cBoxRoutes.BorderColor = Color.White;
             cBoxRoutes.DataSource = null;
             cBoxRoutes.DisplayMember = null;
             cBoxRoutes.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cBoxRoutes.ForeColor = Color.FromArgb(81, 112, 255);
-            cBoxRoutes.GlassShineColor = Color.FromArgb(70, 255, 255, 255);
-            cBoxRoutes.GlassTintColor = Color.FromArgb(40, 255, 255, 255);
             cBoxRoutes.Location = new Point(741, 609);
             cBoxRoutes.Name = "cBoxRoutes";
             cBoxRoutes.SelectedIndex = -1;
             cBoxRoutes.Size = new Size(250, 42);
             cBoxRoutes.TabIndex = 8;
-            cBoxRoutes.TextColor = Color.FromArgb(81, 112, 255);
             cBoxRoutes.ValueMember = null;
             // 
             // navbarPnl
@@ -335,22 +333,31 @@
             btnQueue.TextImageRelation = TextImageRelation.TextAboveImage;
             btnQueue.UseVisualStyleBackColor = false;
             // 
+            // btnSidePnlClose
+            // 
+            btnSidePnlClose.Location = new Point(231, 42);
+            btnSidePnlClose.Name = "btnSidePnlClose";
+            btnSidePnlClose.Size = new Size(29, 29);
+            btnSidePnlClose.TabIndex = 13;
+            btnSidePnlClose.UseVisualStyleBackColor = true;
+            btnSidePnlClose.Click += btnSidePnlClose_Click;
+            // 
             // UserForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1262, 673);
             ControlBox = false;
+            Controls.Add(sidePanel);
             Controls.Add(btnQueue);
             Controls.Add(cBoxLabel);
             Controls.Add(navbarPnl);
             Controls.Add(cBoxRoutes);
             Controls.Add(webView21);
-            Controls.Add(sidePanel);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2);
             Name = "UserForm";
-            Text = "UserForm";
+            Text = "2222222222222222222222222222222222222222222222222222222";
             Load += UserForm_Load;
             ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
             sidePanel.ResumeLayout(false);
@@ -392,5 +399,6 @@
         private RoundedPanel aboutUsPnl;
         private PictureBox pictureBox3;
         private Panel panel2;
+        private Button btnSidePnlClose;
     }
 }

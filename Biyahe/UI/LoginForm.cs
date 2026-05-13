@@ -54,21 +54,11 @@ namespace Biyahe.UI
                 //for checking db
                 if (user != null)
                 {
-                    UserForm uForm = new UserForm(user);
-                    uForm.Dock = DockStyle.Fill;
-                    uForm.TopLevel = false;
-                    MainForm.MainPanel.Controls.Clear();
-                    MainForm.MainPanel.Controls.Add(uForm);
-                    uForm.Show();
+                    MainForm.LoadForm(new UserForm(user));
                 }
                 else if (driver != null)
                 {
-                    DriverForm dForm = new DriverForm(driver);
-                    dForm.Dock = DockStyle.Fill;
-                    dForm.TopLevel = false;
-                    MainForm.MainPanel.Controls.Clear();
-                    MainForm.MainPanel.Controls.Add(dForm);
-                    dForm.Show();
+                    MainForm.LoadForm(new DriverForm(driver));
                 }
                 else
                 {
