@@ -28,7 +28,7 @@ namespace Biyahe.UI
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            MainForm.LoadForm(new UserForm());
+            MainForm.LoadForm(new LoginForm());
         }
 
         public static void LoadForm(Form form)

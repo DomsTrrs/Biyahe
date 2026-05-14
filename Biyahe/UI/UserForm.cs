@@ -18,15 +18,14 @@ namespace Biyahe.UI
         private bool isAnimating = false;
         private bool isOpening = false;
 
-        private int animationStep = 0;
-        private const int totalSteps = 20; // fewer steps = smoother in WinForms
+        private int animationStep = 0;  // fewer steps = smoother in WinForms
 
         private const int SidebarWidth = 280;
 
         private Stopwatch animationWatch = new Stopwatch();
         private const int animationDuration = 300;
 
-        public UserForm()//User user)
+        public UserForm(User user)
         {
             InitializeComponent();
 <<<<<<< HEAD
@@ -43,6 +42,7 @@ namespace Biyahe.UI
             // LIGHTWEIGHT smoothing only
             this.DoubleBuffered = true;
 
+            _currUser = user;
             ResetSidebarState();
             sidebarTimer.Interval = 15;
             sidebarTimer.Tick += SidebarTimer_Tick;

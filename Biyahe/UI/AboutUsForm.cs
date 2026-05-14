@@ -13,7 +13,7 @@ namespace Biyahe.UI
 
         private void linkLabelHome_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-           // MainForm.LoadForm(new UserForm(_currUser));
+            MainForm.LoadForm(new UserForm(_currUser));
         }
     }
 }
