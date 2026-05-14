@@ -1,11 +1,8 @@
 ﻿using Biyahe.Models;
 using Biyahe.Services;
-<<<<<<< HEAD
 using System.Text.Json;
 
-=======
 using System.Diagnostics;
->>>>>>> e248e37 (fixed sidebar and optimized animation)
 
 
 namespace Biyahe.UI
@@ -28,13 +25,9 @@ namespace Biyahe.UI
         public UserForm(User user)
         {
             InitializeComponent();
-<<<<<<< HEAD
             cBoxRoutes.SelectedIndexChanged += cBoxRoutes_SelectedIndexChanged;
             _currUser = user;
             sidePanel.Visible = false;
-            sidePanel.Width = SidebarCollapsedWidth;
-=======
->>>>>>> e248e37 (fixed sidebar and optimized animation)
 
             this.Controls.Add(sidePanel);
             sidePanel.BringToFront();
