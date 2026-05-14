@@ -63,6 +63,16 @@ namespace Biyahe.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap aboutUs {
+            get {
+                object obj = ResourceManager.GetObject("aboutUs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bgImg {
             get {
                 object obj = ResourceManager.GetObject("bgImg", resourceCulture);
@@ -76,6 +86,16 @@ namespace Biyahe.Properties {
         internal static System.Drawing.Bitmap BiyaheLogo {
             get {
                 object obj = ResourceManager.GetObject("BiyaheLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap closeMenuIcon {
+            get {
+                object obj = ResourceManager.GetObject("closeMenuIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -264,33 +264,41 @@
         {
             GraphicsPath path = new GraphicsPath();
 
-            // Top-left
             int tl = SafeRadius(cornerRadiusTopLeft, rect);
-            if (tl > 0)
-                path.AddArc(rect.X, rect.Y, tl * 2, tl * 2, 180, 90);
-            else
-                path.AddLine(rect.X, rect.Y, rect.X, rect.Y);
-
-            // Top-right
             int tr = SafeRadius(cornerRadiusTopRight, rect);
+            int bl = SafeRadius(cornerRadiusBottomLeft, rect);
+            int br = SafeRadius(cornerRadiusBottomRight, rect);
+
+            // Move to start point (top-left after arc position)
+            path.StartFigure();
+
+            // Top side line
+            path.AddLine(rect.X + tl, rect.Y, rect.Right - tr, rect.Y);
+
+            // Top-right arc
             if (tr > 0)
                 path.AddArc(rect.Right - tr * 2, rect.Y, tr * 2, tr * 2, 270, 90);
-            else
-                path.AddLine(rect.Right, rect.Y, rect.Right, rect.Y);
 
-            // Bottom-right
-            int br = SafeRadius(cornerRadiusBottomRight, rect);
+            // Right side line
+            path.AddLine(rect.Right, rect.Y + tr, rect.Right, rect.Bottom - br);
+
+            // Bottom-right arc
             if (br > 0)
                 path.AddArc(rect.Right - br * 2, rect.Bottom - br * 2, br * 2, br * 2, 0, 90);
-            else
-                path.AddLine(rect.Right, rect.Bottom, rect.Right, rect.Bottom);
 
-            // Bottom-left
-            int bl = SafeRadius(cornerRadiusBottomLeft, rect);
+            // Bottom side line
+            path.AddLine(rect.Right - br, rect.Bottom, rect.X + bl, rect.Bottom);
+
+            // Bottom-left arc
             if (bl > 0)
                 path.AddArc(rect.X, rect.Bottom - bl * 2, bl * 2, bl * 2, 90, 90);
-            else
-                path.AddLine(rect.X, rect.Bottom, rect.X, rect.Bottom);
+
+            // Left side line
+            path.AddLine(rect.X, rect.Bottom - bl, rect.X, rect.Y + tl);
+
+            // Top-left arc
+            if (tl > 0)
+                path.AddArc(rect.X, rect.Y, tl * 2, tl * 2, 180, 90);
 
             path.CloseFigure();
             return path;
@@ -309,46 +317,28 @@
         {
             Graphics g = e.Graphics;
 
-            // =====================================
-            // TRANSPARENT / GLASS BACKGROUND
-            // =====================================
-
-            if ((useGlassmorphism || panelColor.A == 0) &&
-                Parent != null)
+            if (useGlassmorphism && Parent != null)
             {
+                // Glass effect - paint parent background clipped to our region
+               
                 g.TranslateTransform(-Left, -Top);
 
-                try
+                using (GraphicsPath path = GetRoundPath(ClientRectangle))
                 {
-                    PaintEventArgs pea =
-                        new PaintEventArgs(
-                            g,
-                            new Rectangle(
-                                Left,
-                                Top,
-                                Width,
-                                Height));
-
-                    InvokePaintBackground(Parent, pea);
-                    InvokePaint(Parent, pea);
-                }
-                finally
-                {
-                    g.ResetTransform();
+                    g.SetClip(path, CombineMode.Intersect);
+                    try
+                    {
+                        PaintEventArgs pea = new PaintEventArgs(g, ClientRectangle);
+                        InvokePaintBackground(Parent, pea);
+                        InvokePaint(Parent, pea);
+                    }
+                    finally
+                    {
+                        g.ResetClip();
+                        g.ResetTransform();
+                    }
                 }
             }
-            else
-            {
-                using (SolidBrush brush =
-                       new SolidBrush(panelColor))
-                {
-                    g.FillRectangle(brush, ClientRectangle);
-                }
-            }
-
-            // =====================================
-            // BACKGROUND IMAGE
-            // =====================================
 
             if (BackgroundImage != null)
             {
