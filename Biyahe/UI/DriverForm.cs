@@ -1,4 +1,5 @@
 ﻿using Biyahe.Models;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace Biyahe.UI
 {
@@ -25,8 +26,7 @@ namespace Biyahe.UI
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            new LoginForm().Show();
+            MainForm.LoadForm(new LoginForm());
         }
     }
 }

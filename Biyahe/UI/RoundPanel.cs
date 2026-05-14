@@ -4,6 +4,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
     using System.Windows.Forms;
 
     public class RoundedPanel : Panel
@@ -13,6 +14,19 @@
         private int cornerRadiusBottomLeft = 20;
         private int cornerRadiusBottomRight = 20;
         private Color panelColor = Color.LightBlue;
+
+        private bool useGlassmorphism = false;
+
+        private Color glassTintColor =
+            Color.FromArgb(50, 255, 255, 255);
+
+        private Color glassBorderColor =
+            Color.FromArgb(120, 255, 255, 255);
+
+        private Color glassShineColor =
+            Color.FromArgb(80, 255, 255, 255);
+
+        private int blurStrength = 4;
 
         [Category("Appearance")]
         [Description("Radius of top-left corner (0-50)")]
@@ -64,6 +78,68 @@
             set { panelColor = value; Invalidate(); }
         }
 
+        [Category("Glass")]
+        [DefaultValue(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public bool UseGlassmorphism
+        {
+            get => useGlassmorphism;
+            set
+            {
+                useGlassmorphism = value;
+                Invalidate();
+            }
+        }
+
+        [Category("Glass")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Color GlassTintColor
+        {
+            get => glassTintColor;
+            set
+            {
+                glassTintColor = value;
+                Invalidate();
+            }
+        }
+
+        [Category("Glass")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Color GlassBorderColor
+        {
+            get => glassBorderColor;
+            set
+            {
+                glassBorderColor = value;
+                Invalidate();
+            }
+        }
+
+        [Category("Glass")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Color GlassShineColor
+        {
+            get => glassShineColor;
+            set
+            {
+                glassShineColor = value;
+                Invalidate();
+            }
+        }
+
+        [Category("Glass")]
+        [DefaultValue(4)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public int BlurStrength
+        {
+            get => blurStrength;
+            set
+            {
+                blurStrength = Math.Max(0, Math.Min(10, value));
+                Invalidate();
+            }
+        }
+
         public RoundedPanel()
         {
             DoubleBuffered = true;
@@ -72,29 +148,116 @@
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.UserPaint |
                 ControlStyles.ResizeRedraw |
-                ControlStyles.OptimizedDoubleBuffer, 
+                ControlStyles.OptimizedDoubleBuffer,
             true);
 
             UpdateStyles();
 
         }
 
+        private bool IsInDesignMode =>
+           LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
+           DesignMode;
+
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            Graphics g = e.Graphics;
+
+            g.SmoothingMode = SmoothingMode.AntiAlias;
 
             using (GraphicsPath path = GetRoundPath(ClientRectangle))
-            using (Pen pen = new Pen(Color.FromArgb(120, Color.Black), 2))
             {
-                // Only fill if not transparent
-                if (panelColor.A > 0)
-                {
-                    using (SolidBrush brush = new SolidBrush(panelColor))
-                        e.Graphics.FillPath(brush, path);
-                }
-
-                e.Graphics.DrawPath(pen, path);
+                if (useGlassmorphism)
+                    PaintGlass(g, path);
+                else
+                    PaintNormal(g, path);
             }
+        }
+
+        private void PaintNormal(Graphics g, GraphicsPath path)
+        {
+            using (SolidBrush brush = new SolidBrush(panelColor))
+                g.FillPath(brush, path);
+
+            using (Pen pen =
+                   new Pen(Color.FromArgb(120, Color.Black), 2))
+            {
+                g.DrawPath(pen, path);
+            }
+        }
+
+        private void PaintGlass(Graphics g, GraphicsPath path)
+        {
+            Rectangle rect = ClientRectangle;
+
+            g.SetClip(path);
+
+            bool isWebView = AcrylicRenderer.IsWebViewHost(Parent);
+
+            if (!IsInDesignMode && Parent != null)
+            {
+                if (!isWebView && blurStrength > 0)
+                {
+                    using (Bitmap snap = CaptureParent())
+                    using (Bitmap blur = BlurBitmap(snap))
+                    {
+                        g.DrawImage(blur, rect);
+                    }
+                }
+                else
+                {
+                    AcrylicRenderer.DrawAcrylic(
+                        g,
+                        rect,
+                        glassTintColor,
+                        glassShineColor);
+                }
+            }
+
+            g.ResetClip();
+
+            using (Pen pen = new Pen(glassBorderColor, 1.5f))
+            {
+                g.DrawPath(pen, path);
+            }
+        }
+
+        private Bitmap CaptureParent()
+        {
+            Bitmap bmp = new Bitmap(Width, Height);
+
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.TranslateTransform(-Left, -Top);
+
+                PaintEventArgs pea =
+                    new PaintEventArgs(
+                        g,
+                        new Rectangle(
+                            Left,
+                            Top,
+                            Width,
+                            Height));
+
+                InvokePaintBackground(Parent, pea);
+            }
+
+            return bmp;
+        }
+
+        private Bitmap BlurBitmap(Bitmap src)
+        {
+            // lightweight "softening" instead of fake blur loop
+            Bitmap result = new Bitmap(src.Width, src.Height);
+
+            using (Graphics g = Graphics.FromImage(result))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.DrawImage(src, 0, 0, src.Width, src.Height);
+            }
+
+            return result;
         }
 
         private GraphicsPath GetRoundPath(Rectangle rect)
@@ -144,28 +307,53 @@
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
-            if (panelColor.A == 0 && Parent != null)
+            Graphics g = e.Graphics;
+
+            // =====================================
+            // TRANSPARENT / GLASS BACKGROUND
+            // =====================================
+
+            if ((useGlassmorphism || panelColor.A == 0) &&
+                Parent != null)
             {
-                var g = e.Graphics;
                 g.TranslateTransform(-Left, -Top);
+
                 try
                 {
-                    using (var args = new PaintEventArgs(g, new Rectangle(Left, Top, Width, Height)))
-                    {
-                        InvokePaintBackground(Parent, args);
-                        InvokePaint(Parent, args);
-                    }
+                    PaintEventArgs pea =
+                        new PaintEventArgs(
+                            g,
+                            new Rectangle(
+                                Left,
+                                Top,
+                                Width,
+                                Height));
+
+                    InvokePaintBackground(Parent, pea);
+                    InvokePaint(Parent, pea);
                 }
-                finally { g.ResetTransform(); }
+                finally
+                {
+                    g.ResetTransform();
+                }
             }
             else
             {
-                using (var brush = new SolidBrush(panelColor))
-                    e.Graphics.FillRectangle(brush, ClientRectangle);
+                using (SolidBrush brush =
+                       new SolidBrush(panelColor))
+                {
+                    g.FillRectangle(brush, ClientRectangle);
+                }
             }
 
+            // =====================================
+            // BACKGROUND IMAGE
+            // =====================================
+
             if (BackgroundImage != null)
-                DrawBackgroundImageManual(e.Graphics);
+            {
+                DrawBackgroundImageManual(g);
+            }
         }
 
         private void DrawBackgroundImageManual(Graphics g)
@@ -225,8 +413,7 @@
 
             using (GraphicsPath path = GetRoundPath(ClientRectangle))
             {
-                this.Region?.Dispose();
-                this.Region = new Region(path);
+                Region = new Region(path);
             }
         }
     }

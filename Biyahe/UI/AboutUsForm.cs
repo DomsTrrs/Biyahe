@@ -13,13 +13,7 @@ namespace Biyahe.UI
 
         private void linkLabelHome_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Hide();
-            UserForm uForm = new UserForm(_currUser);
-            uForm.Dock = DockStyle.Fill;
-            uForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(uForm);
-            uForm.Show();
+            MainForm.LoadForm(new UserForm(_currUser));
         }
     }
 }
