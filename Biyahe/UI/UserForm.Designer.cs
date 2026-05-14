@@ -51,6 +51,10 @@
             pBoxNavbar = new PictureBox();
             cBoxLabel = new Label();
             btnQueue = new RoundedButton();
+<<<<<<< HEAD
+=======
+            mapPnl = new Panel();
+>>>>>>> e248e37 (fixed sidebar and optimized animation)
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             sidePanel.SuspendLayout();
             aboutUsPnl.SuspendLayout();
@@ -61,6 +65,7 @@
             navbarPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnPanel).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBoxNavbar).BeginInit();
+            mapPnl.SuspendLayout();
             SuspendLayout();
             // 
             // lblWelcome
@@ -82,10 +87,18 @@
             webView21.AllowExternalDrop = true;
             webView21.CreationProperties = null;
             webView21.DefaultBackgroundColor = Color.White;
+<<<<<<< HEAD
             webView21.Location = new Point(772, 371);
             webView21.Margin = new Padding(2);
             webView21.Name = "webView21";
             webView21.Size = new Size(112, 34);
+=======
+            webView21.Dock = DockStyle.Fill;
+            webView21.Location = new Point(0, 0);
+            webView21.Margin = new Padding(2);
+            webView21.Name = "webView21";
+            webView21.Size = new Size(1262, 673);
+>>>>>>> e248e37 (fixed sidebar and optimized animation)
             webView21.TabIndex = 3;
             webView21.ZoomFactor = 1D;
             // 
@@ -109,10 +122,16 @@
             // 
             // btnSidePnlClose
             // 
+<<<<<<< HEAD
             btnSidePnlClose.Location = new Point(289, 52);
             btnSidePnlClose.Margin = new Padding(4, 4, 4, 4);
             btnSidePnlClose.Name = "btnSidePnlClose";
             btnSidePnlClose.Size = new Size(36, 36);
+=======
+            btnSidePnlClose.Location = new Point(231, 42);
+            btnSidePnlClose.Name = "btnSidePnlClose";
+            btnSidePnlClose.Size = new Size(29, 29);
+>>>>>>> e248e37 (fixed sidebar and optimized animation)
             btnSidePnlClose.TabIndex = 13;
             btnSidePnlClose.UseVisualStyleBackColor = true;
             btnSidePnlClose.Click += btnSidePnlClose_Click;
@@ -358,6 +377,18 @@
             btnQueue.TextImageRelation = TextImageRelation.TextAboveImage;
             btnQueue.UseVisualStyleBackColor = false;
             // 
+<<<<<<< HEAD
+=======
+            // mapPnl
+            // 
+            mapPnl.Controls.Add(webView21);
+            mapPnl.Dock = DockStyle.Fill;
+            mapPnl.Location = new Point(0, 0);
+            mapPnl.Name = "mapPnl";
+            mapPnl.Size = new Size(1262, 673);
+            mapPnl.TabIndex = 13;
+            // 
+>>>>>>> e248e37 (fixed sidebar and optimized animation)
             // UserForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -367,9 +398,9 @@
             Controls.Add(sidePanel);
             Controls.Add(btnQueue);
             Controls.Add(cBoxLabel);
-            Controls.Add(navbarPnl);
             Controls.Add(cBoxRoutes);
-            Controls.Add(webView21);
+            Controls.Add(navbarPnl);
+            Controls.Add(mapPnl);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2);
             Name = "UserForm";
@@ -388,6 +419,7 @@
             navbarPnl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)btnPanel).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBoxNavbar).EndInit();
+            mapPnl.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -416,5 +448,6 @@
         private PictureBox pictureBox3;
         private Panel panel2;
         private Button btnSidePnlClose;
+        private Panel mapPnl;
     }
 }

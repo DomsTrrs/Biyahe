@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Biyahe.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -27,7 +28,7 @@ namespace Biyahe.UI
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            MainForm.LoadForm(new LoginForm());
+            MainForm.LoadForm(new UserForm());
         }
 
         public static void LoadForm(Form form)

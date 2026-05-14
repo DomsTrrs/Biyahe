@@ -1,7 +1,11 @@
 ﻿using Biyahe.Models;
 using Biyahe.Services;
+<<<<<<< HEAD
 using System.Text.Json;
 
+=======
+using System.Diagnostics;
+>>>>>>> e248e37 (fixed sidebar and optimized animation)
 
 
 namespace Biyahe.UI
@@ -11,21 +15,51 @@ namespace Biyahe.UI
         private User _currUser;
         private RouteService _routeService = new RouteService();
 
-        private bool sidebarExpand = false;
-        private const int SidebarExpandedWidth = 280;
-        private const int SidebarCollapsedWidth = 0;
-        private const int SidebarSpeed = 20;
+        private bool isAnimating = false;
+        private bool isOpening = false;
 
-        public UserForm(User user)
+        private int animationStep = 0;
+        private const int totalSteps = 20; // fewer steps = smoother in WinForms
+
+        private const int SidebarWidth = 280;
+
+        private Stopwatch animationWatch = new Stopwatch();
+        private const int animationDuration = 300;
+
+        public UserForm()//User user)
         {
             InitializeComponent();
+<<<<<<< HEAD
             cBoxRoutes.SelectedIndexChanged += cBoxRoutes_SelectedIndexChanged;
             _currUser = user;
             sidePanel.Visible = false;
             sidePanel.Width = SidebarCollapsedWidth;
+=======
+>>>>>>> e248e37 (fixed sidebar and optimized animation)
 
-            sidebarTimer.Interval = 10;
+            this.Controls.Add(sidePanel);
+            sidePanel.BringToFront();
+
+            // LIGHTWEIGHT smoothing only
+            this.DoubleBuffered = true;
+
+            ResetSidebarState();
+            sidebarTimer.Interval = 15;
             sidebarTimer.Tick += SidebarTimer_Tick;
+        }
+
+        private void ResetSidebarState()
+        {
+            isAnimating = false;
+            isOpening = false;
+            animationStep = 0;
+
+            if (sidePanel != null)
+            {
+                sidePanel.Width = SidebarWidth;
+                sidePanel.Left = -SidebarWidth; // hidden off-screen
+                sidePanel.Visible = false;
+            }
         }
 
         private async void UserForm_Load(object sender, EventArgs e)
@@ -45,6 +79,8 @@ namespace Biyahe.UI
             {
                 return;
             }
+
+            webView21.CoreWebView2.Settings.IsGeneralAutofillEnabled = false;
 
             webView21.Dock = DockStyle.Fill;
             string mapPath = Path.Combine(Application.StartupPath, "Map", "map.html");
@@ -94,44 +130,55 @@ namespace Biyahe.UI
 
         private void btnPanel_Click(object sender, EventArgs e)
         {
-            sidebarTimer.Start();
+            if (isAnimating) return;
+
             sidePanel.Visible = true;
             sidePanel.BringToFront();
-            sidebarExpand = false;
+
+            isAnimating = true;
+            isOpening = true;
+
+            animationWatch.Restart();
+            sidebarTimer.Start();
         }
 
         private void SidebarTimer_Tick(object sender, EventArgs e)
         {
-            if (sidebarExpand) // COLLAPSE MODE
+            double elapsed = animationWatch.Elapsed.TotalMilliseconds;
+            float progress = (float)(elapsed / animationDuration);
+
+            if (progress >= 1f)
+                progress = 1f;
+
+            // Easing
+            float eased;
+            if (isOpening)
+                eased = 1f - (float)Math.Pow(1f - progress, 3f);
+            else
+                eased = (float)Math.Pow(progress, 3f);
+
+            // Position
+            int targetX;
+            if (isOpening)
+                targetX = (int)(-SidebarWidth + (SidebarWidth * eased));
+            else
+                targetX = (int)(0 - (SidebarWidth * eased));
+
+            sidePanel.Left = targetX;
+            sidePanel.Invalidate();
+
+            // Done
+            if (progress >= 1f)
             {
-                int speed = SidebarSpeed;
-                if (sidePanel.Width <= 50) speed = SidebarSpeed / 2;
+                sidebarTimer.Stop();
+                isAnimating = false;
 
-                sidePanel.Width -= speed;
-
-                if (sidePanel.Width <= SidebarCollapsedWidth)
+                if (isOpening)
+                    sidePanel.Left = 0;
+                else
                 {
-                    sidePanel.Width = SidebarCollapsedWidth;
-                    sidebarTimer.Stop();
+                    sidePanel.Left = -SidebarWidth;
                     sidePanel.Visible = false;
-                    return; // Early exit
-                }
-            }
-            else // EXPAND MODE
-            {
-                int speed = SidebarSpeed;
-                if (sidePanel.Width >= SidebarExpandedWidth - 20)
-                    speed = SidebarSpeed / 2;
-
-                sidePanel.Width += speed;
-
-                // CHECK WIDTH FIRST - Higher priority clamping
-                if (sidePanel.Width >= SidebarExpandedWidth)
-                {
-                    sidePanel.Width = SidebarExpandedWidth; // FORCE exact 250px
-                    sidebarExpand = true;
-                    sidebarTimer.Stop();
-                    return; // Early exit
                 }
             }
         }
@@ -144,9 +191,28 @@ namespace Biyahe.UI
 
         private void btnSidePnlClose_Click(object sender, EventArgs e)
         {
-            sidebarExpand = true; // Start collapsing (true = collapsing)
-            if (!sidebarTimer.Enabled)
-                sidebarTimer.Start();
+            if (isAnimating) return;
+
+            isAnimating = true;
+            isOpening = false;
+
+            animationWatch.Restart();
+            sidebarTimer.Start();
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                return cp;
+            }
+        }
+
+        protected override void DestroyHandle()
+        {
+            try { sidebarTimer?.Stop(); } catch { }
+            base.DestroyHandle();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)

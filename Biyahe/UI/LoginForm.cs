@@ -54,7 +54,7 @@ namespace Biyahe.UI
                 //for checking db
                 if (user != null)
                 {
-                    MainForm.LoadForm(new UserForm(user));
+                    //MainForm.LoadForm(new UserForm(user));
                 }
                 else if (driver != null)
                 {
