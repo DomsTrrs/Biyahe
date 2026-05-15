@@ -110,16 +110,17 @@
             sidePanel.Name = "sidePanel";
             sidePanel.Size = new Size(280, 671);
             sidePanel.TabIndex = 6;
+            sidePanel.Paint += sidePanel_Paint;
             // 
             // btnSidePnlClose
             // 
             btnSidePnlClose.BackColor = Color.Transparent;
             btnSidePnlClose.Image = Properties.Resources.closeMenuIcon;
-            btnSidePnlClose.Location = new Point(233, 34);
+            btnSidePnlClose.Location = new Point(238, 38);
             btnSidePnlClose.Name = "btnSidePnlClose";
-            btnSidePnlClose.Size = new Size(52, 49);
+            btnSidePnlClose.Size = new Size(41, 42);
             btnSidePnlClose.SizeMode = PictureBoxSizeMode.Zoom;
-            btnSidePnlClose.TabIndex = 11;
+            btnSidePnlClose.TabIndex = 13;
             btnSidePnlClose.TabStop = false;
             btnSidePnlClose.Click += btnSidePnlClose_Click;
             // 
@@ -297,9 +298,9 @@
             // 
             btnPanel.BackColor = Color.Transparent;
             btnPanel.Image = Properties.Resources.menuIcon;
-            btnPanel.Location = new Point(24, 11);
+            btnPanel.Location = new Point(21, 6);
             btnPanel.Name = "btnPanel";
-            btnPanel.Size = new Size(46, 39);
+            btnPanel.Size = new Size(52, 48);
             btnPanel.SizeMode = PictureBoxSizeMode.Zoom;
             btnPanel.TabIndex = 10;
             btnPanel.TabStop = false;
@@ -349,6 +350,7 @@
             btnQueue.Text = "QUEUE";
             btnQueue.TextImageRelation = TextImageRelation.TextAboveImage;
             btnQueue.UseVisualStyleBackColor = false;
+            btnQueue.Click += btnQueue_Click;
             // 
             // mapPnl
             // 

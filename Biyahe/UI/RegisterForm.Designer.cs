@@ -30,6 +30,7 @@
         {
             parentPnl = new RoundedPanel();
             childPnl = new Panel();
+            eyePicBox = new PictureBox();
             lineInBetweenRadioBtns = new Panel();
             btnSignUp = new RoundedButton();
             userRadioBtn = new RadioButton();
@@ -59,12 +60,16 @@
             lblSIgnUp = new Label();
             parentPnl.SuspendLayout();
             childPnl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)eyePicBox).BeginInit();
             SuspendLayout();
             // 
             // parentPnl
             // 
             parentPnl.BackColor = Color.Transparent;
             parentPnl.Controls.Add(childPnl);
+            parentPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
+            parentPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
+            parentPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
             parentPnl.Location = new Point(106, 86);
             parentPnl.Margin = new Padding(3, 2, 3, 2);
             parentPnl.Name = "parentPnl";
@@ -74,6 +79,7 @@
             // 
             // childPnl
             // 
+            childPnl.Controls.Add(eyePicBox);
             childPnl.Controls.Add(lineInBetweenRadioBtns);
             childPnl.Controls.Add(btnSignUp);
             childPnl.Controls.Add(userRadioBtn);
@@ -108,6 +114,19 @@
             childPnl.Name = "childPnl";
             childPnl.Size = new Size(1037, 503);
             childPnl.TabIndex = 1;
+            // 
+            // eyePicBox
+            // 
+            eyePicBox.Image = Properties.Resources.eye_closed;
+            eyePicBox.ImageLocation = "";
+            eyePicBox.InitialImage = Properties.Resources.eye_closed;
+            eyePicBox.Location = new Point(679, 359);
+            eyePicBox.Name = "eyePicBox";
+            eyePicBox.Size = new Size(47, 51);
+            eyePicBox.SizeMode = PictureBoxSizeMode.Zoom;
+            eyePicBox.TabIndex = 36;
+            eyePicBox.TabStop = false;
+            eyePicBox.Click += eyePicBox_Click;
             // 
             // lineInBetweenRadioBtns
             // 
@@ -235,7 +254,7 @@
             txtPassword.Padding = new Padding(7, 0, 7, 0);
             txtPassword.PasswordChar = '\0';
             txtPassword.PlaceholderText = "";
-            txtPassword.Size = new Size(310, 51);
+            txtPassword.Size = new Size(295, 51);
             txtPassword.TabIndex = 32;
             // 
             // txtEmailAdd
@@ -255,7 +274,7 @@
             txtEmailAdd.Padding = new Padding(7, 0, 7, 0);
             txtEmailAdd.PasswordChar = '\0';
             txtEmailAdd.PlaceholderText = "";
-            txtEmailAdd.Size = new Size(310, 51);
+            txtEmailAdd.Size = new Size(295, 51);
             txtEmailAdd.TabIndex = 31;
             // 
             // txtUsername
@@ -276,7 +295,7 @@
             txtUsername.Padding = new Padding(7, 0, 7, 0);
             txtUsername.PasswordChar = '\0';
             txtUsername.PlaceholderText = "";
-            txtUsername.Size = new Size(310, 51);
+            txtUsername.Size = new Size(295, 51);
             txtUsername.TabIndex = 30;
             // 
             // txtLastName
@@ -297,7 +316,7 @@
             txtLastName.Padding = new Padding(7, 0, 7, 0);
             txtLastName.PasswordChar = '\0';
             txtLastName.PlaceholderText = "";
-            txtLastName.Size = new Size(310, 51);
+            txtLastName.Size = new Size(295, 51);
             txtLastName.TabIndex = 29;
             // 
             // txtMiddleName
@@ -318,7 +337,7 @@
             txtMiddleName.Padding = new Padding(7, 0, 7, 0);
             txtMiddleName.PasswordChar = '\0';
             txtMiddleName.PlaceholderText = "";
-            txtMiddleName.Size = new Size(310, 51);
+            txtMiddleName.Size = new Size(295, 51);
             txtMiddleName.TabIndex = 28;
             // 
             // txtFirstName
@@ -339,7 +358,7 @@
             txtFirstName.Padding = new Padding(7, 0, 7, 0);
             txtFirstName.PasswordChar = '\0';
             txtFirstName.PlaceholderText = "";
-            txtFirstName.Size = new Size(310, 51);
+            txtFirstName.Size = new Size(295, 51);
             txtFirstName.TabIndex = 27;
             // 
             // required5
@@ -516,12 +535,12 @@
             // 
             // RegisterForm
             // 
-            DoubleBuffered = true;
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.bgImg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1262, 673);
             Controls.Add(parentPnl);
+            DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
             Name = "RegisterForm";
@@ -530,6 +549,7 @@
             parentPnl.ResumeLayout(false);
             childPnl.ResumeLayout(false);
             childPnl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)eyePicBox).EndInit();
             ResumeLayout(false);
         }
 
@@ -564,5 +584,6 @@
         private RoundedTextBox txtPlateNumber;
         private RoundedButton btnSignUp;
         private Panel lineInBetweenRadioBtns;
+        private PictureBox eyePicBox;
     }
 }

@@ -65,26 +65,10 @@ namespace Biyahe.DataAccess
             return null;
         }//FindUserByUsername
 
-        //get location 
-        public void UpdateLocation(int userId, double latitude, double longitude)
-        {
-            string updateSql = "UPDATE Users SET Latitude = @Latitude, Longitude = @Longitude WHERE UserID = @UserID";
-            using (var sqlConnect = new SqlConnection(DatabaseConfig.Connection))
-            using (var sCmd = new SqlCommand(updateSql, sqlConnect))
-            {
-                sCmd.Parameters.AddWithValue("@Latitude", latitude);
-                sCmd.Parameters.AddWithValue("@Longitude", longitude);
-                sCmd.Parameters.AddWithValue("@UserID", userId);
-                sqlConnect.Open();
-                sCmd.ExecuteNonQuery();
-                sqlConnect.Close();
-            }
-        }//UpdateUserLocation
-
         public User GetUserById(int userId)
         {
             string selectSql = @"SELECT UserID, FirstName, MiddleName, LastName, Username, emailAdd, SeniorOrPwd, Latitude, 
-                               Longitude, LastLocated FROM Users WHERE UserID = @userId";
+                       Longitude, LastLocated FROM Users WHERE UserID = @userId";
 
             using (var sqlConnect = new SqlConnection(DatabaseConfig.Connection))
             using (var sCmd = new SqlCommand(selectSql, sqlConnect))
@@ -107,13 +91,17 @@ namespace Biyahe.DataAccess
                             Latitude = reader["Latitude"] as double?,
                             Longitude = reader["Longitude"] as double?,
                             LastLocated = reader["LastLocated"] as DateTime?,
-                          
+
                         };
                     }
                 }
             }
             return null;
         }//GetUserById
+
+
+
+
 
 
     }// UserRepository 

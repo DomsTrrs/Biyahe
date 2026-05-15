@@ -42,33 +42,35 @@ namespace Biyahe.UI
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
-            string password = txtPassword.Text.Trim();
+            string password = txtPassword.Text;
 
-            AuthService service = new AuthService();
-            User user = service.userLogin(username, password);
-            Driver driver = service.driverLogin(username, password);
-
-
-            if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrEmpty(password))
-            {
-                //for checking db
-                if (user != null)
-                {
-                    MainForm.LoadForm(new UserForm(user));
-                }
-                else if (driver != null)
-                {
-                    MainForm.LoadForm(new DriverForm(driver));
-                }
-                else
-                {
-                    lblTag.Text = "Invalid Username or Password";
-                }
-            } else
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrEmpty(password))
             {
                 lblTag.Text = "No input detected.";
+                return;
             }
+
+            AuthService service = new AuthService();
+
+            User user = service.userLogin(username, password);
+
+            if (user != null)
+            {
+                MainForm.LoadForm(new UserForm(user));
+                return;
+            }
+
+            Driver driver = service.driverLogin(username, password);
+
+            if (driver != null)
+            {
+                MainForm.LoadForm(new DriverForm(driver));
+                return;
+            }
+
+            lblTag.Text = "Invalid Username or Password";
         }
+
 
         private void eyePicBox_Click(object sender, EventArgs e)
         {
