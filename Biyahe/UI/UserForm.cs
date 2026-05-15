@@ -1,7 +1,9 @@
 ﻿using Biyahe.Models;
 using Biyahe.Services;
+using Biyahe.DataAccess;
 using System.Text.Json;
 
+using System.Diagnostics;
 
 
 namespace Biyahe.UI
@@ -9,31 +11,64 @@ namespace Biyahe.UI
     public partial class UserForm : Form
     {
         private User _currUser;
+        private UserRepository _userRepo = new UserRepository();
         private RouteService _routeService = new RouteService();
         private QueueService _queueService = new QueueService();
 
-        private bool sidebarExpand = false;
-        private const int SidebarExpandedWidth = 280;
-        private const int SidebarCollapsedWidth = 0;
-        private const int SidebarSpeed = 20;
+        private bool isAnimating = false;
+        private bool isOpening = false;
+
+        private int animationStep = 0;  // fewer steps = smoother in WinForms
+
+        private const int SidebarWidth = 280;
+
+        private Stopwatch animationWatch = new Stopwatch();
+        private const int animationDuration = 300;
 
         public UserForm(User user)
         {
             InitializeComponent();
             cBoxRoutes.SelectedIndexChanged += cBoxRoutes_SelectedIndexChanged;
-            _currUser = user;
             sidePanel.Visible = false;
-            sidePanel.Width = SidebarCollapsedWidth;
 
-            sidebarTimer.Interval = 10;
+            this.Controls.Add(sidePanel);
+            sidePanel.BringToFront();
+
+            // LIGHTWEIGHT smoothing only
+            this.DoubleBuffered = true;
+
+            _currUser = user;
+            ResetSidebarState();
+            sidebarTimer.Interval = 15;
             sidebarTimer.Tick += SidebarTimer_Tick;
+        }
+
+        private void PassengerForm_Load(object sender, EventArgs e)
+        {
+            cBoxRoutes.DataSource = _routeService.GetActiveRoutes();
+            cBoxRoutes.DisplayMember = "RouteName";
+            cBoxRoutes.ValueMember = "RouteID";
+        }
+
+        private void ResetSidebarState()
+        {
+            isAnimating = false;
+            isOpening = false;
+            animationStep = 0;
+
+            if (sidePanel != null)
+            {
+                sidePanel.Width = SidebarWidth;
+                sidePanel.Left = -SidebarWidth; // hidden off-screen
+                sidePanel.Visible = false;
+            }
         }
 
         private async void UserForm_Load(object sender, EventArgs e)
         {
             if (_currUser != null)
             {
-                lblWelcome.Text = $"{_currUser.FirstName} {_currUser.MiddleName} {_currUser.LastName}";
+                lblWelcome.Text = $"{_currUser.FirstName}";
             }
             else
             {
@@ -46,6 +81,8 @@ namespace Biyahe.UI
             {
                 return;
             }
+
+            webView21.CoreWebView2.Settings.IsGeneralAutofillEnabled = false;
 
             webView21.Dock = DockStyle.Fill;
             string mapPath = Path.Combine(Application.StartupPath, "Map", "map.html");
@@ -60,12 +97,14 @@ namespace Biyahe.UI
 
         private async void cBoxRoutes_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             if (cBoxRoutes.SelectedItem == null)
             {
                 return;
             }
 
             Routes selectedRoute = (Routes)cBoxRoutes.SelectedItem;
+
 
             cBoxLabel.Text = "Selected Route: " + selectedRoute.RouteName;
 
@@ -95,44 +134,55 @@ namespace Biyahe.UI
 
         private void btnPanel_Click(object sender, EventArgs e)
         {
-            sidebarTimer.Start();
+            if (isAnimating) return;
+
             sidePanel.Visible = true;
             sidePanel.BringToFront();
-            sidebarExpand = false;
+
+            isAnimating = true;
+            isOpening = true;
+
+            animationWatch.Restart();
+            sidebarTimer.Start();
         }
 
         private void SidebarTimer_Tick(object sender, EventArgs e)
         {
-            if (sidebarExpand) // COLLAPSE MODE
+            double elapsed = animationWatch.Elapsed.TotalMilliseconds;
+            float progress = (float)(elapsed / animationDuration);
+
+            if (progress >= 1f)
+                progress = 1f;
+
+            // Easing
+            float eased;
+            if (isOpening)
+                eased = 1f - (float)Math.Pow(1f - progress, 3f);
+            else
+                eased = (float)Math.Pow(progress, 3f);
+
+            // Position
+            int targetX;
+            if (isOpening)
+                targetX = (int)(-SidebarWidth + (SidebarWidth * eased));
+            else
+                targetX = (int)(0 - (SidebarWidth * eased));
+
+            sidePanel.Left = targetX;
+            sidePanel.Invalidate();
+
+            // Done
+            if (progress >= 1f)
             {
-                int speed = SidebarSpeed;
-                if (sidePanel.Width <= 50) speed = SidebarSpeed / 2;
+                sidebarTimer.Stop();
+                isAnimating = false;
 
-                sidePanel.Width -= speed;
-
-                if (sidePanel.Width <= SidebarCollapsedWidth)
+                if (isOpening)
+                    sidePanel.Left = 0;
+                else
                 {
-                    sidePanel.Width = SidebarCollapsedWidth;
-                    sidebarTimer.Stop();
+                    sidePanel.Left = -SidebarWidth;
                     sidePanel.Visible = false;
-                    return; // Early exit
-                }
-            }
-            else // EXPAND MODE
-            {
-                int speed = SidebarSpeed;
-                if (sidePanel.Width >= SidebarExpandedWidth - 20)
-                    speed = SidebarSpeed / 2;
-
-                sidePanel.Width += speed;
-
-                // CHECK WIDTH FIRST - Higher priority clamping
-                if (sidePanel.Width >= SidebarExpandedWidth)
-                {
-                    sidePanel.Width = SidebarExpandedWidth; // FORCE exact 250px
-                    sidebarExpand = true;
-                    sidebarTimer.Stop();
-                    return; // Early exit
                 }
             }
         }
@@ -145,9 +195,28 @@ namespace Biyahe.UI
 
         private void btnSidePnlClose_Click(object sender, EventArgs e)
         {
-            sidebarExpand = true; // Start collapsing (true = collapsing)
-            if (!sidebarTimer.Enabled)
-                sidebarTimer.Start();
+            if (isAnimating) return;
+
+            isAnimating = true;
+            isOpening = false;
+
+            animationWatch.Restart();
+            sidebarTimer.Start();
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                return cp;
+            }
+        }
+
+        protected override void DestroyHandle()
+        {
+            try { sidebarTimer?.Stop(); } catch { }
+            base.DestroyHandle();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -156,19 +225,29 @@ namespace Biyahe.UI
             DialogResult result = MessageBox.Show("Do you wish to logout?", "Logout Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                this.Hide();
-                LoginForm lForm = new LoginForm();
-                lForm.Dock = DockStyle.Fill;
-                lForm.TopLevel = false;
-                MainForm.MainPanel.Controls.Clear();
-                MainForm.MainPanel.Controls.Add(lForm);
-                lForm.Show();
+                MainForm.LoadForm(new LoginForm());
+            }
+            this.Hide();
+            LoginForm lForm = new LoginForm();
+            lForm.Dock = DockStyle.Fill;
+            lForm.TopLevel = false;
+            MainForm.MainPanel.Controls.Clear();
+            MainForm.MainPanel.Controls.Add(lForm);
+            lForm.Show();
             }
         }
 
         private void btnQueue_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Testing");
+            if(btnQueue.Text == "QUEUE")
+            {
+                btnQueue.Text = "CANCEL";
+            } 
+            else
+            {
+                btnQueue.Text = "QUEUE";
+            }
 
             if (cBoxRoutes.SelectedItem is not Routes selectedRoute)
             {
@@ -198,6 +277,12 @@ namespace Biyahe.UI
                     MessageBoxIcon.Error
                 );
             }
+
+        }
+
+        private void sidePanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
 

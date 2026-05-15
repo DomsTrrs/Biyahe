@@ -32,18 +32,18 @@
             lblWelcome = new Label();
             webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             sidePanel = new Panel();
-            btnSidePnlClose = new Button();
+            btnSidePnlClose = new PictureBox();
+            userPnl = new RoundedPanel();
+            pictureBox2 = new PictureBox();
+            archetype = new Label();
+            pictureBox1 = new PictureBox();
             panel2 = new Panel();
             aboutUsPnl = new RoundedPanel();
             pictureBox3 = new PictureBox();
             linkAboutUs = new LinkLabel();
             version = new Label();
             panel1 = new Panel();
-            userPnl = new RoundedPanel();
-            pictureBox2 = new PictureBox();
-            archetype = new Label();
             btnLogout = new RoundedButton();
-            pictureBox1 = new PictureBox();
             sidebarTimer = new System.Windows.Forms.Timer(components);
             cBoxRoutes = new RoundComboBox();
             navbarPnl = new RoundedPanel();
@@ -51,16 +51,19 @@
             pBoxNavbar = new PictureBox();
             cBoxLabel = new Label();
             btnQueue = new RoundedButton();
+            mapPnl = new Panel();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             sidePanel.SuspendLayout();
-            aboutUsPnl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnSidePnlClose).BeginInit();
             userPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            aboutUsPnl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             navbarPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnPanel).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBoxNavbar).BeginInit();
+            mapPnl.SuspendLayout();
             SuspendLayout();
             // 
             // lblWelcome
@@ -82,6 +85,11 @@
             webView21.AllowExternalDrop = true;
             webView21.CreationProperties = null;
             webView21.DefaultBackgroundColor = Color.White;
+            webView21.Dock = DockStyle.Fill;
+            webView21.Location = new Point(0, 0);
+            webView21.Margin = new Padding(2);
+            webView21.Name = "webView21";
+            webView21.Size = new Size(1262, 673);
             webView21.Location = new Point(618, 297);
             webView21.Margin = new Padding(2);
             webView21.Name = "webView21";
@@ -94,27 +102,84 @@
             sidePanel.BackColor = Color.White;
             sidePanel.BorderStyle = BorderStyle.FixedSingle;
             sidePanel.Controls.Add(btnSidePnlClose);
+            sidePanel.Controls.Add(userPnl);
+            sidePanel.Controls.Add(pictureBox1);
             sidePanel.Controls.Add(panel2);
             sidePanel.Controls.Add(aboutUsPnl);
             sidePanel.Controls.Add(version);
             sidePanel.Controls.Add(panel1);
-            sidePanel.Controls.Add(userPnl);
             sidePanel.Controls.Add(btnLogout);
-            sidePanel.Controls.Add(pictureBox1);
-            sidePanel.Location = new Point(1, 1);
+            sidePanel.Location = new Point(2, 2);
             sidePanel.Margin = new Padding(2);
             sidePanel.Name = "sidePanel";
             sidePanel.Size = new Size(280, 671);
             sidePanel.TabIndex = 6;
+            sidePanel.Paint += sidePanel_Paint;
             // 
             // btnSidePnlClose
             // 
+            btnSidePnlClose.BackColor = Color.Transparent;
+            btnSidePnlClose.Image = Properties.Resources.closeMenuIcon;
+            btnSidePnlClose.Location = new Point(238, 38);
+            btnSidePnlClose.Name = "btnSidePnlClose";
+            btnSidePnlClose.Size = new Size(41, 42);
+            btnSidePnlClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnSidePnlClose.Location = new Point(231, 42);
             btnSidePnlClose.Name = "btnSidePnlClose";
             btnSidePnlClose.Size = new Size(29, 29);
             btnSidePnlClose.TabIndex = 13;
-            btnSidePnlClose.UseVisualStyleBackColor = true;
+            btnSidePnlClose.TabStop = false;
             btnSidePnlClose.Click += btnSidePnlClose_Click;
+            // 
+            // userPnl
+            // 
+            userPnl.BackColor = Color.Transparent;
+            userPnl.Controls.Add(pictureBox2);
+            userPnl.Controls.Add(lblWelcome);
+            userPnl.Controls.Add(archetype);
+            userPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
+            userPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
+            userPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
+            userPnl.Location = new Point(10, 190);
+            userPnl.Name = "userPnl";
+            userPnl.PanelColor = Color.FromArgb(235, 239, 255);
+            userPnl.Size = new Size(250, 113);
+            userPnl.TabIndex = 13;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Image = Properties.Resources.profileIcon;
+            pictureBox2.Location = new Point(6, 16);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(88, 84);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.TabIndex = 13;
+            pictureBox2.TabStop = false;
+            // 
+            // archetype
+            // 
+            archetype.AutoSize = true;
+            archetype.BackColor = Color.Transparent;
+            archetype.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            archetype.ForeColor = Color.FromArgb(81, 112, 255);
+            archetype.Location = new Point(96, 70);
+            archetype.Margin = new Padding(2, 0, 2, 0);
+            archetype.Name = "archetype";
+            archetype.Size = new Size(78, 20);
+            archetype.TabIndex = 2;
+            archetype.Text = "Passenger";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.logo;
+            pictureBox1.Location = new Point(10, -1);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(241, 207);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 10;
+            pictureBox1.TabStop = false;
             // 
             // panel2
             // 
@@ -290,6 +355,9 @@
             // 
             btnPanel.BackColor = Color.Transparent;
             btnPanel.Image = Properties.Resources.menuIcon;
+            btnPanel.Location = new Point(21, 6);
+            btnPanel.Name = "btnPanel";
+            btnPanel.Size = new Size(52, 48);
             btnPanel.Location = new Point(21, 3);
             btnPanel.Name = "btnPanel";
             btnPanel.Size = new Size(52, 54);
@@ -344,18 +412,28 @@
             btnQueue.UseVisualStyleBackColor = false;
             btnQueue.Click += btnQueue_Click;
             // 
+            // mapPnl
+            // 
+            mapPnl.Controls.Add(sidePanel);
+            mapPnl.Controls.Add(webView21);
+            mapPnl.Dock = DockStyle.Fill;
+            mapPnl.Location = new Point(0, 0);
+            mapPnl.Margin = new Padding(2);
+            mapPnl.Name = "mapPnl";
+            mapPnl.Size = new Size(1262, 673);
+            mapPnl.TabIndex = 13;
+            // 
             // UserForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1262, 673);
             ControlBox = false;
-            Controls.Add(sidePanel);
             Controls.Add(btnQueue);
             Controls.Add(cBoxLabel);
-            Controls.Add(navbarPnl);
             Controls.Add(cBoxRoutes);
-            Controls.Add(webView21);
+            Controls.Add(navbarPnl);
+            Controls.Add(mapPnl);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2);
             Name = "UserForm";
@@ -364,16 +442,18 @@
             ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
             sidePanel.ResumeLayout(false);
             sidePanel.PerformLayout();
-            aboutUsPnl.ResumeLayout(false);
-            aboutUsPnl.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnSidePnlClose).EndInit();
             userPnl.ResumeLayout(false);
             userPnl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            aboutUsPnl.ResumeLayout(false);
+            aboutUsPnl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             navbarPnl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)btnPanel).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBoxNavbar).EndInit();
+            mapPnl.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -401,6 +481,7 @@
         private RoundedPanel aboutUsPnl;
         private PictureBox pictureBox3;
         private Panel panel2;
-        private Button btnSidePnlClose;
+        private Panel mapPnl;
+        private PictureBox btnSidePnlClose;
     }
 }
