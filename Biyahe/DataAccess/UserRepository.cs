@@ -64,5 +64,57 @@ namespace Biyahe.DataAccess
             }
             return null;
         }//FindUserByUsername
+
+        //get location 
+        public void UpdateLocation(int userId, double latitude, double longitude)
+        {
+            string updateSql = "UPDATE Users SET Latitude = @Latitude, Longitude = @Longitude WHERE UserID = @UserID";
+            using (var sqlConnect = new SqlConnection(DatabaseConfig.Connection))
+            using (var sCmd = new SqlCommand(updateSql, sqlConnect))
+            {
+                sCmd.Parameters.AddWithValue("@Latitude", latitude);
+                sCmd.Parameters.AddWithValue("@Longitude", longitude);
+                sCmd.Parameters.AddWithValue("@UserID", userId);
+                sqlConnect.Open();
+                sCmd.ExecuteNonQuery();
+                sqlConnect.Close();
+            }
+        }//UpdateUserLocation
+
+        public User GetUserById(int userId)
+        {
+            string selectSql = @"SELECT UserID, FirstName, MiddleName, LastName, Username, emailAdd, SeniorOrPwd, Latitude, 
+                               Longitude, LastLocated FROM Users WHERE UserID = @userId";
+
+            using (var sqlConnect = new SqlConnection(DatabaseConfig.Connection))
+            using (var sCmd = new SqlCommand(selectSql, sqlConnect))
+            {
+                sCmd.Parameters.AddWithValue("@UserID", userId);
+                sqlConnect.Open();
+                using (var reader = sCmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new User
+                        {
+                            UserID = (int)reader["UserID"],
+                            FirstName = reader["FirstName"].ToString(),
+                            MiddleName = reader["MiddleName"].ToString(),
+                            LastName = reader["LastName"].ToString(),
+                            Username = reader["Username"].ToString(),
+                            emailAdd = reader["emailAdd"].ToString(),
+                            SeniorOrPwd = (bool)reader["SeniorOrPwd"],
+                            Latitude = reader["Latitude"] as double?,
+                            Longitude = reader["Longitude"] as double?,
+                            LastLocated = reader["LastLocated"] as DateTime?,
+                          
+                        };
+                    }
+                }
+            }
+            return null;
+        }//GetUserById
+
+
     }// UserRepository 
 }//namespace

@@ -16,6 +16,11 @@ namespace Biyahe.Models
         public string Password { get; set; }
         public string emailAdd { get; set; }
         public bool SeniorOrPwd { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public DateTime? LastLocated { get; set; }
+
+
 
         //First constructor for inserting users
         public User(string firstName, string middleName, string lastName,

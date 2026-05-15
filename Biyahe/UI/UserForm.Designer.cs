@@ -84,15 +84,11 @@
             webView21.AllowExternalDrop = true;
             webView21.CreationProperties = null;
             webView21.DefaultBackgroundColor = Color.White;
-            webView21.Location = new Point(772, 371);
-            webView21.Margin = new Padding(2);
-            webView21.Name = "webView21";
-            webView21.Size = new Size(112, 34);
             webView21.Dock = DockStyle.Fill;
             webView21.Location = new Point(0, 0);
             webView21.Margin = new Padding(2);
             webView21.Name = "webView21";
-            webView21.Size = new Size(1262, 673);
+            webView21.Size = new Size(1578, 841);
             webView21.TabIndex = 3;
             webView21.ZoomFactor = 1D;
             // 
@@ -116,11 +112,8 @@
             // 
             // btnSidePnlClose
             // 
-            btnSidePnlClose.Location = new Point(289, 52);
-            btnSidePnlClose.Margin = new Padding(4, 4, 4, 4);
-            btnSidePnlClose.Name = "btnSidePnlClose";
-            btnSidePnlClose.Size = new Size(36, 36);
             btnSidePnlClose.Location = new Point(231, 42);
+            btnSidePnlClose.Margin = new Padding(4);
             btnSidePnlClose.Name = "btnSidePnlClose";
             btnSidePnlClose.Size = new Size(29, 29);
             btnSidePnlClose.TabIndex = 13;
@@ -131,7 +124,7 @@
             // 
             panel2.BackColor = Color.DarkGray;
             panel2.Location = new Point(12, 511);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.Size = new Size(312, 2);
             panel2.TabIndex = 14;
@@ -144,7 +137,7 @@
             aboutUsPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
             aboutUsPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
             aboutUsPnl.Location = new Point(12, 419);
-            aboutUsPnl.Margin = new Padding(4, 4, 4, 4);
+            aboutUsPnl.Margin = new Padding(4);
             aboutUsPnl.Name = "aboutUsPnl";
             aboutUsPnl.PanelColor = Color.FromArgb(73, 96, 206);
             aboutUsPnl.Size = new Size(312, 71);
@@ -155,7 +148,7 @@
             pictureBox3.BackColor = Color.Transparent;
             pictureBox3.Image = Properties.Resources.infoIcon;
             pictureBox3.Location = new Point(45, 15);
-            pictureBox3.Margin = new Padding(4, 4, 4, 4);
+            pictureBox3.Margin = new Padding(4);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(39, 42);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
@@ -195,7 +188,7 @@
             // 
             panel1.BackColor = Color.DarkGray;
             panel1.Location = new Point(12, 396);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(312, 2);
             panel1.TabIndex = 13;
@@ -210,7 +203,7 @@
             userPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
             userPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
             userPnl.Location = new Point(12, 238);
-            userPnl.Margin = new Padding(4, 4, 4, 4);
+            userPnl.Margin = new Padding(4);
             userPnl.Name = "userPnl";
             userPnl.PanelColor = Color.FromArgb(235, 239, 255);
             userPnl.Size = new Size(312, 141);
@@ -221,7 +214,7 @@
             pictureBox2.BackColor = Color.Transparent;
             pictureBox2.Image = Properties.Resources.profileIcon;
             pictureBox2.Location = new Point(8, 20);
-            pictureBox2.Margin = new Padding(4, 4, 4, 4);
+            pictureBox2.Margin = new Padding(4);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(110, 105);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -255,7 +248,7 @@
             btnLogout.ForeColor = Color.White;
             btnLogout.HoverColor = Color.FromArgb(73, 96, 206);
             btnLogout.Location = new Point(12, 724);
-            btnLogout.Margin = new Padding(4, 4, 4, 4);
+            btnLogout.Margin = new Padding(4);
             btnLogout.Name = "btnLogout";
             btnLogout.NormalColor = Color.FromArgb(81, 112, 255);
             btnLogout.Size = new Size(312, 65);
@@ -270,7 +263,7 @@
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = Properties.Resources.logo;
             pictureBox1.Location = new Point(12, -1);
-            pictureBox1.Margin = new Padding(4, 4, 4, 4);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(301, 259);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -285,7 +278,7 @@
             cBoxRoutes.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cBoxRoutes.ForeColor = Color.FromArgb(81, 112, 255);
             cBoxRoutes.Location = new Point(926, 761);
-            cBoxRoutes.Margin = new Padding(4, 4, 4, 4);
+            cBoxRoutes.Margin = new Padding(4);
             cBoxRoutes.Name = "cBoxRoutes";
             cBoxRoutes.SelectedIndex = -1;
             cBoxRoutes.Size = new Size(312, 52);
@@ -301,7 +294,7 @@
             navbarPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
             navbarPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
             navbarPnl.Location = new Point(55, 40);
-            navbarPnl.Margin = new Padding(4, 4, 4, 4);
+            navbarPnl.Margin = new Padding(4);
             navbarPnl.Name = "navbarPnl";
             navbarPnl.PanelColor = Color.Transparent;
             navbarPnl.Size = new Size(1452, 74);
@@ -312,7 +305,7 @@
             btnPanel.BackColor = Color.Transparent;
             btnPanel.Image = Properties.Resources.menuIcon;
             btnPanel.Location = new Point(26, 4);
-            btnPanel.Margin = new Padding(4, 4, 4, 4);
+            btnPanel.Margin = new Padding(4);
             btnPanel.Name = "btnPanel";
             btnPanel.Size = new Size(65, 68);
             btnPanel.SizeMode = PictureBoxSizeMode.Zoom;
@@ -325,7 +318,7 @@
             pBoxNavbar.BackColor = Color.Transparent;
             pBoxNavbar.Image = Properties.Resources.navbarLogo;
             pBoxNavbar.Location = new Point(1220, -60);
-            pBoxNavbar.Margin = new Padding(4, 4, 4, 4);
+            pBoxNavbar.Margin = new Padding(4);
             pBoxNavbar.Name = "pBoxNavbar";
             pBoxNavbar.Size = new Size(296, 200);
             pBoxNavbar.SizeMode = PictureBoxSizeMode.Zoom;
@@ -359,7 +352,7 @@
             btnQueue.ForeColor = Color.White;
             btnQueue.HoverColor = Color.FromArgb(73, 96, 206);
             btnQueue.Location = new Point(1298, 726);
-            btnQueue.Margin = new Padding(4, 4, 4, 4);
+            btnQueue.Margin = new Padding(4);
             btnQueue.Name = "btnQueue";
             btnQueue.NormalColor = Color.FromArgb(81, 112, 255);
             btnQueue.Size = new Size(235, 88);
@@ -367,6 +360,7 @@
             btnQueue.Text = "QUEUE";
             btnQueue.TextImageRelation = TextImageRelation.TextAboveImage;
             btnQueue.UseVisualStyleBackColor = false;
+            btnQueue.Click += btnQueue_Click;
             // 
             // mapPnl
             // 
@@ -374,7 +368,7 @@
             mapPnl.Dock = DockStyle.Fill;
             mapPnl.Location = new Point(0, 0);
             mapPnl.Name = "mapPnl";
-            mapPnl.Size = new Size(1262, 673);
+            mapPnl.Size = new Size(1578, 841);
             mapPnl.TabIndex = 13;
             // 
             // UserForm

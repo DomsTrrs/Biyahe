@@ -1,5 +1,6 @@
 ﻿using Biyahe.Models;
 using Biyahe.Services;
+using Biyahe.DataAccess;
 using System.Text.Json;
 
 using System.Diagnostics;
@@ -10,7 +11,9 @@ namespace Biyahe.UI
     public partial class UserForm : Form
     {
         private User _currUser;
+        private UserRepository _userRepo = new UserRepository();
         private RouteService _routeService = new RouteService();
+        private QueueService _queueService = new QueueService();
 
         private bool isAnimating = false;
         private bool isOpening = false;
@@ -39,6 +42,13 @@ namespace Biyahe.UI
             ResetSidebarState();
             sidebarTimer.Interval = 15;
             sidebarTimer.Tick += SidebarTimer_Tick;
+        }
+
+        private void PassengerForm_Load(object sender, EventArgs e)
+        {
+            cBoxRoutes.DataSource = _routeService.GetActiveRoutes();
+            cBoxRoutes.DisplayMember = "RouteName";
+            cBoxRoutes.ValueMember = "RouteID";
         }
 
         private void ResetSidebarState()
@@ -88,12 +98,14 @@ namespace Biyahe.UI
 
         private async void cBoxRoutes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
             if (cBoxRoutes.SelectedItem == null)
             {
                 return;
             }
 
             Routes selectedRoute = (Routes)cBoxRoutes.SelectedItem;
+
 
             cBoxLabel.Text = "Selected Route: " + selectedRoute.RouteName;
 
@@ -221,7 +233,42 @@ namespace Biyahe.UI
                 MainForm.MainPanel.Controls.Clear();
                 MainForm.MainPanel.Controls.Add(lForm);
                 lForm.Show();
-            } 
+            }
+        }
+
+        private void btnQueue_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Testing");
+
+            if (cBoxRoutes.SelectedItem is not Routes selectedRoute)
+            {
+                MessageBox.Show("Please select a route first.");
+                return;
+            }
+
+            try
+            {
+                int userId = _currUser.UserID; // replace with your logged-in user
+
+                var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
+
+                MessageBox.Show(
+                    $"You are now queued for {selectedRoute.RouteName}.\nYour queue position is #{result.position}.",
+                    "Queue Successful",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Unable to join queue: " + ex.Message,
+                    "Queue Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+
         }
     }
 }
