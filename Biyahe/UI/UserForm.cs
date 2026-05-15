@@ -29,7 +29,6 @@ namespace Biyahe.UI
         {
             InitializeComponent();
             cBoxRoutes.SelectedIndexChanged += cBoxRoutes_SelectedIndexChanged;
-            _currUser = user;
             sidePanel.Visible = false;
 
             this.Controls.Add(sidePanel);
@@ -226,6 +225,8 @@ namespace Biyahe.UI
             DialogResult result = MessageBox.Show("Do you wish to logout?", "Logout Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
+                MainForm.LoadForm(new LoginForm());
+            } 
                 this.Hide();
                 LoginForm lForm = new LoginForm();
                 lForm.Dock = DockStyle.Fill;

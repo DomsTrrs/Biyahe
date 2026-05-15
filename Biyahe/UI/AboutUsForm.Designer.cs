@@ -28,48 +28,74 @@
         /// </summary>
         private void InitializeComponent()
         {
-            labelAboutUs = new Label();
             linkLabelHome = new LinkLabel();
+            pictureBox1 = new PictureBox();
+            homepagePnl = new RoundedPanel();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            homepagePnl.SuspendLayout();
             SuspendLayout();
-            // 
-            // labelAboutUs
-            // 
-            labelAboutUs.AutoSize = true;
-            labelAboutUs.Location = new Point(23, 20);
-            labelAboutUs.Name = "labelAboutUs";
-            labelAboutUs.Size = new Size(87, 25);
-            labelAboutUs.TabIndex = 0;
-            labelAboutUs.Text = "About Us";
             // 
             // linkLabelHome
             // 
             linkLabelHome.AutoSize = true;
-            linkLabelHome.Location = new Point(116, 20);
+            linkLabelHome.Location = new Point(44, 10);
+            linkLabelHome.Margin = new Padding(2, 0, 2, 0);
             linkLabelHome.Name = "linkLabelHome";
-            linkLabelHome.Size = new Size(98, 25);
+            linkLabelHome.Size = new Size(81, 20);
             linkLabelHome.TabIndex = 1;
             linkLabelHome.TabStop = true;
             linkLabelHome.Text = "homepage";
             linkLabelHome.LinkClicked += linkLabelHome_LinkClicked;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.Image = Properties.Resources.aboutUs;
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(1262, 673);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 2;
+            pictureBox1.TabStop = false;
+            // 
+            // homepagePnl
+            // 
+            homepagePnl.BackColor = Color.Transparent;
+            homepagePnl.Controls.Add(linkLabelHome);
+            homepagePnl.CornerRadiusBottomLeft = 10;
+            homepagePnl.CornerRadiusBottomRight = 10;
+            homepagePnl.CornerRadiusTopLeft = 10;
+            homepagePnl.CornerRadiusTopRight = 10;
+            homepagePnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
+            homepagePnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
+            homepagePnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
+            homepagePnl.Location = new Point(439, 605);
+            homepagePnl.Name = "homepagePnl";
+            homepagePnl.Size = new Size(174, 38);
+            homepagePnl.TabIndex = 3;
+            // 
             // AboutUsForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = SystemColors.ControlLightLight;
+            ClientSize = new Size(1262, 673);
             ControlBox = false;
-            Controls.Add(linkLabelHome);
-            Controls.Add(labelAboutUs);
+            Controls.Add(homepagePnl);
+            Controls.Add(pictureBox1);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(2);
             Name = "AboutUsForm";
             Text = "AboutUs";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            homepagePnl.ResumeLayout(false);
+            homepagePnl.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private Label labelAboutUs;
         private LinkLabel linkLabelHome;
+        private PictureBox pictureBox1;
+        private RoundedPanel homepagePnl;
     }
 }
