@@ -234,6 +234,7 @@ namespace Biyahe.UI
             MainForm.MainPanel.Controls.Clear();
             MainForm.MainPanel.Controls.Add(lForm);
             lForm.Show();
+            }
         }
 
         private void btnQueue_Click(object sender, EventArgs e)
@@ -283,5 +284,10 @@ namespace Biyahe.UI
         {
 
         }
+
+
+
+
+
     }
 }
