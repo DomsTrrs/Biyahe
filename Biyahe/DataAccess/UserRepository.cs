@@ -64,5 +64,45 @@ namespace Biyahe.DataAccess
             }
             return null;
         }//FindUserByUsername
+
+        public User GetUserById(int userId)
+        {
+            string selectSql = @"SELECT UserID, FirstName, MiddleName, LastName, Username, emailAdd, SeniorOrPwd, Latitude, 
+                       Longitude, LastLocated FROM Users WHERE UserID = @userId";
+
+            using (var sqlConnect = new SqlConnection(DatabaseConfig.Connection))
+            using (var sCmd = new SqlCommand(selectSql, sqlConnect))
+            {
+                sCmd.Parameters.AddWithValue("@UserID", userId);
+                sqlConnect.Open();
+                using (var reader = sCmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new User
+                        {
+                            UserID = (int)reader["UserID"],
+                            FirstName = reader["FirstName"].ToString(),
+                            MiddleName = reader["MiddleName"].ToString(),
+                            LastName = reader["LastName"].ToString(),
+                            Username = reader["Username"].ToString(),
+                            emailAdd = reader["emailAdd"].ToString(),
+                            SeniorOrPwd = (bool)reader["SeniorOrPwd"],
+                            Latitude = reader["Latitude"] as double?,
+                            Longitude = reader["Longitude"] as double?,
+                            LastLocated = reader["LastLocated"] as DateTime?,
+
+                        };
+                    }
+                }
+            }
+            return null;
+        }//GetUserById
+
+
+
+
+
+
     }// UserRepository 
 }//namespace

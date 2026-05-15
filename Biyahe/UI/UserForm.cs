@@ -10,6 +10,7 @@ namespace Biyahe.UI
     {
         private User _currUser;
         private RouteService _routeService = new RouteService();
+        private QueueService _queueService = new QueueService();
 
         private bool sidebarExpand = false;
         private const int SidebarExpandedWidth = 280;
@@ -162,7 +163,46 @@ namespace Biyahe.UI
                 MainForm.MainPanel.Controls.Clear();
                 MainForm.MainPanel.Controls.Add(lForm);
                 lForm.Show();
-            } 
+            }
         }
+
+        private void btnQueue_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Testing");
+
+            if (cBoxRoutes.SelectedItem is not Routes selectedRoute)
+            {
+                MessageBox.Show("Please select a route first.");
+                return;
+            }
+
+            try
+            {
+                int userId = _currUser.UserID; // replace with your logged-in user
+
+                var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
+
+                MessageBox.Show(
+                    $"You are now queued for {selectedRoute.RouteName}.\nYour queue position is #{result.position}.",
+                    "Queue Successful",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Unable to join queue: " + ex.Message,
+                    "Queue Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+
+
+
+
     }
 }
