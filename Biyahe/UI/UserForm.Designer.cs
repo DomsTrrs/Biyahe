@@ -121,12 +121,15 @@
             btnSidePnlClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnSidePnlClose.TabIndex = 11;
             btnSidePnlClose.TabStop = false;
+<<<<<<< HEAD
             btnSidePnlClose.Location = new Point(231, 42);
             btnSidePnlClose.Margin = new Padding(4);
             btnSidePnlClose.Name = "btnSidePnlClose";
             btnSidePnlClose.Size = new Size(29, 29);
             btnSidePnlClose.TabIndex = 13;
             btnSidePnlClose.UseVisualStyleBackColor = true;
+=======
+>>>>>>> 80e88e4 (fixed ui)
             btnSidePnlClose.Click += btnSidePnlClose_Click;
             // 
             // userPnl

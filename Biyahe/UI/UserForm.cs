@@ -68,7 +68,7 @@ namespace Biyahe.UI
         {
             if (_currUser != null)
             {
-                lblWelcome.Text = $"{_currUser.FirstName} {_currUser.MiddleName} {_currUser.LastName}";
+                lblWelcome.Text = $"{_currUser.FirstName}";
             }
             else
             {

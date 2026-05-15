@@ -37,14 +37,19 @@
             // 
             // linkLabelHome
             // 
+            linkLabelHome.ActiveLinkColor = Color.White;
             linkLabelHome.AutoSize = true;
-            linkLabelHome.Location = new Point(44, 10);
+            linkLabelHome.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            linkLabelHome.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabelHome.LinkColor = Color.White;
+            linkLabelHome.Location = new Point(32, 6);
             linkLabelHome.Margin = new Padding(2, 0, 2, 0);
             linkLabelHome.Name = "linkLabelHome";
-            linkLabelHome.Size = new Size(81, 20);
+            linkLabelHome.Size = new Size(105, 25);
             linkLabelHome.TabIndex = 1;
             linkLabelHome.TabStop = true;
-            linkLabelHome.Text = "homepage";
+            linkLabelHome.Text = "Homepage";
+            linkLabelHome.VisitedLinkColor = Color.White;
             linkLabelHome.LinkClicked += linkLabelHome_LinkClicked;
             // 
             // pictureBox1
@@ -71,6 +76,7 @@
             homepagePnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
             homepagePnl.Location = new Point(439, 605);
             homepagePnl.Name = "homepagePnl";
+            homepagePnl.PanelColor = Color.FromArgb(81, 112, 255);
             homepagePnl.Size = new Size(174, 38);
             homepagePnl.TabIndex = 3;
             // 
