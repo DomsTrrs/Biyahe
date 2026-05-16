@@ -52,8 +52,8 @@
             cBoxLabel = new Label();
             btnDrive = new RoundedButton();
             mapPnl = new Panel();
-            btnBoard = new RoundedButton();
             roundedPanel1 = new RoundedPanel();
+            btnBoard = new RoundedButton();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             sidePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnSidePnlClose).BeginInit();
@@ -366,6 +366,19 @@
             mapPnl.Size = new Size(1262, 673);
             mapPnl.TabIndex = 13;
             // 
+            // roundedPanel1
+            // 
+            roundedPanel1.CornerRadiusBottomLeft = 10;
+            roundedPanel1.CornerRadiusBottomRight = 10;
+            roundedPanel1.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
+            roundedPanel1.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
+            roundedPanel1.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
+            roundedPanel1.Location = new Point(726, 574);
+            roundedPanel1.Name = "roundedPanel1";
+            roundedPanel1.PanelColor = Color.FromArgb(81, 112, 255);
+            roundedPanel1.Size = new Size(276, 87);
+            roundedPanel1.TabIndex = 16;
+            // 
             // btnBoard
             // 
             btnBoard.Anchor = AnchorStyles.None;
@@ -379,28 +392,15 @@
             btnBoard.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnBoard.ForeColor = Color.White;
             btnBoard.HoverColor = Color.FromArgb(73, 96, 206);
-            btnBoard.Location = new Point(1055, 518);
+            btnBoard.Location = new Point(1038, 518);
             btnBoard.Name = "btnBoard";
             btnBoard.NormalColor = Color.FromArgb(81, 112, 255);
-            btnBoard.Size = new Size(154, 50);
+            btnBoard.Size = new Size(188, 50);
             btnBoard.TabIndex = 15;
             btnBoard.Text = "BOARD";
             btnBoard.TextImageRelation = TextImageRelation.TextAboveImage;
             btnBoard.UseVisualStyleBackColor = false;
             btnBoard.Click += btnBoard_Click;
-            // 
-            // roundedPanel1
-            // 
-            roundedPanel1.CornerRadiusBottomLeft = 10;
-            roundedPanel1.CornerRadiusBottomRight = 10;
-            roundedPanel1.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
-            roundedPanel1.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
-            roundedPanel1.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
-            roundedPanel1.Location = new Point(766, 574);
-            roundedPanel1.Name = "roundedPanel1";
-            roundedPanel1.PanelColor = Color.FromArgb(81, 112, 255);
-            roundedPanel1.Size = new Size(199, 87);
-            roundedPanel1.TabIndex = 16;
             // 
             // DriverForm
             // 

@@ -379,10 +379,10 @@
             btnUnboard.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnUnboard.ForeColor = Color.White;
             btnUnboard.HoverColor = Color.FromArgb(73, 96, 206);
-            btnUnboard.Location = new Point(1054, 519);
+            btnUnboard.Location = new Point(1038, 519);
             btnUnboard.Name = "btnUnboard";
             btnUnboard.NormalColor = Color.FromArgb(81, 112, 255);
-            btnUnboard.Size = new Size(154, 50);
+            btnUnboard.Size = new Size(188, 50);
             btnUnboard.TabIndex = 14;
             btnUnboard.Text = "UNBOARD";
             btnUnboard.TextImageRelation = TextImageRelation.TextAboveImage;
@@ -396,10 +396,10 @@
             roundedPanel1.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
             roundedPanel1.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
             roundedPanel1.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
-            roundedPanel1.Location = new Point(765, 574);
+            roundedPanel1.Location = new Point(729, 574);
             roundedPanel1.Name = "roundedPanel1";
             roundedPanel1.PanelColor = Color.FromArgb(81, 112, 255);
-            roundedPanel1.Size = new Size(199, 87);
+            roundedPanel1.Size = new Size(271, 87);
             roundedPanel1.TabIndex = 15;
             // 
             // UserForm
