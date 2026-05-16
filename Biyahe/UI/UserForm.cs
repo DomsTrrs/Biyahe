@@ -256,7 +256,7 @@ namespace Biyahe.UI
 
             try
             {
-                int userId = _currUser.UserID; // replace with your logged-in user
+                int userId = _currUser.UserID; 
 
                 var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
 
