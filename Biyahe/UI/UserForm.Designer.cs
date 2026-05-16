@@ -52,6 +52,8 @@
             cBoxLabel = new Label();
             btnQueue = new RoundedButton();
             mapPnl = new Panel();
+            btnUnboard = new RoundedButton();
+            roundedPanel1 = new RoundedPanel();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             sidePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnSidePnlClose).BeginInit();
@@ -90,10 +92,6 @@
             webView21.Margin = new Padding(2);
             webView21.Name = "webView21";
             webView21.Size = new Size(1262, 673);
-            webView21.Location = new Point(618, 297);
-            webView21.Margin = new Padding(2);
-            webView21.Name = "webView21";
-            webView21.Size = new Size(90, 27);
             webView21.TabIndex = 3;
             webView21.ZoomFactor = 1D;
             // 
@@ -119,13 +117,10 @@
             // 
             btnSidePnlClose.BackColor = Color.Transparent;
             btnSidePnlClose.Image = Properties.Resources.closeMenuIcon;
-            btnSidePnlClose.Location = new Point(238, 38);
+            btnSidePnlClose.Location = new Point(231, 37);
             btnSidePnlClose.Name = "btnSidePnlClose";
-            btnSidePnlClose.Size = new Size(41, 42);
+            btnSidePnlClose.Size = new Size(48, 48);
             btnSidePnlClose.SizeMode = PictureBoxSizeMode.Zoom;
-            btnSidePnlClose.Location = new Point(231, 42);
-            btnSidePnlClose.Name = "btnSidePnlClose";
-            btnSidePnlClose.Size = new Size(29, 29);
             btnSidePnlClose.TabIndex = 13;
             btnSidePnlClose.TabStop = false;
             btnSidePnlClose.Click += btnSidePnlClose_Click;
@@ -249,45 +244,6 @@
             panel1.Size = new Size(250, 2);
             panel1.TabIndex = 13;
             // 
-            // userPnl
-            // 
-            userPnl.BackColor = Color.Transparent;
-            userPnl.Controls.Add(pictureBox2);
-            userPnl.Controls.Add(lblWelcome);
-            userPnl.Controls.Add(archetype);
-            userPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
-            userPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
-            userPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
-            userPnl.Location = new Point(10, 190);
-            userPnl.Name = "userPnl";
-            userPnl.PanelColor = Color.FromArgb(235, 239, 255);
-            userPnl.Size = new Size(250, 113);
-            userPnl.TabIndex = 13;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.BackColor = Color.Transparent;
-            pictureBox2.Image = Properties.Resources.profileIcon;
-            pictureBox2.Location = new Point(6, 16);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(88, 84);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 13;
-            pictureBox2.TabStop = false;
-            // 
-            // archetype
-            // 
-            archetype.AutoSize = true;
-            archetype.BackColor = Color.Transparent;
-            archetype.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            archetype.ForeColor = Color.FromArgb(81, 112, 255);
-            archetype.Location = new Point(96, 70);
-            archetype.Margin = new Padding(2, 0, 2, 0);
-            archetype.Name = "archetype";
-            archetype.Size = new Size(78, 20);
-            archetype.TabIndex = 2;
-            archetype.Text = "Passenger";
-            // 
             // btnLogout
             // 
             btnLogout.Anchor = AnchorStyles.None;
@@ -310,17 +266,6 @@
             btnLogout.TextImageRelation = TextImageRelation.TextAboveImage;
             btnLogout.UseVisualStyleBackColor = false;
             btnLogout.Click += btnLogout_Click;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = Properties.Resources.logo;
-            pictureBox1.Location = new Point(10, -1);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(241, 207);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 10;
-            pictureBox1.TabStop = false;
             // 
             // cBoxRoutes
             // 
@@ -354,9 +299,6 @@
             // 
             btnPanel.BackColor = Color.Transparent;
             btnPanel.Image = Properties.Resources.menuIcon;
-            btnPanel.Location = new Point(21, 6);
-            btnPanel.Name = "btnPanel";
-            btnPanel.Size = new Size(52, 48);
             btnPanel.Location = new Point(21, 3);
             btnPanel.Name = "btnPanel";
             btnPanel.Size = new Size(52, 54);
@@ -379,10 +321,10 @@
             // cBoxLabel
             // 
             cBoxLabel.AutoSize = true;
-            cBoxLabel.BackColor = Color.Transparent;
+            cBoxLabel.BackColor = Color.FromArgb(81, 112, 255);
             cBoxLabel.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cBoxLabel.ForeColor = Color.FromArgb(81, 112, 255);
-            cBoxLabel.Location = new Point(759, 581);
+            cBoxLabel.ForeColor = Color.White;
+            cBoxLabel.Location = new Point(775, 581);
             cBoxLabel.Name = "cBoxLabel";
             cBoxLabel.Size = new Size(134, 23);
             cBoxLabel.TabIndex = 5;
@@ -413,6 +355,8 @@
             // 
             // mapPnl
             // 
+            mapPnl.Controls.Add(btnUnboard);
+            mapPnl.Controls.Add(roundedPanel1);
             mapPnl.Controls.Add(sidePanel);
             mapPnl.Controls.Add(webView21);
             mapPnl.Dock = DockStyle.Fill;
@@ -421,6 +365,42 @@
             mapPnl.Name = "mapPnl";
             mapPnl.Size = new Size(1262, 673);
             mapPnl.TabIndex = 13;
+            // 
+            // btnUnboard
+            // 
+            btnUnboard.Anchor = AnchorStyles.None;
+            btnUnboard.BackColor = Color.FromArgb(81, 112, 255);
+            btnUnboard.CornerRadiusBottomLeft = 10;
+            btnUnboard.CornerRadiusBottomRight = 10;
+            btnUnboard.CornerRadiusTopLeft = 10;
+            btnUnboard.CornerRadiusTopRight = 10;
+            btnUnboard.FlatAppearance.BorderSize = 0;
+            btnUnboard.FlatStyle = FlatStyle.Flat;
+            btnUnboard.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnUnboard.ForeColor = Color.White;
+            btnUnboard.HoverColor = Color.FromArgb(73, 96, 206);
+            btnUnboard.Location = new Point(1054, 519);
+            btnUnboard.Name = "btnUnboard";
+            btnUnboard.NormalColor = Color.FromArgb(81, 112, 255);
+            btnUnboard.Size = new Size(154, 50);
+            btnUnboard.TabIndex = 14;
+            btnUnboard.Text = "UNBOARD";
+            btnUnboard.TextImageRelation = TextImageRelation.TextAboveImage;
+            btnUnboard.UseVisualStyleBackColor = false;
+            btnUnboard.Click += btnUnboard_Click;
+            // 
+            // roundedPanel1
+            // 
+            roundedPanel1.CornerRadiusBottomLeft = 10;
+            roundedPanel1.CornerRadiusBottomRight = 10;
+            roundedPanel1.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
+            roundedPanel1.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
+            roundedPanel1.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
+            roundedPanel1.Location = new Point(765, 574);
+            roundedPanel1.Name = "roundedPanel1";
+            roundedPanel1.PanelColor = Color.FromArgb(81, 112, 255);
+            roundedPanel1.Size = new Size(199, 87);
+            roundedPanel1.TabIndex = 15;
             // 
             // UserForm
             // 
@@ -482,5 +462,7 @@
         private Panel panel2;
         private Panel mapPnl;
         private PictureBox btnSidePnlClose;
+        private RoundedPanel roundedPanel1;
+        private RoundedButton btnUnboard;
     }
 }
