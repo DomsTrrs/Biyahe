@@ -105,7 +105,7 @@
             sidePanel.Controls.Add(version);
             sidePanel.Controls.Add(panel1);
             sidePanel.Controls.Add(btnLogout);
-            sidePanel.Location = new Point(2, 2);
+            sidePanel.Location = new Point(2, 0);
             sidePanel.Margin = new Padding(2);
             sidePanel.Name = "sidePanel";
             sidePanel.Size = new Size(280, 671);
