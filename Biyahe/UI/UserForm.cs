@@ -226,7 +226,6 @@ namespace Biyahe.UI
             if (result == DialogResult.Yes)
             {
                 MainForm.LoadForm(new LoginForm());
-            } 
                 this.Hide();
                 LoginForm lForm = new LoginForm();
                 lForm.Dock = DockStyle.Fill;
@@ -249,7 +248,7 @@ namespace Biyahe.UI
 
             try
             {
-                int userId = _currUser.UserID; // replace with your logged-in user
+                int userId = _currUser.UserID; 
 
                 var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
 
@@ -271,5 +270,10 @@ namespace Biyahe.UI
             }
 
         }
+
+
+
+
+
     }
 }
