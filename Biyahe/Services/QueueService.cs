@@ -32,6 +32,11 @@ namespace Biyahe.Services
             return boarding;
         }
 
-        public
+        public void CancelQueue(int queueId, int routeId)
+        {
+            _queueRepo.CancelQueue(queueId, routeId);
+        }
+
+
     }
 }
