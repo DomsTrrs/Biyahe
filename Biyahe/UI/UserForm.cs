@@ -226,14 +226,13 @@ namespace Biyahe.UI
             if (result == DialogResult.Yes)
             {
                 MainForm.LoadForm(new LoginForm());
-            }
-            this.Hide();
-            LoginForm lForm = new LoginForm();
-            lForm.Dock = DockStyle.Fill;
-            lForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(lForm);
-            lForm.Show();
+                this.Hide();
+                LoginForm lForm = new LoginForm();
+                lForm.Dock = DockStyle.Fill;
+                lForm.TopLevel = false;
+                MainForm.MainPanel.Controls.Clear();
+                MainForm.MainPanel.Controls.Add(lForm);
+                lForm.Show();
             }
         }
 
