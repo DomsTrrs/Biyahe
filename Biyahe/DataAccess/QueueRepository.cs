@@ -21,10 +21,8 @@ namespace Biyahe.DataAccess
 
                 try
                 {
-                    string positionSql = @"
-            SELECT ISNULL(MAX(QueuePosition), 0) + 1
-            FROM [Queue] WITH (UPDLOCK, HOLDLOCK)
-            WHERE RouteID = @routeId AND Status = 'Waiting'";
+                    string positionSql = @"SELECT ISNULL(MAX(QueuePosition), 0) + 1 FROM [Queue] WITH (UPDLOCK, HOLDLOCK) 
+                                         WHERE RouteID = @routeId AND Status = 'Waiting'";
 
                     int position;
 
@@ -34,12 +32,8 @@ namespace Biyahe.DataAccess
                         position = Convert.ToInt32(positionCmd.ExecuteScalar());
                     }
 
-                    string insertSql = @"
-            INSERT INTO [Queue] 
-                (UserID, RouteID, QueuePosition, Status, IsPriority)
-            OUTPUT INSERTED.QueueID
-            VALUES 
-                (@userId, @routeId, @queuePosition, 'Waiting', @isPriority)";
+                    string insertSql = @"INSERT INTO [Queue] (UserID, RouteID, QueuePosition, Status, IsPriority)
+                                        OUTPUT INSERTED.QueueID VALUES (@userId, @routeId, @queuePosition, 'Waiting', @isPriority)";
 
                     int queueId;
 
@@ -68,7 +62,7 @@ namespace Biyahe.DataAccess
             public List<QueueEntry> GetQueueByRoute(int routeId)
             {
 
-                string queueSql = @"SELECT q.QueueID, q.UserID, q.RouteID, q.DriverID, q.IsPriority, q.Status, q.QueuePosition, q.JoinedAt, u.FullName AS UserFullName, r.RouteCode bFROM Queue q
+                string queueSql = @"SELECT q.QueueID, q.UserID, q.RouteID, q.DriverID, q.IsPriority, q.Status, q.QueuePosition, q.JoinedAt, u.FullName AS UserFullName, r.RouteCode FROM Queue q
                             JOIN Users u ON q.UserID = u.UserID JOIN Routes r ON q.RouteID = r.RouteID
                             WHERE q.RouteID = @routeId AND q.Status = 'Waiting' ORDER BY q.IsPriority DESC, q.QueuePosition ASC";
 
@@ -108,7 +102,7 @@ namespace Biyahe.DataAccess
             public void BoardPassengers(List<int> queueIDs, int driverID)
             {
 
-                string boardSql = @"UPDATE QueueSET Status   = 'Boarding',DriverID = @driverId WHERE QueueID = @queueId";
+                string boardSql = @"UPDATE Queue SET Status = 'Boarding', DriverID = @driverId WHERE QueueID = @queueId";
 
                 using var sqlConnect = new SqlConnection(DatabaseConfig.Connection);
                 using var sCmd = new SqlCommand(boardSql, sqlConnect);
@@ -127,36 +121,42 @@ namespace Biyahe.DataAccess
 
 
             //cancel queue (update status to Cancelled)
-            public void CancelQueue(int queueId)
+            public void CancelQueue(int queueId, int routeId)
             {
-                string cancelSql = @"UPDATE Queue SET Status = 'Cancelled' WHERE QueueID = @queueId";
+                string cancelSql = @"UPDATE Queue SET Status = 'Cancelled' WHERE QueueID = @queueId AND RouteID = @routeId";
                 using var sqlConnect = new SqlConnection(DatabaseConfig.Connection);
                 using var sCmd = new SqlCommand(cancelSql, sqlConnect);
                 {
                     sCmd.Parameters.AddWithValue("@queueId", queueId);
+                    sCmd.Parameters.AddWithValue("@routeId", routeId);
+
                     sqlConnect.Open();
                     sCmd.ExecuteNonQuery();
                     sqlConnect.Close();
                 }
             }
 
-            //get queue position for a user in a route 
-            public int? getQueuePosition(int queueId)
+        //get queue position for a user in a route 
+        public int? GetQueuePosition(int queueId)
+        {
+            string getSql = @"SELECT QueuePosition FROM [Queue] WHERE QueueID = @queueId";
+
+            using var sqlConnect = new SqlConnection(DatabaseConfig.Connection);
+            using var sCmd = new SqlCommand(getSql, sqlConnect);
+
+            sCmd.Parameters.AddWithValue("@queueId", queueId);
+
+            sqlConnect.Open();
+
+            var result = sCmd.ExecuteScalar();
+
+            if (result == null || result == DBNull.Value)
             {
-
-                string getSql = @"SELECT QueuePosition FROM Queue WHERE QueueID = @queueId";
-
-                using var sqlConnect = new SqlConnection(DatabaseConfig.Connection);
-                using var sCmd = new SqlCommand(getSql, sqlConnect);
-                {
-                    sCmd.Parameters.AddWithValue("@queueId", queueId);
-                    sqlConnect.Open();
-                    sCmd.ExecuteNonQuery();
-                    sqlConnect.Close();
-                }
-
-                return sCmd.ExecuteScalar() as int?;
+                return null;
             }
+
+            return Convert.ToInt32(result);
+        }
 
 
 
