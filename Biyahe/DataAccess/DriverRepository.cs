@@ -10,7 +10,7 @@ namespace Biyahe.DataAccess
         //add driver to db
         public void addDriver(Driver driver)
         {
-            string insertSql = @"INSERT INTO Users (FirstName, MiddleName, LastName, Username, Password, emailAdd, PlateNumber)
+            string insertSql = @"INSERT INTO Drivers (FirstName, MiddleName, LastName, Username, Password, emailAdd, PlateNumber)
                        VALUES (@FirstName, @MiddleName, @LastName, @Username, @Password, @emailAdd, @PlateNumber)";
 
             using (var sqlConnect = new SqlConnection(DatabaseConfig.Connection))
@@ -34,7 +34,7 @@ namespace Biyahe.DataAccess
         //Find driver in db 
         public Driver FindDriverByUsername(string username)
         {
-            string selectSql = "SELECT * FROM Users WHERE Username = @Username";
+            string selectSql = "SELECT * FROM Drivers WHERE Username = @Username";
 
             using (var sqlConnect = new SqlConnection(DatabaseConfig.Connection))
             using (var sCmd = new SqlCommand(selectSql, sqlConnect))
@@ -48,14 +48,14 @@ namespace Biyahe.DataAccess
                     {
                         return new Driver
                         {
-                            DriverID = (int)reader["UserID"],
+                            DriverID = (int)reader["DriverID"],
                             FirstName = reader["FirstName"].ToString(),
                             MiddleName = reader["MiddleName"].ToString(),
                             LastName = reader["LastName"].ToString(),
                             Username = reader["Username"].ToString(),
                             Password = reader["Password"].ToString(),
                             emailAdd = reader["emailAdd"].ToString(),
-                            PlateNumber = reader["emailAdd"].ToString(),
+                            PlateNumber = reader["PlateNumber"].ToString(),
                         };
                     }
                 }

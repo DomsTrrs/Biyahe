@@ -5,7 +5,7 @@
         public int QueueID { get; set; }
         public int UserID { get; set; }
         public int RouteID { get; set; }
-        public int? DriverID { get; set; } 
+        public int? DriverID { get; set; }
         public bool IsPriority { get; set; }
         public string Status { get; set; } // Waiting, Boarding, Boarded
         public int? QueuePosition { get; set; }

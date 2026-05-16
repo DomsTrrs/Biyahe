@@ -12,6 +12,8 @@ namespace Biyahe.UI
 {
     public partial class RegisterForm : Form
     {
+        private bool isPasswordVisible = false;
+
         public RegisterForm()
         {
             InitializeComponent();
@@ -55,6 +57,25 @@ namespace Biyahe.UI
             txtPlateNumber.Visible = false;
             plateNumberLbl.Visible = false;
             userRadioBtn.IsSelected = true;
+        }
+
+        private void eyePicBox_Click(object sender, EventArgs e)
+        {
+            isPasswordVisible = !isPasswordVisible;
+
+            if (isPasswordVisible)
+            {
+                txtPassword.PasswordChar = '\0';
+                eyePicBox.Image = Properties.Resources.eye_open;
+            }
+            else
+            {
+                txtPassword.PasswordChar = '•';
+                eyePicBox.Image = Properties.Resources.eye_closed;
+            }
+
+
+            txtPassword.Focus();
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)

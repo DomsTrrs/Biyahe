@@ -37,6 +37,6 @@ namespace Biyahe.Models
 
         //for db purpose
         public User() { }
-        
+
     }//class
 }//namespace

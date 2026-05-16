@@ -97,7 +97,7 @@ namespace Biyahe.UI
 
         private async void cBoxRoutes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
             if (cBoxRoutes.SelectedItem == null)
             {
                 return;
@@ -239,6 +239,14 @@ namespace Biyahe.UI
         private void btnQueue_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Testing");
+            if(btnQueue.Text == "QUEUE")
+            {
+                btnQueue.Text = "CANCEL";
+            } 
+            else
+            {
+                btnQueue.Text = "QUEUE";
+            }
 
             if (cBoxRoutes.SelectedItem is not Routes selectedRoute)
             {
@@ -268,6 +276,11 @@ namespace Biyahe.UI
                     MessageBoxIcon.Error
                 );
             }
+
+        }
+
+        private void sidePanel_Paint(object sender, PaintEventArgs e)
+        {
 
         }
 

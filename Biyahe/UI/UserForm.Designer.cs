@@ -90,6 +90,10 @@
             webView21.Margin = new Padding(2);
             webView21.Name = "webView21";
             webView21.Size = new Size(1262, 673);
+            webView21.Location = new Point(618, 297);
+            webView21.Margin = new Padding(2);
+            webView21.Name = "webView21";
+            webView21.Size = new Size(90, 27);
             webView21.TabIndex = 3;
             webView21.ZoomFactor = 1D;
             // 
@@ -105,21 +109,25 @@
             sidePanel.Controls.Add(version);
             sidePanel.Controls.Add(panel1);
             sidePanel.Controls.Add(btnLogout);
-            sidePanel.Location = new Point(2, 2);
+            sidePanel.Location = new Point(2, 0);
             sidePanel.Margin = new Padding(2);
             sidePanel.Name = "sidePanel";
             sidePanel.Size = new Size(280, 671);
             sidePanel.TabIndex = 6;
+            sidePanel.Paint += sidePanel_Paint;
             // 
             // btnSidePnlClose
             // 
             btnSidePnlClose.BackColor = Color.Transparent;
             btnSidePnlClose.Image = Properties.Resources.closeMenuIcon;
-            btnSidePnlClose.Location = new Point(233, 34);
+            btnSidePnlClose.Location = new Point(238, 38);
             btnSidePnlClose.Name = "btnSidePnlClose";
-            btnSidePnlClose.Size = new Size(52, 49);
+            btnSidePnlClose.Size = new Size(41, 42);
             btnSidePnlClose.SizeMode = PictureBoxSizeMode.Zoom;
-            btnSidePnlClose.TabIndex = 11;
+            btnSidePnlClose.Location = new Point(231, 42);
+            btnSidePnlClose.Name = "btnSidePnlClose";
+            btnSidePnlClose.Size = new Size(29, 29);
+            btnSidePnlClose.TabIndex = 13;
             btnSidePnlClose.TabStop = false;
             btnSidePnlClose.Click += btnSidePnlClose_Click;
             // 
@@ -242,6 +250,45 @@
             panel1.Size = new Size(250, 2);
             panel1.TabIndex = 13;
             // 
+            // userPnl
+            // 
+            userPnl.BackColor = Color.Transparent;
+            userPnl.Controls.Add(pictureBox2);
+            userPnl.Controls.Add(lblWelcome);
+            userPnl.Controls.Add(archetype);
+            userPnl.GlassBorderColor = Color.FromArgb(120, 255, 255, 255);
+            userPnl.GlassShineColor = Color.FromArgb(80, 255, 255, 255);
+            userPnl.GlassTintColor = Color.FromArgb(50, 255, 255, 255);
+            userPnl.Location = new Point(10, 190);
+            userPnl.Name = "userPnl";
+            userPnl.PanelColor = Color.FromArgb(235, 239, 255);
+            userPnl.Size = new Size(250, 113);
+            userPnl.TabIndex = 13;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.Image = Properties.Resources.profileIcon;
+            pictureBox2.Location = new Point(6, 16);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(88, 84);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.TabIndex = 13;
+            pictureBox2.TabStop = false;
+            // 
+            // archetype
+            // 
+            archetype.AutoSize = true;
+            archetype.BackColor = Color.Transparent;
+            archetype.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            archetype.ForeColor = Color.FromArgb(81, 112, 255);
+            archetype.Location = new Point(96, 70);
+            archetype.Margin = new Padding(2, 0, 2, 0);
+            archetype.Name = "archetype";
+            archetype.Size = new Size(78, 20);
+            archetype.TabIndex = 2;
+            archetype.Text = "Passenger";
+            // 
             // btnLogout
             // 
             btnLogout.Anchor = AnchorStyles.None;
@@ -264,6 +311,17 @@
             btnLogout.TextImageRelation = TextImageRelation.TextAboveImage;
             btnLogout.UseVisualStyleBackColor = false;
             btnLogout.Click += btnLogout_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.logo;
+            pictureBox1.Location = new Point(10, -1);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(241, 207);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 10;
+            pictureBox1.TabStop = false;
             // 
             // cBoxRoutes
             // 
@@ -297,9 +355,12 @@
             // 
             btnPanel.BackColor = Color.Transparent;
             btnPanel.Image = Properties.Resources.menuIcon;
-            btnPanel.Location = new Point(24, 11);
+            btnPanel.Location = new Point(21, 6);
             btnPanel.Name = "btnPanel";
-            btnPanel.Size = new Size(46, 39);
+            btnPanel.Size = new Size(52, 48);
+            btnPanel.Location = new Point(21, 3);
+            btnPanel.Name = "btnPanel";
+            btnPanel.Size = new Size(52, 54);
             btnPanel.SizeMode = PictureBoxSizeMode.Zoom;
             btnPanel.TabIndex = 10;
             btnPanel.TabStop = false;
@@ -349,6 +410,7 @@
             btnQueue.Text = "QUEUE";
             btnQueue.TextImageRelation = TextImageRelation.TextAboveImage;
             btnQueue.UseVisualStyleBackColor = false;
+            btnQueue.Click += btnQueue_Click;
             // 
             // mapPnl
             // 
