@@ -226,14 +226,14 @@ namespace Biyahe.UI
             if (result == DialogResult.Yes)
             {
                 MainForm.LoadForm(new LoginForm());
+                this.Hide();
+                LoginForm lForm = new LoginForm();
+                lForm.Dock = DockStyle.Fill;
+                lForm.TopLevel = false;
+                MainForm.MainPanel.Controls.Clear();
+                MainForm.MainPanel.Controls.Add(lForm);
+                lForm.Show();
             }
-            this.Hide();
-            LoginForm lForm = new LoginForm();
-            lForm.Dock = DockStyle.Fill;
-            lForm.TopLevel = false;
-            MainForm.MainPanel.Controls.Clear();
-            MainForm.MainPanel.Controls.Add(lForm);
-            lForm.Show();
         }
 
         private void btnQueue_Click(object sender, EventArgs e)
@@ -259,7 +259,7 @@ namespace Biyahe.UI
 
             try
             {
-                int userId = _currUser.UserID; // replace with your logged-in user
+                int userId = _currUser.UserID; 
 
                 var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
 
@@ -286,5 +286,10 @@ namespace Biyahe.UI
         {
 
         }
+
+
+
+
+
     }
 }
