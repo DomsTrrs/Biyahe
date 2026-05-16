@@ -53,8 +53,6 @@ namespace Biyahe.UI
 
         private void RegisterForm_Load_1(object sender, EventArgs e)
         {
-            txtPassword.PasswordChar = '•';
-
             cBoxSeniorOrPwd.Visible = true;
             txtPlateNumber.Visible = false;
             plateNumberLbl.Visible = false;
