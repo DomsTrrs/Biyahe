@@ -189,7 +189,7 @@ namespace Biyahe.UI
 
         private void linkAboutUs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MainForm.LoadForm(new AboutUsForm(_currUser));
+            MainForm.LoadForm(new AboutUsForm());
 
         }
 
@@ -242,9 +242,6 @@ namespace Biyahe.UI
             if(btnQueue.Text == "QUEUE")
             {
                 btnQueue.Text = "CANCEL";
-                btnQueue.BackColor = Color.FromArgb(255, 64, 64);
-                btnQueue.NormalColor = Color.FromArgb(255, 64, 64);
-                btnQueue.HoverColor = Color.FromArgb(201, 48, 48);
             } 
             else
             {
@@ -281,5 +278,15 @@ namespace Biyahe.UI
             }
 
         }
+
+        private void sidePanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
+
+
+
     }
 }
