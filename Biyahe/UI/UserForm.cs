@@ -226,29 +226,25 @@ namespace Biyahe.UI
             if (result == DialogResult.Yes)
             {
                 MainForm.LoadForm(new LoginForm());
-                this.Hide();
-                LoginForm lForm = new LoginForm();
-                lForm.Dock = DockStyle.Fill;
-                lForm.TopLevel = false;
-                MainForm.MainPanel.Controls.Clear();
-                MainForm.MainPanel.Controls.Add(lForm);
-                lForm.Show();
             }
         }
 
         private void btnQueue_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Testing");
-            if(btnQueue.Text == "QUEUE")
+            if (btnQueue.Text == "QUEUE")
             {
                 btnQueue.Text = "CANCEL";
                 btnQueue.BackColor = Color.FromArgb(255, 64, 64);
                 btnQueue.NormalColor = Color.FromArgb(255, 64, 64);
                 btnQueue.HoverColor = Color.FromArgb(201, 48, 48);
-            } 
+            }
             else
             {
                 btnQueue.Text = "QUEUE";
+                btnQueue.BackColor = Color.FromArgb(81, 112, 255);
+                btnQueue.NormalColor = Color.FromArgb(81, 112, 255);
+                btnQueue.HoverColor = Color.FromArgb(73, 96, 206);
             }
 
             if (cBoxRoutes.SelectedItem is not Routes selectedRoute)
@@ -259,7 +255,7 @@ namespace Biyahe.UI
 
             try
             {
-                int userId = _currUser.UserID; 
+                int userId = _currUser.UserID;
 
                 var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
 
@@ -279,6 +275,11 @@ namespace Biyahe.UI
                     MessageBoxIcon.Error
                 );
             }
+
+        }
+
+        private void btnUnboard_Click(object sender, EventArgs e)
+        {
 
         }
     }
