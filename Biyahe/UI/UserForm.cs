@@ -17,7 +17,7 @@ namespace Biyahe.UI
         private bool isAnimating = false;
         private bool isOpening = false;
 
-        private int animationStep = 0; 
+        private int animationStep = 0;
 
         private const int SidebarWidth = 280;
 
@@ -65,7 +65,7 @@ namespace Biyahe.UI
             if (sidePanel != null)
             {
                 sidePanel.Width = SidebarWidth;
-                sidePanel.Left = -SidebarWidth; 
+                sidePanel.Left = -SidebarWidth;
                 sidePanel.Visible = false;
             }
         }
@@ -183,7 +183,7 @@ namespace Biyahe.UI
                 sidebarTimer.Stop();
                 isAnimating = false;
 
-                if (isOpening)
+                if (isOpening)  
                     sidePanel.Left = 0;
                 else
                 {
@@ -195,7 +195,7 @@ namespace Biyahe.UI
 
         private void linkAboutUs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MainForm.LoadForm(new AboutUsForm());
+            MainForm.LoadForm(new AboutUsForm(_currUser));
 
         }
 
@@ -238,32 +238,7 @@ namespace Biyahe.UI
         private void btnQueue_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Testing");
-            if (btnQueue.Text == "QUEUE")
-            {
-                btnQueue.Text = "CANCEL";
-                btnQueue.BackColor = Color.FromArgb(255, 64, 64);
-                btnQueue.NormalColor = Color.FromArgb(255, 64, 64);
-                btnQueue.HoverColor = Color.FromArgb(201, 48, 48);
-            }
-            else
-            {
-                btnQueue.Text = "QUEUE";
-                btnQueue.BackColor = Color.FromArgb(81, 112, 255);
-                btnQueue.NormalColor = Color.FromArgb(81, 112, 255);
-                btnQueue.HoverColor = Color.FromArgb(73, 96, 206);
-            }
 
-            if (cBoxRoutes.SelectedItem is not Routes selectedRoute)
-            {
-                MessageBox.Show("Please select a route first.");
-                return;
-            }
-
-            try
-            {
-                int userId = _currUser.UserID;
-
-                var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
             try
             {
                 int userId = _currUser.UserID;
@@ -284,6 +259,10 @@ namespace Biyahe.UI
                     _currentQueueId = result.queueId;
 
                     btnQueue.Text = "CANCEL";
+                    btnQueue.BackColor = Color.FromArgb(255, 64, 64);
+                    btnQueue.NormalColor = Color.FromArgb(255, 64, 64);
+                    btnQueue.HoverColor = Color.FromArgb(201, 48, 48);
+
                     cBoxRoutes.Enabled = false;
 
                     MessageBox.Show(
@@ -316,6 +295,10 @@ namespace Biyahe.UI
                     _currentRouteName = "";
 
                     btnQueue.Text = "QUEUE";
+                    btnQueue.BackColor = Color.FromArgb(81, 112, 255);
+                    btnQueue.NormalColor = Color.FromArgb(81, 112, 255);
+                    btnQueue.HoverColor = Color.FromArgb(73, 96, 206);
+
                     cBoxRoutes.Enabled = true;
                 }
             }
@@ -329,6 +312,7 @@ namespace Biyahe.UI
                 );
             }
         }
+
 
         private void btnUnboard_Click(object sender, EventArgs e)
         {
