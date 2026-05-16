@@ -1,9 +1,8 @@
-﻿using Biyahe.Models;
+﻿using Biyahe.DataAccess;
+using Biyahe.Models;
 using Biyahe.Services;
-using Biyahe.DataAccess;
-using System.Text.Json;
-
 using System.Diagnostics;
+using System.Text.Json;
 
 
 namespace Biyahe.UI
@@ -18,12 +17,19 @@ namespace Biyahe.UI
         private bool isAnimating = false;
         private bool isOpening = false;
 
-        private int animationStep = 0;  // fewer steps = smoother in WinForms
+        private int animationStep = 0; 
 
         private const int SidebarWidth = 280;
 
         private Stopwatch animationWatch = new Stopwatch();
         private const int animationDuration = 300;
+
+        //other variables 
+
+        private int _currentUserId;
+        private int _currentRouteId;
+        private int _currentQueueId;
+        private string _currentRouteName;
 
         public UserForm(User user)
         {
@@ -59,7 +65,7 @@ namespace Biyahe.UI
             if (sidePanel != null)
             {
                 sidePanel.Width = SidebarWidth;
-                sidePanel.Left = -SidebarWidth; // hidden off-screen
+                sidePanel.Left = -SidebarWidth; 
                 sidePanel.Visible = false;
             }
         }
@@ -189,7 +195,7 @@ namespace Biyahe.UI
 
         private void linkAboutUs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MainForm.LoadForm(new AboutUsForm(_currUser));
+            MainForm.LoadForm(new AboutUsForm());
 
         }
 
@@ -258,29 +264,76 @@ namespace Biyahe.UI
                 int userId = _currUser.UserID;
 
                 var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
+            try
+            {
+                int userId = _currUser.UserID;
 
-                MessageBox.Show(
-                    $"You are now queued for {selectedRoute.RouteName}.\nYour queue position is #{result.position}.",
-                    "Queue Successful",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                if (btnQueue.Text == "QUEUE")
+                {
+                    if (cBoxRoutes.SelectedItem is not Routes selectedRoute)
+                    {
+                        MessageBox.Show("Please select a route first.");
+                        return;
+                    }
+
+                    var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
+
+                    _currentUserId = userId;
+                    _currentRouteId = selectedRoute.RouteID;
+                    _currentRouteName = selectedRoute.RouteName;
+                    _currentQueueId = result.queueId;
+
+                    btnQueue.Text = "CANCEL";
+                    cBoxRoutes.Enabled = false;
+
+                    MessageBox.Show(
+                        $"You are now queued for {_currentRouteName}.\nYour queue position is #{result.position}.",
+                        "Queue Successful",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+                else if (btnQueue.Text == "CANCEL")
+                {
+                    if (_currentQueueId == 0)
+                    {
+                        MessageBox.Show("No active queue found.");
+                        return;
+                    }
+
+                    _queueService.CancelQueue(_currentQueueId, _currentRouteId);
+
+                    MessageBox.Show(
+                        $"You have left the queue for {_currentRouteName}.",
+                        "Queue Cancelled",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+
+                    _currentUserId = 0;
+                    _currentRouteId = 0;
+                    _currentQueueId = 0;
+                    _currentRouteName = "";
+
+                    btnQueue.Text = "QUEUE";
+                    cBoxRoutes.Enabled = true;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Unable to join queue: " + ex.Message,
+                    "Queue action failed: " + ex.Message,
                     "Queue Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
             }
-
         }
 
         private void btnUnboard_Click(object sender, EventArgs e)
         {
 
         }
+
     }
 }

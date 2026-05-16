@@ -6,9 +6,8 @@ namespace Biyahe.UI
     public partial class AboutUsForm : Form
     {
         private User _currUser;
-        public AboutUsForm(User user)
+        public AboutUsForm()
         {
-            _currUser = user;
             InitializeComponent();
         }
 
