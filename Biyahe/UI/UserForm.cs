@@ -256,16 +256,36 @@ namespace Biyahe.UI
 
             try
             {
-                int userId = _currUser.UserID; 
 
-                var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
+                bool isQueued = false; 
 
-                MessageBox.Show(
-                    $"You are now queued for {selectedRoute.RouteName}.\nYour queue position is #{result.position}.",
-                    "Queue Successful",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                if (btnQueue.Text == "CANCEL")
+                {
+                    isQueued = true;
+
+                    int userId = _currUser.UserID;
+
+                    var result = _queueService.JoinQueue(userId, selectedRoute.RouteID);
+
+                    MessageBox.Show(
+                        $"You are now queued for {selectedRoute.RouteName}.\nYour queue position is #{result.position}.",
+                        "Queue Successful",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                } else (btnQueue.Text == "QUEUE")
+                {
+                    isQueued = false;
+                    int userId = _currUser.UserID;
+                    _queueService.LeaveQueue(userId, selectedRoute.RouteID);
+                    MessageBox.Show(
+                        $"You have left the queue for {selectedRoute.RouteName}.",
+                        "Queue Cancelled",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+
             }
             catch (Exception ex)
             {
