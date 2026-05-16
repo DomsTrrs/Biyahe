@@ -242,7 +242,7 @@ namespace Biyahe.UI
             if(btnQueue.Text == "QUEUE")
             {
                 btnQueue.Text = "CANCEL";
-                btnQueue.BackColor = Color.FromArgb(255, 64, 64);
+                btnQueue.BackColor = Color.FromArgb(255, 64, 46);
                 btnQueue.NormalColor = Color.FromArgb(255, 64, 64);
                 btnQueue.HoverColor = Color.FromArgb(201, 48, 48);
             } 
@@ -281,15 +281,5 @@ namespace Biyahe.UI
             }
 
         }
-
-        private void sidePanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-
-
-
     }
 }

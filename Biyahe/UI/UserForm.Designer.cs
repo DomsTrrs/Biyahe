@@ -114,7 +114,6 @@
             sidePanel.Name = "sidePanel";
             sidePanel.Size = new Size(280, 671);
             sidePanel.TabIndex = 6;
-            sidePanel.Paint += sidePanel_Paint;
             // 
             // btnSidePnlClose
             // 
