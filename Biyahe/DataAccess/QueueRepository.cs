@@ -62,61 +62,78 @@ namespace Biyahe.DataAccess
             //Get waiting queue for a route (priority first, then by position)
             public List<QueueEntry> GetQueueByRoute(int routeId)
             {
-
-                string queueSql = @"SELECT q.QueueID, q.UserID, q.RouteID, q.DriverID, q.IsPriority, q.Status, q.QueuePosition, q.JoinedAt, u.FullName AS UserFullName, r.RouteCode FROM Queue q
-                            JOIN Users u ON q.UserID = u.UserID JOIN Routes r ON q.RouteID = r.RouteID
-                            WHERE q.RouteID = @routeId AND q.Status = 'Waiting' ORDER BY q.IsPriority DESC, q.QueuePosition ASC";
-
+                string queueSql = @"
+                    SELECT 
+                        q.QueueID,
+                        q.UserID,
+                        q.RouteID,
+                        q.DriverID,
+                        q.IsPriority,
+                        q.Status,
+                        q.QueuePosition,
+                        q.JoinedAt,
+                        CONCAT(u.FirstName, ' ', u.LastName) AS UserFullName,
+                        r.RouteName AS RouteCode
+                    FROM [Queue] q
+                    JOIN Users u ON q.UserID = u.UserID
+                    JOIN Routes r ON q.RouteID = r.RouteID
+                    WHERE q.RouteID = @routeId 
+                      AND q.Status = 'Waiting'
+                    ORDER BY q.IsPriority DESC, q.QueuePosition ASC";
 
                 var list = new List<QueueEntry>();
 
                 using var sqlConnect = new SqlConnection(DatabaseConfig.Connection);
                 using var sqlCmd = new SqlCommand(queueSql, sqlConnect);
-                {
-                    sqlCmd.Parameters.AddWithValue("@routeId", routeId);
-                    sqlConnect.Open();
 
-                    using var reader = sqlCmd.ExecuteReader();
-                    while (reader.Read())
+                sqlCmd.Parameters.AddWithValue("@routeId", routeId);
+                sqlConnect.Open();
+
+                using var reader = sqlCmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var entry = new QueueEntry
                     {
-                        var entry = new QueueEntry
-                        {
-                            QueueID = reader.GetInt32(reader.GetOrdinal("QueueID")),
-                            UserID = reader.GetInt32(reader.GetOrdinal("UserID")),
-                            RouteID = reader.GetInt32(reader.GetOrdinal("RouteID")),
-                            DriverID = reader.IsDBNull(reader.GetOrdinal("DriverID")) ? null : reader.GetInt32(reader.GetOrdinal("DriverID")),
-                            IsPriority = reader.GetBoolean(reader.GetOrdinal("IsPriority")),
-                            Status = reader.GetString(reader.GetOrdinal("Status")),
-                            QueuePosition = reader.IsDBNull(reader.GetOrdinal("QueuePosition")) ? null : reader.GetInt32(reader.GetOrdinal("QueuePosition")),
-                            JoinedAt = reader.GetDateTime(reader.GetOrdinal("JoinedAt")),
-                            UserFullName = reader.GetString(reader.GetOrdinal("UserFullName")),
-                            RouteCode = reader.GetString(reader.GetOrdinal("RouteCode"))
-                        };
-                        list.Add(entry);
-                    }
-                    sqlConnect.Close();
+                        QueueID = reader.GetInt32(reader.GetOrdinal("QueueID")),
+                        UserID = reader.GetInt32(reader.GetOrdinal("UserID")),
+                        RouteID = reader.GetInt32(reader.GetOrdinal("RouteID")),
+                        DriverID = reader.IsDBNull(reader.GetOrdinal("DriverID")) ? null : reader.GetInt32(reader.GetOrdinal("DriverID")),
+                        IsPriority = reader.GetBoolean(reader.GetOrdinal("IsPriority")),
+                        Status = reader.GetString(reader.GetOrdinal("Status")),
+                        QueuePosition = reader.IsDBNull(reader.GetOrdinal("QueuePosition")) ? null : reader.GetInt32(reader.GetOrdinal("QueuePosition")),
+                        JoinedAt = reader.GetDateTime(reader.GetOrdinal("JoinedAt")),
+                        UserFullName = reader.GetString(reader.GetOrdinal("UserFullName")),
+                        RouteCode = reader.GetString(reader.GetOrdinal("RouteCode"))
+                    };
+
+                    list.Add(entry);
                 }
+
                 return list;
             }
 
             //board passengers (update status to Boarding and assign driver)
             public void BoardPassengers(List<int> queueIDs, int driverID)
             {
-
-                string boardSql = @"UPDATE Queue SET Status = 'Boarding', DriverID = @driverId WHERE QueueID = @queueId";
+                string boardSql = @"
+                    UPDATE [Queue]
+                    SET Status = 'Boarding',
+                        DriverID = @driverId
+                    WHERE QueueID = @queueId
+                      AND Status = 'Waiting'";
 
                 using var sqlConnect = new SqlConnection(DatabaseConfig.Connection);
-                using var sCmd = new SqlCommand(boardSql, sqlConnect);
-                {
-                    sqlConnect.Open();
+                sqlConnect.Open();
 
-                    foreach (var queueID in queueIDs)
-                    {
-                        sCmd.Parameters.AddWithValue("@driverId", driverID);
-                        sCmd.Parameters.AddWithValue("@queueId", queueID);
-                        sCmd.ExecuteNonQuery();
-                    }
-                    sqlConnect.Close();
+                foreach (var queueID in queueIDs)
+                {
+                    using var sCmd = new SqlCommand(boardSql, sqlConnect);
+
+                    sCmd.Parameters.AddWithValue("@driverId", driverID);
+                    sCmd.Parameters.AddWithValue("@queueId", queueID);
+
+                    sCmd.ExecuteNonQuery();
                 }
             }
 
@@ -124,7 +141,7 @@ namespace Biyahe.DataAccess
             //cancel queue (update status to Cancelled)
             public void CancelQueue(int queueId, int routeId)
             {
-                string cancelSql = @"UPDATE Queue SET Status = 'Cancelled' WHERE QueueID = @queueId AND RouteID = @routeId";
+                string cancelSql = @"UPDATE [Queue] SET Status = 'Cancelled' WHERE QueueID = @queueId AND RouteID = @routeId";
                 using var sqlConnect = new SqlConnection(DatabaseConfig.Connection);
                 using var sCmd = new SqlCommand(cancelSql, sqlConnect);
                 {
@@ -198,20 +215,15 @@ namespace Biyahe.DataAccess
 
         public bool UnboardPassenger(int queueId, int userId)
         {
-            string sql = @"
-        UPDATE [Queue]
-        SET Status = 'Boarded'
-        WHERE QueueID = @queueId
-          AND UserID = @userId
-          AND Status = 'Boarding'";
+            string uSql = @" UPDATE [Queue] SET Status = 'Boarded' WHERE QueueID = @queueId AND UserID = @userId AND Status = 'Boarding'";
 
-            using var conn = new SqlConnection(DatabaseConfig.Connection);
-            using var cmd = new SqlCommand(sql, conn);
+            using var sqlConnection = new SqlConnection(DatabaseConfig.Connection);
+            using var cmd = new SqlCommand(uSql, sqlConnection);
 
             cmd.Parameters.AddWithValue("@queueId", queueId);
             cmd.Parameters.AddWithValue("@userId", userId);
 
-            conn.Open();
+            sqlConnection.Open();
 
             return cmd.ExecuteNonQuery() > 0;
         }

@@ -56,6 +56,16 @@ namespace Biyahe.DataAccess
                             Password = reader["Password"].ToString(),
                             emailAdd = reader["emailAdd"].ToString(),
                             PlateNumber = reader["PlateNumber"].ToString(),
+
+                            MaxCapacity = reader["MaxCapacity"] == DBNull.Value
+                            ? 20
+                            : Convert.ToInt32(reader["MaxCapacity"]),
+
+                            OnTrip = reader["OnTrip"] != DBNull.Value && Convert.ToBoolean(reader["OnTrip"]),
+
+                            CurrentRouteID = reader["CurrentRouteID"] == DBNull.Value
+                            ? 0
+                            : Convert.ToInt32(reader["CurrentRouteID"])
                         };
                     }
                 }
