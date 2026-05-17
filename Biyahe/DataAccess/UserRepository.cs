@@ -100,9 +100,21 @@ namespace Biyahe.DataAccess
         }//GetUserById
 
 
+        public void UpdateLocation(int userId, double lat, double lng)
+        {
+            string sql = @"UPDATE Users SET Latitude = @lat, Longitude = @lng, LastLocated = SYSDATETIME()
+        WHERE UserID = @userId";
 
+            using var conn = new SqlConnection(DatabaseConfig.Connection);
+            using var cmd = new SqlCommand(sql, conn);
 
+            cmd.Parameters.AddWithValue("@userId", userId);
+            cmd.Parameters.AddWithValue("@lat", lat);
+            cmd.Parameters.AddWithValue("@lng", lng);
 
+            conn.Open();
+            cmd.ExecuteNonQuery();
+        }
 
     }// UserRepository 
 }//namespace

@@ -1,6 +1,7 @@
 ﻿using Biyahe.Config;
 using Biyahe.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -137,6 +138,7 @@ namespace Biyahe.DataAccess
             }
 
         //get queue position for a user in a route 
+        //use this for boarding logic
         public int? GetQueuePosition(int queueId)
         {
             string getSql = @"SELECT QueuePosition FROM [Queue] WHERE QueueID = @queueId";
@@ -158,7 +160,60 @@ namespace Biyahe.DataAccess
             return Convert.ToInt32(result);
         }
 
+        public List<object> GetQueuedUserLocationsByRoute(int routeId)
+        {
+            string sql = @"
+        SELECT u.UserID, u.FirstName, u.LastName, u.Latitude, u.Longitude
+        FROM [Queue] q
+        JOIN Users u ON q.UserID = u.UserID
+        WHERE q.RouteID = @routeId
+          AND q.Status IN ('Waiting', 'Boarding')
+          AND u.Latitude IS NOT NULL
+          AND u.Longitude IS NOT NULL";
 
+            var users = new List<object>();
 
+            using var conn = new SqlConnection(DatabaseConfig.Connection);
+            using var cmd = new SqlCommand(sql, conn);
+
+            cmd.Parameters.AddWithValue("@routeId", routeId);
+
+            conn.Open();
+
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                users.Add(new
+                {
+                    id = (int)reader["UserID"],
+                    lat = Convert.ToDouble(reader["Latitude"]),
+                    lng = Convert.ToDouble(reader["Longitude"]),
+                    label = reader["FirstName"].ToString() + " " + reader["LastName"].ToString()
+                });
+            }
+
+            return users;
+        }
+
+        public bool UnboardPassenger(int queueId, int userId)
+        {
+            string sql = @"
+        UPDATE [Queue]
+        SET Status = 'Boarded'
+        WHERE QueueID = @queueId
+          AND UserID = @userId
+          AND Status = 'Boarding'";
+
+            using var conn = new SqlConnection(DatabaseConfig.Connection);
+            using var cmd = new SqlCommand(sql, conn);
+
+            cmd.Parameters.AddWithValue("@queueId", queueId);
+            cmd.Parameters.AddWithValue("@userId", userId);
+
+            conn.Open();
+
+            return cmd.ExecuteNonQuery() > 0;
+        }
     }//class
 }//QueueRepository

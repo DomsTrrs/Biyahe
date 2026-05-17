@@ -19,6 +19,9 @@ namespace Biyahe.Models
         public int MaxCapacity { get; set; }
         public bool OnTrip { get; set; }
         public int CurrentRouteID { get; set; } //route id fk in db
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public DateTime? LastLocated { get; set; }
 
         //inserting driver constructor
         public Driver(string firstName, string middleName, string lastName,
