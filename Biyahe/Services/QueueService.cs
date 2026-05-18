@@ -1,5 +1,6 @@
 ﻿using Biyahe.DataAccess;
 using Biyahe.Models;
+using System.Numerics;
 
 namespace Biyahe.Services
 {
@@ -7,6 +8,7 @@ namespace Biyahe.Services
     {
         private readonly QueueRepository _queueRepo = new QueueRepository();
         private readonly UserRepository _userRepo = new UserRepository();
+
 
         // Called when a user joins a queue — returns their queue ID and position
         public (int queueId, int position) JoinQueue(int userId, int routeId)
@@ -35,6 +37,11 @@ namespace Biyahe.Services
         public void CancelQueue(int queueId, int routeId)
         {
             _queueRepo.CancelQueue(queueId, routeId);
+        }
+
+        public bool UnboardPassenger(int queueId, int userId)
+        {
+            return _queueRepo.UnboardPassenger(queueId, userId);
         }
 
 

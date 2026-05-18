@@ -27,14 +27,12 @@
 </head>
 
 <body>
-
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
 
     <script>
-
         const map = new L.Map('map', {
         center: [10.3157, 123.8854],
         zoom: 14,
@@ -49,8 +47,13 @@
         let routingControl = null;
         let stopMarkers = [];
         let placeholderLine = null;
-        let jeepMarker = null;
-        let userLatLng = null;
+
+        let selfMarker = null;
+        let selfAccuracyCircle = null;
+        let locationWatchId = null;
+
+        let driverMarkers = {};
+        let userMarkers = {};
 
         function convertToLatLng(coord) {
         return L.latLng(coord[0], coord[1]);
@@ -61,7 +64,6 @@
         }
 
         function makeDot(fill, stroke, size) {
-
         if (!size) {
         size = '16px';
         }
@@ -79,8 +81,18 @@
         `;
         }
 
-        function drawRoute(coords, routeName) {
+        function makeIcon(fill, size) {
+        const iconSize = size || 18;
 
+        return L.divIcon({
+        html: makeDot(fill, 'white', iconSize + 'px'),
+        className: '',
+        iconSize: [iconSize, iconSize],
+        iconAnchor: [iconSize / 2, iconSize / 2]
+        });
+        }
+
+        function drawRoute(coords, routeName) {
         if (routingControl) {
         map.removeControl(routingControl);
         routingControl = null;
@@ -111,7 +123,6 @@
         });
 
         coords.forEach(function (coord, index) {
-
         const isStart = index === 0;
         const isEnd = index === coords.length - 1;
         const stopNum = index + 1;
@@ -123,30 +134,21 @@
 
         const size = (isStart || isEnd) ? 16 : 13;
 
-        const icon = L.divIcon({
-        html: makeDot(fill, 'white', size + 'px'),
-        className: '',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2]
-        });
-
         const marker = L.marker([coord[0], coord[1]], {
-        icon: icon
+        icon: makeIcon(fill, size)
         });
 
         if (isStart) {
         marker.bindPopup(
-        '<b>Stop 1 — Start</b>' +
+        '<b>Stop 1 - Start</b>' +
         (routeName ? '<br>' + routeName : '')
         );
-        }
-        else if (isEnd) {
+        } else if (isEnd) {
         marker.bindPopup(
-        '<b>Stop ' + stopNum + ' — End</b>' +
+        '<b>Stop ' + stopNum + ' - End</b>' +
         (routeName ? '<br>' + routeName : '')
         );
-        }
-        else {
+        } else {
         marker.bindPopup('<b>Stop ' + stopNum + '</b>');
         }
 
@@ -183,16 +185,13 @@
         createMarker: function () {
         return null;
         }
-
         }).addTo(map);
 
         routingControl.on('routesfound', function () {
-
         if (placeholderLine) {
         map.removeLayer(placeholderLine);
         placeholderLine = null;
         }
-
         });
 
         routingControl.on('routingerror', function (e) {
@@ -200,63 +199,192 @@
         });
         }
 
-        function updateJeepPosition(lat, lng, label) {
-
-        const pos = [lat, lng];
-
-        if (jeepMarker) {
-        jeepMarker.setLatLng(pos);
-        }
-        else {
-        jeepMarker = L.marker(pos, {
-        title: label || 'Jeepney'
-        }).addTo(map);
-        }
-
-        jeepMarker.bindPopup(label || 'Jeepney in Transit');
-        }
-
-        function getGeolocation() {
-
+        function startLocationWatch(role) {
         if (!navigator.geolocation) {
         alert("Geolocation is not supported by your browser.");
         return;
         }
 
-        navigator.geolocation.getCurrentPosition(
+        if (locationWatchId !== null) {
+        navigator.geolocation.clearWatch(locationWatchId);
+        }
 
-        (pos) => {
-
+        locationWatchId = navigator.geolocation.watchPosition(
+        function (pos) {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
+        const accuracy = pos.coords.accuracy || 50;
 
-        userLatLng = L.latLng(lat, lng);
-
-        L.marker(userLatLng)
-        .addTo(map)
-        .bindPopup("You are here!")
-        .openPopup();
-
-        L.circle(userLatLng, {
-        radius: 50
-        }).addTo(map);
-
-        map.setView(userLatLng, 13);
+        showSelfLocation(lat, lng, accuracy, role);
+        sendLocationToCSharp(lat, lng, accuracy, role);
         },
-
-        (err) => {
+        function (err) {
         console.error("Geolocation error:", err.message);
 
-        alert(
-        "Unable to fetch your location. Please enable location access and try again."
-        );
+        if (err.code === err.PERMISSION_DENIED) {
+        alert("Please allow location access so Biyahe can show your current location.");
+        }
+        },
+        {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 10000
         }
         );
         }
 
-        getGeolocation();
+        function stopLocationWatch() {
+        if (locationWatchId !== null) {
+        navigator.geolocation.clearWatch(locationWatchId);
+        locationWatchId = null;
+        }
+        }
 
+        function showSelfLocation(lat, lng, accuracy, role) {
+        const pos = [lat, lng];
+        const isDriver = role === 'driver';
+
+        if (selfMarker) {
+        selfMarker.setLatLng(pos);
+        } else {
+        selfMarker = L.marker(pos, {
+        icon: makeIcon(isDriver ? '#F97316' : '#0EA5E9', 20)
+        }).addTo(map);
+        }
+
+        selfMarker.bindPopup(isDriver ? 'Your driver location' : 'You are here');
+
+        if (selfAccuracyCircle) {
+        selfAccuracyCircle.setLatLng(pos);
+        selfAccuracyCircle.setRadius(accuracy);
+        } else {
+        selfAccuracyCircle = L.circle(pos, {
+        radius: accuracy,
+        color: isDriver ? '#F97316' : '#0EA5E9',
+        fillColor: isDriver ? '#F97316' : '#0EA5E9',
+        fillOpacity: 0.12,
+        weight: 1
+        }).addTo(map);
+        }
+        }
+
+        function sendLocationToCSharp(lat, lng, accuracy, role) {
+        if (window.chrome && window.chrome.webview) {
+        window.chrome.webview.postMessage({
+        type: 'locationChanged',
+        role: role,
+        lat: lat,
+        lng: lng,
+        accuracy: accuracy
+        });
+        }
+        }
+
+        function showDriverLocations(drivers) {
+        const activeKeys = {};
+
+        drivers.forEach(function (driver) {
+        const id = driver.id || driver.Id || driver.DriverID || driver.driverID;
+        const lat = driver.lat || driver.Lat || driver.Latitude;
+        const lng = driver.lng || driver.Lng || driver.Longitude;
+        const label = driver.label || driver.Label || driver.PlateNumber || 'Driver';
+
+        if (!id || lat == null || lng == null) {
+        return;
+        }
+
+        const key = 'driver-' + id;
+        activeKeys[key] = true;
+
+        const pos = [lat, lng];
+
+        if (driverMarkers[key]) {
+        driverMarkers[key].setLatLng(pos);
+        } else {
+        driverMarkers[key] = L.marker(pos, {
+        icon: makeIcon('#F97316', 18),
+        title: label
+        }).addTo(map);
+        }
+
+        driverMarkers[key].bindPopup('<b>Driver</b><br>' + label);
+        });
+
+        removeMissingMarkers(driverMarkers, activeKeys);
+        }
+
+        function showUserLocations(users) {
+        const activeKeys = {};
+
+        users.forEach(function (user) {
+        const id = user.id || user.Id || user.UserID || user.userID;
+        const lat = user.lat || user.Lat || user.Latitude;
+        const lng = user.lng || user.Lng || user.Longitude;
+        const label = user.label || user.Label || user.FirstName || 'Passenger';
+
+        if (!id || lat == null || lng == null) {
+        return;
+        }
+
+        const key = 'user-' + id;
+        activeKeys[key] = true;
+
+        const pos = [lat, lng];
+
+        if (userMarkers[key]) {
+        userMarkers[key].setLatLng(pos);
+        } else {
+        userMarkers[key] = L.marker(pos, {
+        icon: makeIcon('#A855F7', 18),
+        title: label
+        }).addTo(map);
+        }
+
+        userMarkers[key].bindPopup('<b>Passenger</b><br>' + label);
+        });
+
+        removeMissingMarkers(userMarkers, activeKeys);
+        }
+
+        function removeMissingMarkers(markerGroup, activeKeys) {
+        Object.keys(markerGroup).forEach(function (key) {
+        if (!activeKeys[key]) {
+        map.removeLayer(markerGroup[key]);
+        delete markerGroup[key];
+        }
+        });
+        }
+
+        function clearDriverLocations() {
+        Object.keys(driverMarkers).forEach(function (key) {
+        map.removeLayer(driverMarkers[key]);
+        });
+
+        driverMarkers = {};
+        }
+
+        function clearUserLocations() {
+        Object.keys(userMarkers).forEach(function (key) {
+        map.removeLayer(userMarkers[key]);
+        });
+
+        userMarkers = {};
+        }
+
+        function centerOnSelf() {
+        if (selfMarker) {
+        map.setView(selfMarker.getLatLng(), 16);
+        }
+        }
+
+        function updateJeepPosition(lat, lng, label) {
+        showDriverLocations([{
+        id: 'single-jeep',
+        lat: lat,
+        lng: lng,
+        label: label || 'Jeepney in Transit'
+        }]);
+        }
     </script>
-
 </body>
 </html>

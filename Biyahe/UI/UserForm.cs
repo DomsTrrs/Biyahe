@@ -11,8 +11,11 @@ namespace Biyahe.UI
     {
         private User _currUser;
         private UserRepository _userRepo = new UserRepository();
+        private DriverRepository _driverRepo = new DriverRepository();
+
         private RouteService _routeService = new RouteService();
         private QueueService _queueService = new QueueService();
+
 
         private bool isAnimating = false;
         private bool isOpening = false;
@@ -25,11 +28,15 @@ namespace Biyahe.UI
         private const int animationDuration = 300;
 
         //other variables 
-
         private int _currentUserId;
         private int _currentRouteId;
         private int _currentQueueId;
         private string _currentRouteName;
+
+
+        private record LocationMessage(string Type, double Lat, double Lng);
+        private System.Windows.Forms.Timer _locationTimer = new System.Windows.Forms.Timer();
+
 
         public UserForm(User user)
         {
@@ -47,13 +54,6 @@ namespace Biyahe.UI
             ResetSidebarState();
             sidebarTimer.Interval = 15;
             sidebarTimer.Tick += SidebarTimer_Tick;
-        }
-
-        private void PassengerForm_Load(object sender, EventArgs e)
-        {
-            cBoxRoutes.DataSource = _routeService.GetActiveRoutes();
-            cBoxRoutes.DisplayMember = "RouteName";
-            cBoxRoutes.ValueMember = "RouteID";
         }
 
         private void ResetSidebarState()
@@ -83,6 +83,24 @@ namespace Biyahe.UI
 
             await webView21.EnsureCoreWebView2Async(null);
 
+            webView21.CoreWebView2.WebMessageReceived += (s, args) =>
+            {
+                var message = JsonSerializer.Deserialize<LocationMessage>(
+                    args.WebMessageAsJson,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
+
+                if (message?.Type == "locationChanged")
+                {
+                    _userRepo.UpdateLocation(_currUser.UserID, message.Lat, message.Lng);
+                }
+            };
+
+            webView21.NavigationCompleted += async (s, args) =>
+            {
+                await webView21.CoreWebView2.ExecuteScriptAsync("startLocationWatch('user');");
+            };
+
             if (webView21.IsDisposed || webView21.CoreWebView2 == null)
             {
                 return;
@@ -93,6 +111,7 @@ namespace Biyahe.UI
             webView21.Dock = DockStyle.Fill;
             string mapPath = Path.Combine(Application.StartupPath, "Map", "map.html");
             webView21.Source = new Uri(mapPath);
+            StartDriverLocationUpdates();
 
             cBoxRoutes.DisplayMember = "RouteName";
             cBoxRoutes.ValueMember = "RouteID";
@@ -110,6 +129,7 @@ namespace Biyahe.UI
             }
 
             Routes selectedRoute = (Routes)cBoxRoutes.SelectedItem;
+            _currentRouteId = selectedRoute.RouteID;
 
 
             cBoxLabel.Text = "Selected Route: " + selectedRoute.RouteName;
@@ -222,6 +242,8 @@ namespace Biyahe.UI
         protected override void DestroyHandle()
         {
             try { sidebarTimer?.Stop(); } catch { }
+            try { _locationTimer?.Stop(); } catch { }
+
             base.DestroyHandle();
         }
 
@@ -237,8 +259,6 @@ namespace Biyahe.UI
 
         private void btnQueue_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Testing");
-
             try
             {
                 int userId = _currUser.UserID;
@@ -313,10 +333,103 @@ namespace Biyahe.UI
             }
         }
 
+        private void StartDriverLocationUpdates()
+        {
+            _locationTimer.Interval = 3000;
+
+            _locationTimer.Tick += async (s, e) =>
+            {
+                if (_currentRouteId == 0)
+                {
+                    return;
+                }
+
+                if (webView21.IsDisposed || webView21.CoreWebView2 == null)
+                {
+                    return;
+                }
+
+                var drivers = _driverRepo.GetActiveDriverLocationsByRoute(_currentRouteId);
+                string json = JsonSerializer.Serialize(drivers);
+
+                await webView21.CoreWebView2.ExecuteScriptAsync(
+                    $"showDriverLocations({json});"
+                );
+            };
+
+            _locationTimer.Start();
+        }
 
         private void btnUnboard_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (_currentQueueId == 0)
+                {
+                    MessageBox.Show(
+                        "You have no active boarded trip.",
+                        "Unboard",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                    return;
+                }
 
+                DialogResult result = MessageBox.Show(
+                    "Do you want to unboard from this trip?",
+                    "Unboard Confirmation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                bool unboarded = _queueService.UnboardPassenger(
+                    _currentQueueId,
+                    _currUser.UserID
+                );
+
+                if (!unboarded)
+                {
+                    MessageBox.Show(
+                        "You can only unboard after the driver has boarded you.",
+                        "Unboard Failed",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return;
+                }
+
+                MessageBox.Show(
+                    $"You have unboarded from {_currentRouteName}.",
+                    "Unboarded",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                _currentUserId = 0;
+                _currentQueueId = 0;
+                _currentRouteName = "";
+
+                btnQueue.Text = "QUEUE";
+                btnQueue.BackColor = Color.FromArgb(81, 112, 255);
+                btnQueue.NormalColor = Color.FromArgb(81, 112, 255);
+                btnQueue.HoverColor = Color.FromArgb(73, 96, 206);
+
+                cBoxRoutes.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Unboard failed: " + ex.Message,
+                    "Unboard Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
 
     }
