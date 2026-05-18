@@ -213,7 +213,7 @@ namespace Biyahe.UI
             {
                 _driverService.unsetOnTrip(
                     _currDriver.DriverID,
-                    0,
+                    null,
                     false
                 );
 

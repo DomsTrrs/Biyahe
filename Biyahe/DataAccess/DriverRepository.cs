@@ -1,6 +1,7 @@
 ﻿using Biyahe.Config;
 using Biyahe.Models;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 
 namespace Biyahe.DataAccess
@@ -111,19 +112,19 @@ namespace Biyahe.DataAccess
             return null;
         }//GetDriverbyID
 
-        public bool setStatusDriver(int driverId, int routeId, bool onTrip)
+        public bool setStatusDriver(int driverId, int? routeId, bool onTrip)
         {
-            string uStatusSql = @"UPDATE Drivers 
-                          SET onTrip = @onTrip,
-                              CurrentRouteID = @routeId
-                          WHERE DriverID = @driverId";
+            string uStatusSql = @"UPDATE Drivers SET onTrip = @onTrip, CurrentRouteID = @routeId WHERE DriverID = @driverId";
 
             using var sqlConnect = new SqlConnection(DatabaseConfig.Connection);
             using var sCmd = new SqlCommand(uStatusSql, sqlConnect);
 
-            sCmd.Parameters.AddWithValue("@driverId", driverId);
-            sCmd.Parameters.AddWithValue("@routeId", routeId);
-            sCmd.Parameters.AddWithValue("@onTrip", onTrip);
+            sCmd.Parameters.Add("@driverId", SqlDbType.Int).Value = driverId;
+
+            sCmd.Parameters.Add("@onTrip", SqlDbType.Bit).Value = onTrip;
+
+            sCmd.Parameters.Add("@routeId", SqlDbType.Int).Value =
+                (object?)routeId ?? DBNull.Value;
 
             sqlConnect.Open();
 
@@ -150,13 +151,8 @@ namespace Biyahe.DataAccess
 
         public List<object> GetActiveDriverLocationsByRoute(int routeId)
         {
-            string sql = @"
-        SELECT DriverID, FirstName, LastName, PlateNumber, Latitude, Longitude
-        FROM Drivers
-        WHERE CurrentRouteID = @routeId
-          AND OnTrip = 1
-          AND Latitude IS NOT NULL
-          AND Longitude IS NOT NULL";
+            string sql = @"SELECT DriverID, FirstName, LastName, PlateNumber, Latitude, Longitude FROM Drivers WHERE CurrentRouteID = @routeId
+                        AND OnTrip = 1 AND Latitude IS NOT NULL AND Longitude IS NOT NULL";
 
             var drivers = new List<object>();
 

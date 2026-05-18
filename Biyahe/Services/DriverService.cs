@@ -12,12 +12,12 @@ namespace Biyahe.Services
     {
         private readonly DriverRepository _driverRepo = new DriverRepository();
 
-        public bool setOnTrip(int driverId, int routeId, bool onTrip) 
+        public bool setOnTrip(int driverId, int? routeId, bool onTrip) 
         {
             return _driverRepo.setStatusDriver(driverId, routeId, onTrip);
         }
 
-        public bool unsetOnTrip(int driverId, int routeId, bool onTrip)
+        public bool unsetOnTrip(int driverId, int? routeId, bool onTrip)
         {
             return _driverRepo.setStatusDriver(driverId, routeId, false);
         }
